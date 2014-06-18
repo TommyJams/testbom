@@ -1,0 +1,1 @@
+This folder should contain the model related files or the core files for the project. The model api's will be connecting to the web server, fetching the data, and then returning it to the controller so that the controller can instruct the view to display the data.
