@@ -1,1 +1,0 @@
-This folder should contain the view or ux related files. Example XAML files, C# files. You can create your own directory structure inside this for respective files.

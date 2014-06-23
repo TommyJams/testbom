@@ -1,1 +1,0 @@
-This folder should contain the controller files. The controller or view model will be responsible for navigation, connection to model etc.
