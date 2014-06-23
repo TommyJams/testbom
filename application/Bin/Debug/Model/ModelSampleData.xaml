@@ -1,0 +1,22 @@
+﻿<vm:MainViewModel
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="clr-namespace:TommyJams.Model">
+
+    <vm:MainViewModel.Priority1Items>
+        <vm:EventItem Genre = "alternative rock" BandName = "Aerosmith" Distance = "3 Km" Venue = "Hard Rock Cafe" SongLink="../Model/Babel.mp3" Image="../Model/play.gif" />
+        <vm:EventItem Genre = "alternative rock" BandName = "Something" Distance = "5 Km" Venue = "10D" SongLink="../Model/I Will Wait.mp3" Image="../Model/play.gif"/>
+
+
+    </vm:MainViewModel.Priority1Items>
+    <vm:MainViewModel.Priority2Items>
+        <vm:EventItem Genre = "alternative rock" BandName = "Aerosmith" Distance = "3 Km" Venue = "Hard Rock Cafe" SongLink="../Model/Babel.mp3" Image="../Model/play.gif" />
+        <vm:EventItem Genre = "alternative rock" BandName = "Something" Distance = "5 Km" Venue = "10D" SongLink="../Model/I Will Wait.mp3" Image="../Model/play.gif"/>
+
+
+
+
+        
+    </vm:MainViewModel.Priority2Items>
+
+</vm:MainViewModel>
