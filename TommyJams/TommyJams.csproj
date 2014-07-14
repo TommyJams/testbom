@@ -101,13 +101,30 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\Constants.cs" />
-    <Compile Include="Model\EventItem.cs" />
-    <Compile Include="Model\MainViewModel.cs" />
+    <Compile Include="ViewModel\ArtistInfo.cs" />
+    <Compile Include="ViewModel\Band.cs" />
+    <Compile Include="ViewModel\BandMember.cs" />
+    <Compile Include="ViewModel\EventDetail.cs" />
+    <Compile Include="ViewModel\EventItem.cs" />
+    <Compile Include="ViewModel\EventViewModel.cs" />
+    <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\AppResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>AppResources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\FacebookDataModel.cs" />
+    <Compile Include="ViewModel\TicketInfo.cs" />
+    <Compile Include="ViewModel\VenueInfo.cs" />
+    <Compile Include="View\APITest.xaml.cs">
+      <DependentUpon>APITest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\EventPanoramaPage.xaml.cs">
+      <DependentUpon>EventPanoramaPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MapTest.xaml.cs">
+      <DependentUpon>MapTest.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\PanoramaPage1.xaml.cs">
       <DependentUpon>PanoramaPage1.xaml</DependentUpon>
@@ -136,6 +153,21 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </CodeAnalysisDictionary>
+    <Page Include="ViewModel\ModelSampleData.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\APITest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\EventPanoramaPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\MapTest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\PanoramaPage1.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -162,6 +194,7 @@
     <Content Include="Assets\ApplicationIcon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\MapPin.png" />
     <Content Include="Assets\Tiles\FlipCycleTileLarge.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -177,6 +210,14 @@
     <Content Include="Assets\Tiles\IconicTileSmall.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="parvaaz2.png" />
+    <Content Include="README_FIRST.txt" />
+    <Content Include="Resources\Image\parvaaz2.png" />
+    <Content Include="Toolkit.Content\ApplicationBar.Add.png" />
+    <Content Include="Toolkit.Content\ApplicationBar.Cancel.png" />
+    <Content Include="Toolkit.Content\ApplicationBar.Check.png" />
+    <Content Include="Toolkit.Content\ApplicationBar.Delete.png" />
+    <Content Include="Toolkit.Content\ApplicationBar.Select.png" />
     <Resource Include="Model\facebook_icon_large.gif" />
     <Resource Include="Model\play.gif" />
     <Content Include="Model\Babel.mp3" />
@@ -197,23 +238,31 @@
     <Reference Include="Facebook.Client">
       <HintPath>..\packages\Facebook.Client.0.8.5-alpha\lib\wp8\Facebook.Client.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Phone.Controls, Version=8.0.0.0, Culture=neutral, PublicKeyToken=24eec0d8c86cda1e, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Phone.Controls.Toolkit">
+      <HintPath>..\packages\WPtoolkit.4.2013.08.16\lib\wp8\Microsoft.Phone.Controls.Toolkit.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Threading.Tasks.Extensions">
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.11-beta\lib\wp8\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Threading.Tasks.Extensions.Phone">
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.11-beta\lib\wp8\Microsoft.Threading.Tasks.Extensions.Phone.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Mobile">
-      <HintPath>..\packages\WindowsAzure.MobileServices.1.2.1\lib\wp8\Microsoft.WindowsAzure.Mobile.dll</HintPath>
+    <Reference Include="Microsoft.WindowsAzure.Mobile, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WindowsAzure.MobileServices.1.3.0-alpha3\lib\wp8\Microsoft.WindowsAzure.Mobile.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Mobile.Ext">
-      <HintPath>..\packages\WindowsAzure.MobileServices.1.2.1\lib\wp8\Microsoft.WindowsAzure.Mobile.Ext.dll</HintPath>
+    <Reference Include="Microsoft.WindowsAzure.Mobile.Ext, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WindowsAzure.MobileServices.1.3.0-alpha3\lib\wp8\Microsoft.WindowsAzure.Mobile.Ext.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Mobile.UI">
-      <HintPath>..\packages\WindowsAzure.MobileServices.1.2.1\lib\wp8\Microsoft.WindowsAzure.Mobile.UI.dll</HintPath>
+    <Reference Include="Microsoft.WindowsAzure.Mobile.UI, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WindowsAzure.MobileServices.1.3.0-alpha3\lib\wp8\Microsoft.WindowsAzure.Mobile.UI.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.2\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http">
       <HintPath>..\packages\Microsoft.Net.Http.2.2.19\lib\sl4-windowsphone71\System.Net.Http.dll</HintPath>
@@ -225,7 +274,9 @@
       <HintPath>..\packages\Microsoft.Net.Http.2.2.19\lib\sl4-windowsphone71\System.Net.Http.Primitives.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

@@ -7,19 +7,18 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    d:DataContext="{d:DesignData ../Model/ModelSampleData.xaml}"
+    d:DataContext="{d:DesignData ../ViewModel/ModelSampleData.xaml}"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait"  Orientation="Portrait"
-    shell:SystemTray.IsVisible="False">
+    shell:SystemTray.IsVisible="True">
 
 
     <!--LayoutRoot contains the root grid where all other page content is placed-->
     <Grid x:Name="LayoutRoot">
-        <MediaElement x:Name="AudioPlayer"
-                                                    Volume="1"/>
-        <phone:Panorama Title="my application" Margin="1,10,-1,-10">
+        <MediaElement x:Name="AudioPlayer" Volume="1"/>
+        <phone:Panorama Title="TommyJams" Margin="1,-30,-1,-10" TitleTemplate="{StaticResource SmallPanoramaTitle}">
 
             <!--Panorama item one-->
             <phone:PanoramaItem Header="Connect">
@@ -34,41 +33,32 @@
 
 
             <!--Panorama item two-->
-            <phone:PanoramaItem Header="Gigs">
+            <phone:PanoramaItem x:Name="gigsHeader" Header="Events" HeaderTemplate="{StaticResource SmallPanoramaPageTitle}" Margin="0,-70,0,0">
 
-                <Grid x:Name="ContentPanel" Grid.Row="1" Margin="0,0,0,0">
-                    <!--<phone:LongListSelector x:Name="MainLongListSelector1" Margin="0,0,-12,0" ItemsSource="{Binding Items}"  >
-                        <phone:LongListSelector.ItemTemplate>
-                            <DataTemplate>
-                                <Image Source="{Binding Image}" Margin="-9,0,329,-31" Height="205"/>
-                            </DataTemplate>
+                <Grid x:Name="ContentPanel" Grid.Row="1"  Margin="0,-38,0,0">
 
-                        </phone:LongListSelector.ItemTemplate>
-                    </phone:LongListSelector>-->
-                    <!--<phone:LongListSelector x:Name="MainLongListSelector" Margin="1,0,-11,0" ItemsSource="{Binding Items}">
-                        
-                        <phone:LongListSelector.ItemTemplate>
-                            
-                            <DataTemplate>-->
-                    <ListBox x:Name="MainListBox" Margin="0,1,21,2" ItemsSource="{Binding Priority1Items}">
+                    <ListBox x:Name="MainListBox" Margin="1,-34,20,-71" ItemsSource="{Binding Priority1Items}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
 
-                                <StackPanel Orientation="Horizontal" 
-                                                Height="214"
+                                <StackPanel Orientation="Vertical" 
+                                                Height="270"
                                                 VerticalAlignment="Center"
-                                                HorizontalAlignment="Center"
+                                                HorizontalAlignment="Center" Width="397"
                                                 >
-                                    <Button BorderThickness="0" Margin="0,13,0,-15" HorizontalAlignment="Left" Width="118" Click="Button_Click">
-                                        <Image Source="{Binding Image}"/>
+                                    <Button BorderThickness="0" Margin="0,13,0,27" Width="500" Height="150" Click="Button_Click">
+                                        <Image Source="{Binding EventImage}" Margin="-150,0,0,0" Width="500"/>
                                     </Button>
 
+                                    <TextBlock x:Name="price" Text="{Binding EventPrice}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}" Margin="250,-27,0,0" Height="30" Width="100"/>
 
-                                    <TextBlock Text="{Binding Genre}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}" RenderTransformOrigin="0.511,2.875" Margin="0,74,13,96" Width="169"/>
-                                    <TextBlock Text="{Binding Distance}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}" Margin="-180,136,12,-5" Width="52" RenderTransformOrigin="0.832,0.503" />
+                                    <TextBlock x:Name="genre" Text="{Binding EventGenre}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}" RenderTransformOrigin="0.511,2.875" Margin="-120,-27,13,96" Width="250"/>
+                                    <TextBlock Text="{Binding EventName}" TextWrapping="Wrap" Style="{StaticResource PhoneTextExtraLargeStyle}" Margin="-85,-110,12,51" RenderTransformOrigin="0.495,0.048" Width="237"/>
 
-                                    <TextBlock Text="{Binding BandName}" TextWrapping="Wrap" Style="{StaticResource PhoneTextExtraLargeStyle}" Margin="-185,89,12,55" RenderTransformOrigin="0.495,0.048" Width="237"/>
-
+                                    <TextBlock Text="{Binding EventLocation}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}" Margin="-110,-56,12,-5" Width="200" RenderTransformOrigin="0.832,0.503" />
+                                    <TextBlock x:Name="StartsIn" Text="{Binding EventStartingTime}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}" Margin="-150,-45,0,0" Width="100"/>
+                                    <TextBlock x:Name="Distance" Text="{Binding EventDistance}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}" Margin="50,-45,0,0" Width="100"/>
+                                    <TextBlock x:Name="Time" Text="{Binding EventHotness}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}" Margin="180,-45,0,0" Width="100"/>
 
 
                                 </StackPanel>
@@ -76,7 +66,7 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-                   
+
                     <!-- </DataTemplate>
 
                         </phone:LongListSelector.ItemTemplate>
@@ -90,7 +80,7 @@
             <phone:PanoramaItem Header="">
 
                 <Grid x:Name="ContentPanel1" Grid.Row="1" Margin="0,0,0,0">
-                 
+
                     <ListBox x:Name="MainListBox2" Margin="0,-2,0,2" ItemsSource="{Binding Priority2Items}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
@@ -135,7 +125,7 @@
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsMenuEnabled="False">
             <shell:ApplicationBarIconButton IconUri="/Model/settings.png" Text="Settings"/>
-            
+
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 </phone:PhoneApplicationPage>

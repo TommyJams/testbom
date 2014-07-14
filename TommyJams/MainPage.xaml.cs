@@ -12,9 +12,23 @@ using Windows.UI.Popups;
 using System.Threading;
 using Microsoft.WindowsAzure.MobileServices;
 using Facebook;
+using TommyJams.ViewModel;
+using Newtonsoft.Json;
 
 namespace TommyJams
 {
+    public class TodoItem
+    {
+        public string Id { get; set; }
+
+        [JsonProperty(PropertyName = "text")]
+        public string Text { get; set; }
+
+        [JsonProperty(PropertyName = "complete")]
+        public bool Complete { get; set; }
+    }
+
+
     public partial class MainPage : PhoneApplicationPage
     {
         // Constructor
@@ -32,7 +46,7 @@ namespace TommyJams
 
 
 
-
+        /*
         private void LoadUserInfo(object sender, RoutedEventArgs e1)
         {
             var fb = new FacebookClient(App.AccessToken);
@@ -50,7 +64,7 @@ namespace TommyJams
 
             //fb.GetTaskAsync("me");
         }
-
+        */
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             if (!App.ViewModel.IsDataLoaded)
@@ -59,8 +73,11 @@ namespace TommyJams
 
             }
             NavigationService.Navigate(new Uri("/View/PanoramaPage1.xaml", UriKind.Relative));
-
         }
+        
+
+
+
         // Sample code for building a localized ApplicationBar
         //private void BuildLocalizedApplicationBar()
         //{

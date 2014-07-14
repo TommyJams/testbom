@@ -9,6 +9,7 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using TommyJams.Model;
 using TommyJams.Resources;
+using TommyJams.ViewModel;
 
 namespace TommyJams.View
 {
@@ -40,7 +41,7 @@ namespace TommyJams.View
 
             Button selector = sender as Button;
             EventItem data = selector.DataContext as EventItem;
-            AudioPlayer.Source = new Uri(data.SongLink, UriKind.RelativeOrAbsolute);
+            //AudioPlayer.Source = new Uri(data.SongLink, UriKind.RelativeOrAbsolute);
             //AudioPlayer.Play();
             //selector.SelectedItem = null;
         }

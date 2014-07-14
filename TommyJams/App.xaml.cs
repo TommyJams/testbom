@@ -11,6 +11,8 @@ using Microsoft.WindowsAzure.MobileServices;
 using Facebook.Client;
 using TommyJams.Model;
 using TommyJams.View;
+using TommyJams.ViewModel;
+using Windows.Devices.Geolocation;
 
 namespace TommyJams
 {
@@ -22,19 +24,25 @@ namespace TommyJams
         /// <returns>The root frame of the Phone Application.</returns>
         public static PhoneApplicationFrame RootFrame { get; private set; }
         public static MobileServiceUser user;
-        public static MainViewModel viewModel = null;
+        //public static MainViewModel viewModel = null;
+        public static EventViewModel viewModel= null;
         public static bool isAuthenticated = false;
+        public static int EventID = 5;
         internal static string AccessToken = String.Empty;
-        internal static string FacebookId = String.Empty;
+        internal static string FacebookId = "11111111111111111";
+        internal static string city = "Bangalore";
+        internal static string country = "India";
         public static FacebookSessionClient FacebookSessionClient = new FacebookSessionClient(Constants.FBApi);
-
-        public static MainViewModel ViewModel
+        public static Geolocator geoLocator;
+        public static Geoposition myPosition;
+        public static Geocoordinate myGeocoordinate;
+        public static EventViewModel ViewModel
         {
             get
             {
                 // Delay creation of the view model until necessary
                 if (viewModel == null)
-                    viewModel = new MainViewModel();
+                    viewModel = new EventViewModel();
 
                 return viewModel;
             }
@@ -57,6 +65,10 @@ namespace TommyJams
             // Language display initialization
             InitializeLanguage();
 
+            /*geoLocator = new Geolocator();
+            UpdateLocation();
+            */
+
             // Show graphics profiling information while debugging.
             if (Debugger.IsAttached)
             {
@@ -77,6 +89,13 @@ namespace TommyJams
                 PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Disabled;
             }
 
+        }
+
+        private async void UpdateLocation()
+        {
+            myPosition = await geoLocator.GetGeopositionAsync();
+            myGeocoordinate = myPosition.Coordinate;
+            
         }
 
         public static MobileServiceClient MobileService = new MobileServiceClient(

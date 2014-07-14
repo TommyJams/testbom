@@ -3,6 +3,8 @@
     <AssemblyPart x:Name="TommyJams" Source="TommyJams.dll" />
     <AssemblyPart x:Name="Facebook.Client" Source="Facebook.Client.dll" />
     <AssemblyPart x:Name="Facebook" Source="Facebook.dll" />
+    <AssemblyPart x:Name="Microsoft.Phone.Controls" Source="Microsoft.Phone.Controls.dll" />
+    <AssemblyPart x:Name="Microsoft.Phone.Controls.Toolkit" Source="Microsoft.Phone.Controls.Toolkit.dll" />
     <AssemblyPart x:Name="Microsoft.Threading.Tasks.Extensions" Source="Microsoft.Threading.Tasks.Extensions.dll" />
     <AssemblyPart x:Name="Microsoft.Threading.Tasks.Extensions.Phone" Source="Microsoft.Threading.Tasks.Extensions.Phone.dll" />
     <AssemblyPart x:Name="Microsoft.WindowsAzure.Mobile" Source="Microsoft.WindowsAzure.Mobile.dll" />

@@ -6,6 +6,7 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
@@ -22,14 +23,51 @@
 
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="MY APPLICATION" Style="{StaticResource PhoneTextNormalStyle}"/>
-            <TextBlock Text="page name" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+            <TextBlock Text="TommyJams" Style="{StaticResource PhoneTextNormalStyle}"/>
+            <TextBlock Text="Settings" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}" Height="80"/>
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+            <Grid.RowDefinitions>
+
+            </Grid.RowDefinitions>
+            <Grid Margin="4,0,-4,146">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="229*"/>
+                    <ColumnDefinition Width="227*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="92"/>
+                    <RowDefinition Height="*"/>
+
+                </Grid.RowDefinitions>
+                <TextBlock x:Name="Title" Text="Connected Account" Margin="7,-24,-7,44" Grid.ColumnSpan="2" />
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Height="127" Margin="3,18,1,332" Width="452" Grid.ColumnSpan="2" Grid.RowSpan="2">
+                    <Image x:Name="MyImage" HorizontalAlignment="Left" Height="125" VerticalAlignment="Top" Width="183" Margin="0,2,0,0"/>
+                    <TextBlock x:Name="MyName" HorizontalAlignment="Center" TextWrapping="Wrap" FontSize="24" Height="77" Text="Please Login" Foreground="{StaticResource PhoneForegroundBrush}" VerticalAlignment="Center" Margin="10,31,0,21" Width="250"/>
+
+                </StackPanel>
+
+
+                <TextBlock x:Name="LocationTitle" Width="190" Margin="11,0,28,299" Text="Location" Height="29" VerticalAlignment="Bottom" Grid.Row="1"/>
+
+                <Border BorderBrush="Gray" BorderThickness="2" Margin="0,91,12,255" Grid.Row="1" RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="2">
+                    <TextBlock x:Name="CurrentLocation" Width="334" Text="Bangalore" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="52" VerticalAlignment="Top" RenderTransformOrigin="0.492,0.379" Margin="9,5,-121,-6" Grid.Row="1"/>
+                </Border>
+                <TextBlock Text="Updates" Margin="3,134,224,222" Grid.Row="1" RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="2" />
+
+            </Grid>
+            <toolkit:ToggleSwitch x:Name="toggle1" Content="On" IsChecked="True" Header="PushNotifications" Margin="0,245,0,260"/>
+            <toolkit:ToggleSwitch x:Name="toggle2" Content="On" IsChecked="True" Header="Calender Entries" Margin="0,316,0,190"/>
+
+            <Button x:Name="ShareApp" Content="Share/Rate App" Margin="0,396,224,155" BorderThickness="0"/>
+            <Button x:Name="Logout" HorizontalAlignment="left" Content="Logout" Margin="-1,444,0,110" BorderThickness="0" Width="148"/>
+            <Button x:Name="About" HorizontalAlignment="left" Content="About" Margin="-1,487,0,67" BorderThickness="0" Width="139"/>
 
         </Grid>
+
     </Grid>
 
 </phone:PhoneApplicationPage>

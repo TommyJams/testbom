@@ -11,12 +11,18 @@ using TommyJams.Model;
 using TommyJams.Resources;
 using Facebook;
 using Microsoft.WindowsAzure.MobileServices;
-using TommyJams;
+using TommyJams.ViewModel;
+using Newtonsoft.Json;
+using System.Text;
+using System.Collections.ObjectModel;
+using System.Globalization;
 
 namespace TommyJams.View
 {
     public partial class PanoramaPage1 : PhoneApplicationPage
     {
+        //public ObservableCollection<EventItem> Priority1Items { get; private set; }
+
         //private MobileServiceUser user;
         private const string FBApi = "657116527691677";
         private FacebookClient client;
@@ -24,7 +30,13 @@ namespace TommyJams.View
         {
             InitializeComponent();
             DataContext = App.ViewModel;
-            client = new FacebookClient();
+            /*client = new FacebookClient();
+            WebClient wc = new WebClient();
+            String defaultUri = "https://testneo4j.azure-mobile.net/api/getPrimaryEvents?";
+            String completeUri = defaultUri + "fbid=" + App.FacebookId + "&city=" + App.city + "&country=" + App.country;
+
+            wc.DownloadStringCompleted += new DownloadStringCompletedEventHandler(webClient_DownloadStringCompleted);
+            wc.DownloadStringAsync(new System.Uri(completeUri));*/
         }
         // Load data for the ViewModel Items
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -33,9 +45,46 @@ namespace TommyJams.View
             {
                 App.ViewModel.LoadData();
             }
+            //App.ViewModel.LoadData();
+            /*WebClient wc = new WebClient();
+            String defaultUri = "https://testneo4j.azure-mobile.net/api/getPrimaryEvents?";
+            String completeUri = defaultUri + "fbid=" + App.FacebookId +"&city=" + App.city + "&country=" + App.country;
+
+            wc.DownloadStringCompleted += new DownloadStringCompletedEventHandler(webClient_DownloadStringCompleted);
+            wc.DownloadStringAsync(new System.Uri(completeUri));*/
         }
 
-        
+        void webClient_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
+        {
+            if (e.Error == null)
+            {
+                try
+                {
+                    String result = e.Result;
+
+                    ObservableCollection<EventItem> json = JsonConvert.DeserializeObject<ObservableCollection<EventItem>>(result) as ObservableCollection<EventItem>;
+                    //this.Priority1Items = json;
+                    StringBuilder productsString = new StringBuilder();
+                    foreach (EventItem aProduct in json)
+                    {
+                        productsString.AppendFormat("{0}", aProduct.EventName);
+                        gigsHeader.Header = aProduct.EventName.ToString();
+                        //DateTime date = DateTime.ParseExact(aProduct.EventTime, "yyyyMMdd",CultureInfo.InvariantCulture);
+                        break;
+                    }
+                    //mainHeader.Header = productsString.ToString();
+
+                    
+                    //TextBlock.Text = json;
+                }
+                catch (Exception ex)
+                {
+                    gigsHeader.Header = "Exception Thrown";
+                }
+
+
+            }
+        }
 
         /*
         private void MainLongListSelector1_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -56,7 +105,7 @@ namespace TommyJams.View
         {
             Button selector = sender as Button;
             EventItem data = selector.DataContext as EventItem;
-            AudioPlayer.Source = new Uri(data.SongLink,UriKind.Relative);
+            //AudioPlayer.Source = new Uri(data.SongLink,UriKind.Relative);
             
         }
 
