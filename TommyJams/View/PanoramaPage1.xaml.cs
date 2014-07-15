@@ -116,6 +116,25 @@ namespace TommyJams.View
 
         }
 
+        private void ApplicationBarIconButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Invite_Accept(object sender, EventArgs e)
+        {
+
+        }
+
+        private void On_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            StackPanel selected = sender as StackPanel;
+            EventItem data = selected.DataContext as EventItem;
+            App.EventID = data.EventID;
+            NavigationService.Navigate(new Uri("/View/EventPanoramaPage.xaml", UriKind.Relative));
+
+        }
+
     }
     
 

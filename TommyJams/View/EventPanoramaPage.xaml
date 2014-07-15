@@ -60,18 +60,9 @@
             <phone:PanoramaItem Header="The Band">
                 <Grid>
                     <Image HorizontalAlignment="Left" Height="160" Margin="4,18,0,0" VerticalAlignment="Top" Width="413" Source=""/>
-                    <TextBlock HorizontalAlignment="Left" FontSize="15" Margin="2,195,0,0" TextWrapping="Wrap" Text="Band Description.Lorem Ipsum.Lorem Ipsum.Lorem Ipsum.Lorem Ipsum.Lorem Ipsum.Lorem Ipsum.Lorem Ipsum.Lorem Ipsum.Lorem Ipsum.Lorem Ipsum.." VerticalAlignment="Top" Height="65" Width="411"/>
+                    <TextBlock x:Name ="description" HorizontalAlignment="Left" FontSize="15" Margin="2,195,0,0" TextWrapping="Wrap" Text="Band Description.Lorem Ipsum.Lorem Ipsum.Lorem Ipsum.Lorem Ipsum.Lorem Ipsum.Lorem Ipsum.Lorem Ipsum.Lorem Ipsum.Lorem Ipsum.Lorem Ipsum.." VerticalAlignment="Top" Height="65" Width="411"/>
 
-                    <StackPanel Height="50" Margin="-40,90,0,0" Width="350">
-                        <TextBlock HorizontalAlignment="Left" Height="25" TextWrapping="Wrap" Text="Band Member" VerticalAlignment="Top" Width="150" Margin="0,0,0,0"/>
-                        <TextBlock TextWrapping="Wrap" Text="Band Role" Width="250" Height="18" Margin="-80,0,0,0" FontSize="15"/>
-                    </StackPanel>
-
-                    <StackPanel Height="50" Margin="-40,180,0,0" Width="350">
-                        <TextBlock HorizontalAlignment="Left" Height="25" TextWrapping="Wrap" Text="Band Member" VerticalAlignment="Top" Width="150" Margin="0,0,0,0"/>
-                        <TextBlock TextWrapping="Wrap" Text="Band Role" Width="250" Height="18" Margin="-80,0,0,0" FontSize="15"/>
-                    </StackPanel>
-
+                    
 
                 </Grid>
             </phone:PanoramaItem>
@@ -86,6 +77,14 @@
                 </Grid>
             </phone:PanoramaItem>
         </phone:Panorama>
+        
     </Grid>
+
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsMenuEnabled="False">
+            <shell:ApplicationBarIconButton IconUri="/Model/settings.png" Text="Accept" Click="Event_Accept" />
+
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
 
 </phone:PhoneApplicationPage>

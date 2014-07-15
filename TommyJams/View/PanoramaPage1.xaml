@@ -45,6 +45,7 @@
                                                 Height="270"
                                                 VerticalAlignment="Center"
                                                 HorizontalAlignment="Center" Width="397"
+                                                Tap="On_Tap"
                                                 >
                                     <Button BorderThickness="0" Margin="0,13,0,27" Width="500" Height="150" Click="Button_Click">
                                         <Image Source="{Binding EventImage}" Margin="-150,0,0,0" Width="500"/>
@@ -124,7 +125,7 @@
 
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsMenuEnabled="False">
-            <shell:ApplicationBarIconButton IconUri="/Model/settings.png" Text="Settings"/>
+            <shell:ApplicationBarIconButton IconUri="/Model/settings.png" Text="Settings" />
 
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
