@@ -69,7 +69,7 @@ namespace TommyJams
         {
             if (!App.ViewModel.IsDataLoaded)
             {
-                App.ViewModel.LoadData();
+                //App.ViewModel.LoadData();
 
             }
             NavigationService.Navigate(new Uri("/View/PanoramaPage1.xaml", UriKind.Relative));

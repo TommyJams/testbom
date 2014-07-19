@@ -184,19 +184,53 @@ namespace TommyJams.ViewModel
             }
         }
 
-        private string _eventLocation;
-        public string EventLocation
+        private string _venueAddress;
+        public string VenueAddress
         {
             get
             {
-                return _eventLocation;
+                return _venueAddress;
             }
             set
             {
-                if (value != _eventLocation)
+                if (value != _venueAddress)
                 {
-                    _eventLocation = value;
-                    NotifyPropertyChanged("EventLocation");
+                    _venueAddress = value;
+                    NotifyPropertyChanged("VenueAddress");
+                }
+            }
+        }
+
+        private string _venueName;
+        public string VenueName
+        {
+            get
+            {
+                return _venueName;
+            }
+            set
+            {
+                if (value != _venueName)
+                {
+                    _venueName = value;
+                    NotifyPropertyChanged("VenueName");
+                }
+            }
+        }
+
+        private string _venueCity;
+        public string VenueCity
+        {
+            get
+            {
+                return _venueCity;
+            }
+            set
+            {
+                if (value != _venueCity)
+                {
+                    _venueCity = value;
+                    NotifyPropertyChanged("VenueCity");
                 }
             }
         }
@@ -218,19 +252,19 @@ namespace TommyJams.ViewModel
             }
         }
 
-        private string _eventCoordinates;
-        public string EventCoordinates
+        private string _venueCoordinates;
+        public string VenueCoordinates
         {
             get
             {
-                return _eventCoordinates;
+                return _venueCoordinates;
             }
             set
             {
-                if (value != _eventCoordinates)
+                if (value != _venueCoordinates)
                 {
-                    _eventCoordinates = value;
-                    NotifyPropertyChanged("EventCoordinates");
+                    _venueCoordinates = value;
+                    NotifyPropertyChanged("VenueCoordinates");
                 }
             }
         }

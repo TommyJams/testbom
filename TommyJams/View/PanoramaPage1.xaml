@@ -56,7 +56,7 @@
                                     <TextBlock x:Name="genre" Text="{Binding EventGenre}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}" RenderTransformOrigin="0.511,2.875" Margin="-120,-27,13,96" Width="250"/>
                                     <TextBlock Text="{Binding EventName}" TextWrapping="Wrap" Style="{StaticResource PhoneTextExtraLargeStyle}" Margin="-85,-110,12,51" RenderTransformOrigin="0.495,0.048" Width="237"/>
 
-                                    <TextBlock Text="{Binding EventLocation}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}" Margin="-110,-56,12,-5" Width="200" RenderTransformOrigin="0.832,0.503" />
+                                    <TextBlock Text="{Binding VenueName}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}" Margin="38,-76,159,-5" Width="200" RenderTransformOrigin="0.832,0.503" Height="59" />
                                     <TextBlock x:Name="StartsIn" Text="{Binding EventStartingTime}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}" Margin="-150,-45,0,0" Width="100"/>
                                     <TextBlock x:Name="Distance" Text="{Binding EventDistance}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}" Margin="50,-45,0,0" Width="100"/>
                                     <TextBlock x:Name="Time" Text="{Binding EventHotness}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}" Margin="180,-45,0,0" Width="100"/>

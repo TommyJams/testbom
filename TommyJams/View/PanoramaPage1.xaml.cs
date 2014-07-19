@@ -30,6 +30,7 @@ namespace TommyJams.View
         {
             InitializeComponent();
             DataContext = App.ViewModel;
+            //App.ViewModel.LoadData();
             /*client = new FacebookClient();
             WebClient wc = new WebClient();
             String defaultUri = "https://testneo4j.azure-mobile.net/api/getPrimaryEvents?";
@@ -41,10 +42,11 @@ namespace TommyJams.View
         // Load data for the ViewModel Items
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (!App.ViewModel.IsDataLoaded)
+            /*if (!App.ViewModel.IsDataLoaded)
             {
                 App.ViewModel.LoadData();
-            }
+            }*/
+            App.viewModel.LoadData();
             //App.ViewModel.LoadData();
             /*WebClient wc = new WebClient();
             String defaultUri = "https://testneo4j.azure-mobile.net/api/getPrimaryEvents?";
@@ -131,7 +133,7 @@ namespace TommyJams.View
             StackPanel selected = sender as StackPanel;
             EventItem data = selected.DataContext as EventItem;
             App.EventID = data.EventID;
-            NavigationService.Navigate(new Uri("/View/EventPanoramaPage.xaml", UriKind.Relative));
+            NavigationService.Navigate(new Uri("/../../View/EventPanoramaPage.xaml", UriKind.RelativeOrAbsolute));
 
         }
 

@@ -29,7 +29,7 @@ namespace TommyJams
         public static bool isAuthenticated = false;
         public static int EventID = 5;
         internal static string AccessToken = String.Empty;
-        internal static string FacebookId = "11111111111111111";
+        internal static string FacebookId = "56784957689798";
         internal static string city = "Bangalore";
         internal static string country = "India";
         public static FacebookSessionClient FacebookSessionClient = new FacebookSessionClient(Constants.FBApi);
@@ -42,7 +42,10 @@ namespace TommyJams
             {
                 // Delay creation of the view model until necessary
                 if (viewModel == null)
+                {
                     viewModel = new EventViewModel();
+                    //viewModel.LoadData();
+                }
 
                 return viewModel;
             }

@@ -7,6 +7,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Maps.Toolkit;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:mapss="clr-namespace:Microsoft.Phone.Controls.Maps;assembly=Microsoft.Phone.Controls.Maps"
+    xmlns:maptk="clr-namespace:Microsoft.Phone.Maps.Toolkit;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:maps="clr-namespace:Microsoft.Phone.Maps.Controls;assembly=Microsoft.Phone.Maps"        
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -17,10 +20,14 @@
     <!--LayoutRoot contains the root grid where all other page content is placed-->
     <Grid x:Name="LayoutRoot">
         <phone:Panorama Title="Parvaaz" FontStretch="Condensed">
+            
+
             <phone:Panorama.Background>
                 <ImageBrush ImageSource="C:\Users\Kumar\Documents\Visual Studio 2012\Projects\TommyJams\TommyJams\Resources\Image\parvaaz2.png"/>
             </phone:Panorama.Background>
 
+
+            
             <!--Panorama item one-->
             <phone:PanoramaItem x:Name="mainHeader" Header="Venue" >
                 <ListBox x:Name="MainListBox">
@@ -62,22 +69,27 @@
                     <Image HorizontalAlignment="Left" Height="160" Margin="4,18,0,0" VerticalAlignment="Top" Width="413" Source=""/>
                     <TextBlock x:Name ="description" HorizontalAlignment="Left" FontSize="15" Margin="2,195,0,0" TextWrapping="Wrap" Text="Band Description.Lorem Ipsum.Lorem Ipsum.Lorem Ipsum.Lorem Ipsum.Lorem Ipsum.Lorem Ipsum.Lorem Ipsum.Lorem Ipsum.Lorem Ipsum.Lorem Ipsum.." VerticalAlignment="Top" Height="65" Width="411"/>
 
-                    
+
 
                 </Grid>
             </phone:PanoramaItem>
 
 
             <!--Panorama item three-->
-            <phone:PanoramaItem Header="item2">
+            <phone:PanoramaItem Header="venue">
                 <Grid>
-                    <Controls:Map x:Name="leMap" VerticalAlignment="Top" Height="200" Width="456" Margin="0,0,0,0">
+                    <maps:Map x:Name="Map" Grid.Row="0" Margin="173,0,0,181">
+                        <maptk:MapExtensions.Children>
+                            <maptk:Pushpin x:Name="RouteDirectionsPushPin"/>
+                           
 
-                    </Controls:Map>
+                        </maptk:MapExtensions.Children>
+                    </maps:Map>
+                    <TextBlock x:Name="map_reference" HorizontalAlignment="Left" Margin="3,-1,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="231" Width="169"/>
                 </Grid>
             </phone:PanoramaItem>
         </phone:Panorama>
-        
+
     </Grid>
 
     <phone:PhoneApplicationPage.ApplicationBar>

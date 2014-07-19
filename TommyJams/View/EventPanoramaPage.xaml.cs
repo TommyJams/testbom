@@ -17,6 +17,8 @@ using System.Net.Http.Headers;
 using System.Net.Http;
 using System.IO;
 using TommyJams.Resources;
+using System.Windows.Shapes;
+using System.Windows.Media;
 
 namespace TommyJams.View
 {
@@ -47,17 +49,47 @@ namespace TommyJams.View
                 try
                 {
                     String result = e.Result;
-                    
+                    CivicAddressResolver resolver = new CivicAddressResolver();
                     List<EventItem> json = JsonConvert.DeserializeObject<List<EventItem>>(result) as List<EventItem>;
                     StringBuilder productsString = new StringBuilder();
                     foreach (EventItem aProduct in json)
                     {
                     productsString.AppendFormat("{0}", aProduct.EventName);
+                    GeoCoordinate a = new GeoCoordinate();
+                    String[] Location = (aProduct.VenueCoordinates.Split(' '));
+                    a.Latitude = 32.16;
+                    a.Longitude = -117.71;
+                        //a.Latitude = Convert.ToDouble(Location[0]);
+                    //a.Longitude = Convert.ToDouble(Location[1]);
+                    a.Altitude = 0;
+                    a.Course = 0;
+                    a.HorizontalAccuracy = 0;
+                    a.VerticalAccuracy = 0;
+                    a.Speed = 0;
+                    var pushpin = MapExtensions.GetChildren(Map).OfType<Pushpin>().First(p => p.Name == "RouteDirectionsPushPin");
+                    pushpin.GeoCoordinate = a;
+                    Map.Center = a;
+                    Map.ZoomLevel = 15;
+                    map_reference.Text = aProduct.VenueName + " " + aProduct.VenueAddress + " " + aProduct.VenueCity;
+                    
+                    MapOverlay overlay = new MapOverlay
+                    {
+                        GeoCoordinate = Map.Center,
+                        Content = new Ellipse
+                        {
+                            Fill = new SolidColorBrush(Colors.Red),
+                            Width = 40,
+                            Height = 40
+                        }
+                        
+                    };
+                    MapLayer layer = new MapLayer();
+                    layer.Add(overlay);
 
-                        break;
+                    Map.Layers.Add(layer);
+                    break;
                     }
                     mainHeader.Header = productsString.ToString();
-                    
                     //TextBlock.Text = json;
                 }
                 catch (Exception ex)
@@ -82,6 +114,7 @@ namespace TommyJams.View
             HttpWebRequest myRequest = (HttpWebRequest)HttpWebRequest.Create(myUri);
             myRequest.Method = "POST" ;
             myRequest.BeginGetRequestStream(new AsyncCallback(GetRequestStreamCallback), myRequest);
+            //RouteDirectionsPushPin.GeoCoordinate=
 }
 
         void GetRequestStreamCallback(IAsyncResult callbackResult)
