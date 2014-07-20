@@ -30,7 +30,7 @@ namespace TommyJams.View
         {
             InitializeComponent();
             DataContext = App.ViewModel;
-            //App.ViewModel.LoadData();
+            App.ViewModel.LoadPrimaryEvents();
             /*client = new FacebookClient();
             WebClient wc = new WebClient();
             String defaultUri = "https://testneo4j.azure-mobile.net/api/getPrimaryEvents?";
@@ -46,7 +46,7 @@ namespace TommyJams.View
             {
                 App.ViewModel.LoadData();
             }*/
-            App.viewModel.LoadData();
+            App.viewModel.LoadPrimaryEvents();
             //App.ViewModel.LoadData();
             /*WebClient wc = new WebClient();
             String defaultUri = "https://testneo4j.azure-mobile.net/api/getPrimaryEvents?";

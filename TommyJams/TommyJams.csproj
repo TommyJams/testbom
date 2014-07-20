@@ -101,13 +101,13 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\Constants.cs" />
+    <Compile Include="Model\GetPrimaryEvents.cs" />
     <Compile Include="ViewModel\ArtistInfo.cs" />
     <Compile Include="ViewModel\Band.cs" />
     <Compile Include="ViewModel\BandMember.cs" />
     <Compile Include="ViewModel\EventDetail.cs" />
     <Compile Include="ViewModel\EventItem.cs" />
     <Compile Include="ViewModel\EventViewModel.cs" />
-    <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\AppResources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -149,10 +149,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <CodeAnalysisDictionary Include="Model\ModelSampleData.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </CodeAnalysisDictionary>
     <Page Include="ViewModel\ModelSampleData.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -212,18 +208,16 @@
     </Content>
     <Content Include="parvaaz2.png" />
     <Content Include="README_FIRST.txt" />
+    <Resource Include="Resources\Image\facebook_icon_large.gif" />
     <Content Include="Resources\Image\parvaaz2.png" />
+    <Resource Include="Resources\Image\play.gif" />
+    <Content Include="Resources\Songs\Babel.mp3" />
+    <Content Include="Resources\Songs\I Will Wait.mp3" />
     <Content Include="Toolkit.Content\ApplicationBar.Add.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Cancel.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Check.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Delete.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Select.png" />
-    <Resource Include="Model\facebook_icon_large.gif" />
-    <Resource Include="Model\play.gif" />
-    <Content Include="Model\Babel.mp3" />
-    <Content Include="Model\I Will Wait.mp3" />
-    <Content Include="Model\settings.png" />
-    <Content Include="Model\tommyjams_white.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\AppResources.resx">

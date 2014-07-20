@@ -23,16 +23,12 @@ namespace TommyJams.ViewModel
         {
             this.Priority1Items = new ObservableCollection<EventItem>();
             this.Priority2Items = new ObservableCollection<EventItem>();
+            
         }
 
-        public ObservableCollection<EventItem> Priority1Items { get; private set; }
-        public ObservableCollection<EventItem> PriorityItems { get; private set; }
-        public ObservableCollection<EventItem> Priority2Items { get; private set; }
-        public const double EarthRadiusInKilometers = 6367.0;
-        //public ObservableCollection<BandMember> ParvaazMembers { get; private set; }
-        //public Band Parvaaz { get; private set; }
-        //public EventItem CurrentItem { get; private set; }
-
+        public ObservableCollection<EventItem> Priority1Items { get; set; }
+        public ObservableCollection<EventItem> Priority2Items { get; set; }
+        
         private string _sampleProperty = "Sample Runtime Property Value";
         public string SampleProperty
         {
@@ -61,9 +57,15 @@ namespace TommyJams.ViewModel
         public bool IsDataLoaded
         {
             get;
-            private set;
+            set;
         }
 
+        public void LoadPrimaryEvents()
+        {
+            GetPrimaryEvents loadPrimaryEvents = new GetPrimaryEvents();
+            loadPrimaryEvents.LoadData();
+        }
+        /*
         void webClient_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
             if (e.Error == null)
@@ -73,7 +75,8 @@ namespace TommyJams.ViewModel
                     String result = e.Result;
 
                     this.Priority1Items = JsonConvert.DeserializeObject<ObservableCollection<EventItem>>(result) as ObservableCollection<EventItem>;
-                    //this.Priority1Items = json;
+                    
+         //this.Priority1Items = json;
                     StringBuilder genreString = new StringBuilder();
                     foreach (EventItem aProduct in Priority1Items)
                     {
@@ -96,13 +99,13 @@ namespace TommyJams.ViewModel
                         {
                             aProduct.EventStartingTime = eventDate.ToString();
                         }
-
+        */
                         /*String[] location = aProduct.EventCoordinates.Split(' ');
                         String a = "9.12";
                         Double s = Convert.ToDouble(a);
                         aProduct.EventDistance = (int) CalcDistance(App.myGeocoordinate.Latitude,App.myGeocoordinate.Longitude,Convert.ToDouble(location[0]),Convert.ToDouble(location[1]));
                         *///break;
-                    }
+          /*          }
                     
                 }
                 catch (Exception ex)
@@ -113,8 +116,8 @@ namespace TommyJams.ViewModel
 
 
             }
-        }
-
+        }*/
+        /*
         public void LoadData()
         {
             WebClient wc = new WebClient();
@@ -124,7 +127,7 @@ namespace TommyJams.ViewModel
             wc.DownloadStringCompleted += new DownloadStringCompletedEventHandler(webClient_DownloadStringCompleted);
             wc.DownloadStringAsync(new System.Uri(completeUri));
 
-
+        */
             /*
             this.Priority1Items.Add(new EventItem() { Genre = "alternative rock", BandName = "Aebhasdhsdarosmith", Distance = "3 Km", Venue = "Hard Rock Cafe", SongLink = "/Model/Babel.mp3", Image = "../Model/play.gif" });
             this.Priority1Items.Add(new EventItem() { Genre = "alternative rock", BandName = "Something", Distance = "5 Km", Venue = "10D", SongLink = "/Model/I Will Wait.mp3", Image = "../Model/play.gif" });
@@ -138,10 +141,10 @@ namespace TommyJams.ViewModel
             //this.Parvaaz = new Band() { BandMembers = ParvaazMembers, BandDescription = "LoremIpsum blah blah", BandName = "Parvaaz",BandFacebook="www.blah.com" };
             //this.CurrentItem = new EventItem() { Genre = "Alternative Rock", BandName = "Parvaaz", Band = Parvaaz, Venue="Hard Rock Cafe"  };
 
-
+        /*
             this.IsDataLoaded = true;
         }
-
+        */
         
 
 

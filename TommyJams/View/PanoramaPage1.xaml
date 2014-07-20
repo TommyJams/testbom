@@ -24,7 +24,7 @@
             <phone:PanoramaItem Header="Connect">
                 <Grid>
                     <Button HorizontalAlignment="Left" Height="203" VerticalAlignment="Top" Width="208" Click="Button_Click_1">
-                        <Image Source ="../Model/facebook_icon_large.gif" Height="264" Width="174"/>
+                        <Image Source ="../Resources/Image/facebook_icon_large.gif" Height="264" Width="174"/>
                     </Button>
                 </Grid>
             </phone:PanoramaItem>
@@ -125,7 +125,7 @@
 
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsMenuEnabled="False">
-            <shell:ApplicationBarIconButton IconUri="/Model/settings.png" Text="Settings" />
+            <shell:ApplicationBarIconButton IconUri="\Resources\Image\settings.png" Text="Settings" />
 
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>

@@ -25,7 +25,7 @@ namespace TommyJams.View
         {
             if (!App.ViewModel.IsDataLoaded)
             {
-                App.ViewModel.LoadData();
+                //App.ViewModel.LoadData();
             }
         }
 
