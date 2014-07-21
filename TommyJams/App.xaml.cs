@@ -68,6 +68,7 @@ namespace TommyJams
             // Language display initialization
             InitializeLanguage();
 
+            
             /*geoLocator = new Geolocator();
             UpdateLocation();
             */

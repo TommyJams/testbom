@@ -101,7 +101,9 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\Constants.cs" />
+    <Compile Include="Model\GetEventInfo.cs" />
     <Compile Include="Model\GetPrimaryEvents.cs" />
+    <Compile Include="Model\GetSecondaryEvents.cs" />
     <Compile Include="ViewModel\ArtistInfo.cs" />
     <Compile Include="ViewModel\Band.cs" />
     <Compile Include="ViewModel\BandMember.cs" />
@@ -134,6 +136,9 @@
     </Compile>
     <Compile Include="View\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\WindowsPhoneControl1.xaml.cs">
+      <DependentUpon>WindowsPhoneControl1.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -176,6 +181,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\WindowsPhoneControl1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <None Include="fbchannel.ashx" />
@@ -211,6 +220,7 @@
     <Resource Include="Resources\Image\facebook_icon_large.gif" />
     <Content Include="Resources\Image\parvaaz2.png" />
     <Resource Include="Resources\Image\play.gif" />
+    <Content Include="Resources\Image\settings.png" />
     <Content Include="Resources\Songs\Babel.mp3" />
     <Content Include="Resources\Songs\I Will Wait.mp3" />
     <Content Include="Toolkit.Content\ApplicationBar.Add.png" />

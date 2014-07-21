@@ -14,6 +14,12 @@ using Microsoft.WindowsAzure.MobileServices;
 using Facebook;
 using TommyJams.ViewModel;
 using Newtonsoft.Json;
+using System.Windows.Controls.Primitives;
+using TommyJams.View;
+using System.ComponentModel;
+using System.Device.Location;
+using System.Text;
+using Windows.ApplicationModel.Activation;
 
 namespace TommyJams
 {
@@ -31,12 +37,14 @@ namespace TommyJams
 
     public partial class MainPage : PhoneApplicationPage
     {
+        public Popup popup = new Popup();
         // Constructor
         public MainPage()
         {
             InitializeComponent();
             //Thread.Sleep(3000);
             DataContext = App.ViewModel;
+           
             //Loaded+=SplashPage_Loaded;
             //Loaded += LoadUserInfo;
             
@@ -72,11 +80,34 @@ namespace TommyJams
                 //App.ViewModel.LoadData();
 
             }
+            //ShowSplash();
             NavigationService.Navigate(new Uri("/View/PanoramaPage1.xaml", UriKind.Relative));
         }
-        
 
 
+        private void ShowSplash()
+        {
+            Popup popup = new Popup();
+            // Create an object of type SplashScreen.
+            WindowsPhoneControl1 splash = new WindowsPhoneControl1();
+            popup.Child = splash;
+            popup.IsOpen = true;
+            // Create an object of type BackgroundWorker and its events.
+            BackgroundWorker bw = new BackgroundWorker();
+            bw.DoWork += (s, a) =>
+            {
+                //This event occurs while the task is executing.
+                Thread.Sleep(4000); //A little dummy delay for show the effect
+            };
+            bw.RunWorkerCompleted += (s, a) =>
+            {
+                //This event occurs when the execution of the task has terminated.
+                popup.IsOpen = false;
+            };
+            // Call to the Async Function, that produce the delay of the progress bar.
+            // After that the pictured "Smoked by Windows Phone shown"
+            bw.RunWorkerAsync(); 
+        }
 
         // Sample code for building a localized ApplicationBar
         //private void BuildLocalizedApplicationBar()
@@ -93,5 +124,7 @@ namespace TommyJams
         //    ApplicationBarMenuItem appBarMenuItem = new ApplicationBarMenuItem(AppResources.AppBarMenuItemText);
         //    ApplicationBar.MenuItems.Add(appBarMenuItem);
         //}
+
+        public BackgroundWorker backroungWorker { get; set; }
     }
 }

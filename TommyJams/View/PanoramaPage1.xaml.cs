@@ -16,6 +16,9 @@ using Newtonsoft.Json;
 using System.Text;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Windows.Controls.Primitives;
+using System.ComponentModel;
+using System.Threading;
 
 namespace TommyJams.View
 {
@@ -30,63 +33,45 @@ namespace TommyJams.View
         {
             InitializeComponent();
             DataContext = App.ViewModel;
-            App.ViewModel.LoadPrimaryEvents();
-            /*client = new FacebookClient();
-            WebClient wc = new WebClient();
-            String defaultUri = "https://testneo4j.azure-mobile.net/api/getPrimaryEvents?";
-            String completeUri = defaultUri + "fbid=" + App.FacebookId + "&city=" + App.city + "&country=" + App.country;
-
-            wc.DownloadStringCompleted += new DownloadStringCompletedEventHandler(webClient_DownloadStringCompleted);
-            wc.DownloadStringAsync(new System.Uri(completeUri));*/
         }
-        // Load data for the ViewModel Items
+        
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             /*if (!App.ViewModel.IsDataLoaded)
             {
                 App.ViewModel.LoadData();
             }*/
-            App.viewModel.LoadPrimaryEvents();
-            //App.ViewModel.LoadData();
-            /*WebClient wc = new WebClient();
-            String defaultUri = "https://testneo4j.azure-mobile.net/api/getPrimaryEvents?";
-            String completeUri = defaultUri + "fbid=" + App.FacebookId +"&city=" + App.city + "&country=" + App.country;
-
-            wc.DownloadStringCompleted += new DownloadStringCompletedEventHandler(webClient_DownloadStringCompleted);
-            wc.DownloadStringAsync(new System.Uri(completeUri));*/
+            App.ViewModel.LoadPrimaryEvents();
+            App.ViewModel.LoadSecondaryEvents();
+            MainListBox.ItemsSource = App.ViewModel.Priority1Items;
+            
         }
 
-        void webClient_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
+        private void ShowSplash()
         {
-            if (e.Error == null)
+            Popup popup = new Popup();
+            // Create an object of type SplashScreen.
+            WindowsPhoneControl1 splash = new WindowsPhoneControl1();
+            
+            popup.Child = splash;
+            popup.IsOpen = true;
+            // Create an object of type BackgroundWorker and its events.
+            BackgroundWorker bw = new BackgroundWorker();
+            bw.DoWork += (s, a) =>
             {
-                try
-                {
-                    String result = e.Result;
-
-                    ObservableCollection<EventItem> json = JsonConvert.DeserializeObject<ObservableCollection<EventItem>>(result) as ObservableCollection<EventItem>;
-                    //this.Priority1Items = json;
-                    StringBuilder productsString = new StringBuilder();
-                    foreach (EventItem aProduct in json)
-                    {
-                        productsString.AppendFormat("{0}", aProduct.EventName);
-                        gigsHeader.Header = aProduct.EventName.ToString();
-                        //DateTime date = DateTime.ParseExact(aProduct.EventTime, "yyyyMMdd",CultureInfo.InvariantCulture);
-                        break;
-                    }
-                    //mainHeader.Header = productsString.ToString();
-
-                    
-                    //TextBlock.Text = json;
-                }
-                catch (Exception ex)
-                {
-                    gigsHeader.Header = "Exception Thrown";
-                }
-
-
-            }
+                //This event occurs while the task is executing.
+                Thread.Sleep(8000); //A little dummy delay for show the effect
+            };
+            bw.RunWorkerCompleted += (s, a) =>
+            {
+                //This event occurs when the execution of the task has terminated.
+                popup.IsOpen = false;
+            };
+            // Call to the Async Function, that produce the delay of the progress bar.
+            // After that the pictured "Smoked by Windows Phone shown"
+            bw.RunWorkerAsync();
         }
+
 
         /*
         private void MainLongListSelector1_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -120,7 +105,8 @@ namespace TommyJams.View
 
         private void ApplicationBarIconButton_Click(object sender, EventArgs e)
         {
-
+            MainListBox.ItemsSource = App.ViewModel.Priority1Items;
+            MainListBox2.ItemsSource = App.ViewModel.Priority2Items;
         }
 
         private void Invite_Accept(object sender, EventArgs e)

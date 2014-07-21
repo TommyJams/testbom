@@ -19,6 +19,8 @@ using System.IO;
 using TommyJams.Resources;
 using System.Windows.Shapes;
 using System.Windows.Media;
+using TommyJams;
+using TommyJams.ViewModel;
 
 namespace TommyJams.View
 {
@@ -33,13 +35,24 @@ namespace TommyJams.View
         public EventPanoramaPage()
         {
             InitializeComponent();
-            WebClient wc = new WebClient();
+            //DataContext = App.ViewModel;
+            App.ViewModel.LoadEventInfo();
+            
+            Textblock_address.Text = App.ViewModel.eventItem.VenueAddress;
+            Textblock_date.Text = App.ViewModel.eventItem.EventDate;
+            Textblock_price.Text = App.ViewModel.eventItem.EventPrice.ToString();
+            Textblock_time.Text = App.ViewModel.eventItem.EventTime;
+            Textblock_venue.Text = App.ViewModel.eventItem.VenueAddress;
+            
+            
+            
+            /*WebClient wc = new WebClient();
             String defaultUri = "https://testneo4j.azure-mobile.net/api/getEventInfo?";
             String completeUri = defaultUri + "eventID=" + App.EventID;
 
             wc.DownloadStringCompleted += new DownloadStringCompletedEventHandler(webClient_DownloadStringCompleted);
             wc.DownloadStringAsync(new System.Uri(completeUri));
-        
+        */
         }
 
         void webClient_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
@@ -115,7 +128,7 @@ namespace TommyJams.View
             myRequest.Method = "POST" ;
             myRequest.BeginGetRequestStream(new AsyncCallback(GetRequestStreamCallback), myRequest);
             //RouteDirectionsPushPin.GeoCoordinate=
-}
+        }
 
         void GetRequestStreamCallback(IAsyncResult callbackResult)
         {

@@ -1,36 +1,31 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Device.Location;
+using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using TommyJams.ViewModel;
-using TommyJams.View;
 using TommyJams;
-using System.Net;
-using System.Collections.ObjectModel;
-using Newtonsoft.Json;
-using System.Globalization;
-using System.Windows.Navigation;
-using System.Threading;
-using System.Device.Location;
+using TommyJams.ViewModel;
 
 namespace TommyJams.Model
 {
-    class GetPrimaryEvents
+    class GetSecondaryEvents
     {
         EventViewModel viewModel = App.viewModel;
         WebClient wc = new WebClient();
-        AutoResetEvent waitHandle = new AutoResetEvent(false);
-        TaskCompletionSource<String> tcs = new TaskCompletionSource<string>();
-            
-        public GetPrimaryEvents()
+        
+        public GetSecondaryEvents()
         {
             
         }
 
         public void LoadData()
         {
-            String defaultUri = "https://testneo4j.azure-mobile.net/api/getPrimaryEvents?";
+            String defaultUri = "https://testneo4j.azure-mobile.net/api/getSecondaryEvents?";
             String completeUri = defaultUri + "fbid=" + App.FacebookId + "&city=" + App.city + "&country=" + App.country;
             wc.DownloadStringCompleted += new DownloadStringCompletedEventHandler(webClient_DownloadStringCompleted);
 
@@ -49,7 +44,7 @@ namespace TommyJams.Model
                 {
                     String result = e.Result;
 
-                    this.viewModel.Priority1Items = JsonConvert.DeserializeObject<ObservableCollection<EventItem>>(result) as ObservableCollection<EventItem>;
+                    this.viewModel.Priority2Items = JsonConvert.DeserializeObject<ObservableCollection<EventItem>>(result) as ObservableCollection<EventItem>;
                     
                     StringBuilder genreString = new StringBuilder();
                     foreach (EventItem aProduct in this.viewModel.Priority1Items)
@@ -85,8 +80,6 @@ namespace TommyJams.Model
                         int a = 0;
                         
                     }
-                    //App.ViewModel.IsDataLoaded = true;
-                    //tcs.SetResult(e.Result);
                     
                 }
                 catch (Exception ex)

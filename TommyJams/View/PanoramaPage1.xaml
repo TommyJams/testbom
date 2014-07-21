@@ -6,17 +6,20 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:src="clr-namespace:TommyJams.ViewModel"
     mc:Ignorable="d"
     d:DataContext="{d:DesignData ../ViewModel/ModelSampleData.xaml}"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait"  Orientation="Portrait"
-    shell:SystemTray.IsVisible="True">
+    shell:SystemTray.IsVisible="True" Margin="-3,0,3,0">
 
 
+    
     <!--LayoutRoot contains the root grid where all other page content is placed-->
     <Grid x:Name="LayoutRoot">
+        
         <MediaElement x:Name="AudioPlayer" Volume="1"/>
         <phone:Panorama Title="TommyJams" Margin="1,-30,-1,-10" TitleTemplate="{StaticResource SmallPanoramaTitle}">
 
@@ -26,6 +29,7 @@
                     <Button HorizontalAlignment="Left" Height="203" VerticalAlignment="Top" Width="208" Click="Button_Click_1">
                         <Image Source ="../Resources/Image/facebook_icon_large.gif" Height="264" Width="174"/>
                     </Button>
+                    
                 </Grid>
             </phone:PanoramaItem>
 
@@ -36,11 +40,12 @@
             <phone:PanoramaItem x:Name="gigsHeader" Header="Events" HeaderTemplate="{StaticResource SmallPanoramaPageTitle}" Margin="0,-70,0,0">
 
                 <Grid x:Name="ContentPanel" Grid.Row="1"  Margin="0,-38,0,0">
-
+                    <Grid.Resources>
+                        <src:EventViewModel  x:Key="Priority1Items"/>
+                    </Grid.Resources>
                     <ListBox x:Name="MainListBox" Margin="1,-34,20,-71" ItemsSource="{Binding Priority1Items}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-
                                 <StackPanel Orientation="Vertical" 
                                                 Height="270"
                                                 VerticalAlignment="Center"
@@ -51,7 +56,7 @@
                                         <Image Source="{Binding EventImage}" Margin="-150,0,0,0" Width="500"/>
                                     </Button>
 
-                                    <TextBlock x:Name="price" Text="{Binding EventPrice}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}" Margin="250,-27,0,0" Height="30" Width="100"/>
+                                    <TextBlock x:Name="price" Text="{Binding EventPrice}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSmallStyle}" Margin="250,-35,0,0" Height="30" Width="100"/>
 
                                     <TextBlock x:Name="genre" Text="{Binding EventGenre}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}" RenderTransformOrigin="0.511,2.875" Margin="-120,-27,13,96" Width="250"/>
                                     <TextBlock Text="{Binding EventName}" TextWrapping="Wrap" Style="{StaticResource PhoneTextExtraLargeStyle}" Margin="-85,-110,12,51" RenderTransformOrigin="0.495,0.048" Width="237"/>
@@ -59,19 +64,16 @@
                                     <TextBlock Text="{Binding VenueName}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}" Margin="38,-76,159,-5" Width="200" RenderTransformOrigin="0.832,0.503" Height="59" />
                                     <TextBlock x:Name="StartsIn" Text="{Binding EventStartingTime}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}" Margin="-150,-45,0,0" Width="100"/>
                                     <TextBlock x:Name="Distance" Text="{Binding EventDistance}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}" Margin="50,-45,0,0" Width="100"/>
-                                    <TextBlock x:Name="Time" Text="{Binding EventHotness}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}" Margin="180,-45,0,0" Width="100"/>
+                                    <TextBlock x:Name="Hotness" Text="{Binding EventHotness}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}" Margin="180,-45,0,0" Width="100"/>
 
 
                                 </StackPanel>
-
                             </DataTemplate>
                         </ListBox.ItemTemplate>
+
+
                     </ListBox>
 
-                    <!-- </DataTemplate>
-
-                        </phone:LongListSelector.ItemTemplate>
-                    </phone:LongListSelector>-->
                 </Grid>
 
             </phone:PanoramaItem>
@@ -92,15 +94,18 @@
                                                 HorizontalAlignment="Center"
                                                 >
                                     <Button BorderThickness="0" Margin="0,13,0,-15" HorizontalAlignment="Left" Width="118" Click="Button_Click">
-                                        <Image Source="{Binding Image}"/>
+                                        <Image Source="C:\Users\Kumar\Documents\Visual Studio 2012\Projects\TommyJams\TommyJams\Resources\Image\play.gif"/>
                                     </Button>
 
 
-                                    <TextBlock Text="{Binding Genre}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}" RenderTransformOrigin="0.511,2.875" Margin="0,4,13,116" Width="169"/>
+                                    <TextBlock Text="{Binding EventGenre}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}" RenderTransformOrigin="0.511,2.875" Margin="0,4,13,116" Width="169"/>
 
-                                    <TextBlock Text="{Binding BandName}" TextWrapping="Wrap" Style="{StaticResource PhoneTextExtraLargeStyle}" Margin="-185,16,12,55" RenderTransformOrigin="0.495,0.048" Width="237"/>
-                                    <TextBlock Text="{Binding Distance}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}" Margin="-180,69,12,-5" Width="110" />
+                                    <TextBlock Text="{Binding EventName}" TextWrapping="Wrap" Style="{StaticResource PhoneTextLargeStyle}" Margin="-185,16,12,55" RenderTransformOrigin="0.495,0.048" Width="307"/>
+                                    <TextBlock Text="{Binding VenueName}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}" Margin="-255,60,12,55" RenderTransformOrigin="0.495,0.048" Width="237"/>
 
+                                    <TextBlock Text="{Binding EventDistance}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}" Margin="-180,100,12,-5" Width="110" />
+                                    <TextBlock Text="{Binding EventHotness}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}" Margin="-100,100,12,-5" Width="110" />
+                                    <TextBlock Text="{Binding EventStartingTime}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}" Margin="-400,100,12,-5" Width="110" />
 
 
                                 </StackPanel>
@@ -108,10 +113,6 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-                    <!-- </DataTemplate>
-
-                        </phone:LongListSelector.ItemTemplate>
-                    </phone:LongListSelector>-->
                 </Grid>
             </phone:PanoramaItem>
 
@@ -125,7 +126,7 @@
 
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsMenuEnabled="False">
-            <shell:ApplicationBarIconButton IconUri="\Resources\Image\settings.png" Text="Settings" />
+            <shell:ApplicationBarIconButton IconUri="\Resources\Image\settings.png" Text="Settings" Click="ApplicationBarIconButton_Click"/>
 
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
