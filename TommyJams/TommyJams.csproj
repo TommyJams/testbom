@@ -101,14 +101,16 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\Constants.cs" />
+    <Compile Include="Model\GetArtistInfo.cs" />
     <Compile Include="Model\GetEventInfo.cs" />
     <Compile Include="Model\GetPrimaryEvents.cs" />
     <Compile Include="Model\GetSecondaryEvents.cs" />
-    <Compile Include="ViewModel\ArtistInfo.cs" />
-    <Compile Include="ViewModel\Band.cs" />
+    <Compile Include="Model\GetVenueInfo.cs" />
+    <Compile Include="Model\Model.cs" />
+    <Compile Include="Model\ArtistInfo.cs" />
+    <Compile Include="Model\Band.cs" />
     <Compile Include="ViewModel\BandMember.cs" />
-    <Compile Include="ViewModel\EventDetail.cs" />
-    <Compile Include="ViewModel\EventItem.cs" />
+    <Compile Include="Model\EventItem.cs" />
     <Compile Include="ViewModel\EventViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\AppResources.Designer.cs">
@@ -117,8 +119,8 @@
       <DependentUpon>AppResources.resx</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\FacebookDataModel.cs" />
-    <Compile Include="ViewModel\TicketInfo.cs" />
-    <Compile Include="ViewModel\VenueInfo.cs" />
+    <Compile Include="Model\TicketInfo.cs" />
+    <Compile Include="Model\VenueInfo.cs" />
     <Compile Include="View\APITest.xaml.cs">
       <DependentUpon>APITest.xaml</DependentUpon>
     </Compile>
@@ -217,10 +219,18 @@
     </Content>
     <Content Include="parvaaz2.png" />
     <Content Include="README_FIRST.txt" />
-    <Resource Include="Resources\Image\facebook_icon_large.gif" />
-    <Content Include="Resources\Image\parvaaz2.png" />
-    <Resource Include="Resources\Image\play.gif" />
-    <Content Include="Resources\Image\settings.png" />
+    <Resource Include="Resources\Image\facebook_icon_large.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Content Include="Resources\Image\parvaaz2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Resources\Image\play.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Content Include="Resources\Image\settings.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Songs\Babel.mp3" />
     <Content Include="Resources\Songs\I Will Wait.mp3" />
     <Content Include="Toolkit.Content\ApplicationBar.Add.png" />

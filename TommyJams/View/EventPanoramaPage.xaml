@@ -12,7 +12,6 @@
     xmlns:maptk="clr-namespace:Microsoft.Phone.Maps.Toolkit;assembly=Microsoft.Phone.Controls.Toolkit"
     xmlns:maps="clr-namespace:Microsoft.Phone.Maps.Controls;assembly=Microsoft.Phone.Maps"        
     mc:Ignorable="d"
-    d:DataContext="{d:DesignData ../ViewModel/ModelSampleData.xaml}"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
@@ -21,7 +20,7 @@
 
     <!--LayoutRoot contains the root grid where all other page content is placed-->
     <Grid x:Name="LayoutRoot">
-        <phone:Panorama Title="Parvaaz" FontStretch="Condensed" Margin="-4,0,4,0">
+        <phone:Panorama FontStretch="Condensed" Margin="-4,0,4,0">
 
 
             <phone:Panorama.Background>
@@ -31,29 +30,30 @@
 
 
             <!--Panorama item one-->
-            <phone:PanoramaItem x:Name="mainHeader" Header="Venue" >
+            <phone:PanoramaItem x:Name="mainHeader" Header="EventName" >
                 <Grid x:Name="ContentPanel" Grid.Row="1"  Margin="0,-38,0,0">
 
                     <ListBox x:Name="MainListBox">
-                    
-                                <StackPanel Height="208" Margin="0,200,0,0" Width="350">
-                                    <TextBlock HorizontalAlignment="Left" Height="30" TextWrapping="Wrap" Text="Friends Name" VerticalAlignment="Top" Width="150" Margin="100,10,0,0"/>
-                                    <TextBlock TextWrapping="Wrap" Text="Invited you to the event " Width="250" Height="30" Margin="100,0,0,0"/>
-                                    <Image Height="45" Width="50" Margin="-140,-100,140,-40" Source="C:\Users\Kumar\Documents\Visual Studio 2012\Projects\TommyJams\TommyJams\Assets\MapPin.png"/>
-                                    <TextBlock x:Name="Textblock_time" HorizontalAlignment="Left" Height="30" TextWrapping="Wrap" Text="Time" VerticalAlignment="Top" Width="50" Margin="70,10,0,0"/>
-                                    <TextBlock x:Name="Textblock_date" TextWrapping="Wrap" Text="Date " Width="50" Height="30" Margin="-150,0,0,0"/>
-                                    <Image Height="45" Width="50" Margin="-150,-100,140,-40" Source="C:\Users\Kumar\Documents\Visual Studio 2012\Projects\TommyJams\TommyJams\Assets\MapPin.png"/>
-                                    <TextBlock x:Name="Textblock_price" HorizontalAlignment="Left" Height="30" TextWrapping="Wrap" Text="Price" VerticalAlignment="Top" Width="50" Margin="260,-60,0,0"/>
-                                    <TextBlock x:Name="Textblock_availability" TextWrapping="Wrap" Text="Available" Width="100" Height="30" Margin="260,-40,0,0"/>
-                                    <Image Height="45" Width="50" Margin="170,-100,140,-40" Source="C:\Users\Kumar\Documents\Visual Studio 2012\Projects\TommyJams\TommyJams\Assets\MapPin.png"/>
-                                    <TextBlock x:Name="Textblock_venue" HorizontalAlignment="Left" Height="30" TextWrapping="Wrap" Text="Venue" VerticalAlignment="Top" Width="100" Margin="90,10,0,0"/>
-                                    <TextBlock x:Name="Textblock_distance" TextWrapping="Wrap" Text="• Address " Width="150" Height="30" Margin="-30,0,0,0"/>
-                                    <TextBlock x:Name="Textblock_address" TextWrapping="Wrap" Text="• Distance " Width="150" Height="30" Margin="200,-30,0,0"/>
-                                    <Image Height="45" Width="50" Margin="-100,-100,190,-40" Source="C:\Users\Kumar\Documents\Visual Studio 2012\Projects\TommyJams\TommyJams\Assets\MapPin.png"/>
+                        <TextBlock x:Name="Venue" FontSize="20" HorizontalAlignment="Left" Height="70" TextWrapping="Wrap" Text="Venue" VerticalAlignment="Top" Width="360"/>
 
-                                </StackPanel>
+                        <StackPanel Height="208" Margin="0,200,0,0" Width="350">
+                            <TextBlock HorizontalAlignment="Left" Height="30" TextWrapping="Wrap" Text="Friends Name" VerticalAlignment="Top" Width="150" Margin="100,10,0,0"/>
+                            <TextBlock TextWrapping="Wrap" Text="Invited you to the event " Width="250" Height="30" Margin="100,0,0,0"/>
+                            <Image Height="45" Width="50" Margin="-140,-100,140,-40" Source="C:\Users\Kumar\Documents\Visual Studio 2012\Projects\TommyJams\TommyJams\Assets\MapPin.png"/>
+                            <TextBlock x:Name="Textblock_time" HorizontalAlignment="Left" Height="30" TextWrapping="Wrap" Text="Time" VerticalAlignment="Top" Width="50" Margin="70,10,0,0"/>
+                            <TextBlock x:Name="Textblock_date" TextWrapping="Wrap" Text="Date " Width="50" Height="30" Margin="-150,0,0,0"/>
+                            <Image Height="45" Width="50" Margin="-150,-100,140,-40" Source="C:\Users\Kumar\Documents\Visual Studio 2012\Projects\TommyJams\TommyJams\Assets\MapPin.png"/>
+                            <TextBlock x:Name="Textblock_price" HorizontalAlignment="Left" Height="30" TextWrapping="Wrap" Text="Price" VerticalAlignment="Top" Width="50" Margin="260,-60,0,0"/>
+                            <TextBlock x:Name="Textblock_availability" TextWrapping="Wrap" Text="Available" Width="100" Height="30" Margin="260,-40,0,0"/>
+                            <Image Height="45" Width="50" Margin="170,-100,140,-40" Source="C:\Users\Kumar\Documents\Visual Studio 2012\Projects\TommyJams\TommyJams\Assets\MapPin.png"/>
+                            <TextBlock x:Name="Textblock_venue" HorizontalAlignment="Left" Height="30" TextWrapping="Wrap" Text="Venue" VerticalAlignment="Top" Width="100" Margin="90,10,0,0"/>
+                            <TextBlock x:Name="Textblock_distance" TextWrapping="Wrap" Text="• Address " Width="150" Height="30" Margin="-30,0,0,0"/>
+                            <TextBlock x:Name="Textblock_address" TextWrapping="Wrap" Text="• Distance " Width="150" Height="30" Margin="200,-30,0,0"/>
+                            <Image Height="45" Width="50" Margin="-100,-100,190,-40" Source="C:\Users\Kumar\Documents\Visual Studio 2012\Projects\TommyJams\TommyJams\Assets\MapPin.png"/>
 
-                </ListBox>
+                        </StackPanel>
+
+                    </ListBox>
 
                 </Grid>
             </phone:PanoramaItem>
@@ -61,11 +61,17 @@
             <!--Panorama item two-->
             <phone:PanoramaItem Header="The Band">
                 <Grid>
-                    <Image HorizontalAlignment="Left" Height="160" Margin="4,18,0,0" VerticalAlignment="Top" Width="413" Source=""/>
-                    <TextBlock x:Name ="description" HorizontalAlignment="Left" FontSize="15" Margin="2,195,0,0" TextWrapping="Wrap" Text="Band Description.Lorem Ipsum.Lorem Ipsum.Lorem Ipsum.Lorem Ipsum.Lorem Ipsum.Lorem Ipsum.Lorem Ipsum.Lorem Ipsum.Lorem Ipsum.Lorem Ipsum.." VerticalAlignment="Top" Height="65" Width="411"/>
-
-                    
-
+                    <ListBox x:Name="ArtistListBox" Margin="1,-34,20,-71">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Height="400">
+                                    <Image HorizontalAlignment="Left" Height="160" Margin="4,18,0,0" VerticalAlignment="Top" Width="413" Source="{Binding ArtistImage}"/>
+                                    <TextBlock x:Name ="description" HorizontalAlignment="Left" FontSize="15" Margin="2,15,0,0" TextWrapping="Wrap" Text="{Binding ArtistDescription}" VerticalAlignment="Top" Height="86" Width="411"/>
+                                
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
                 </Grid>
             </phone:PanoramaItem>
 
@@ -83,13 +89,14 @@
                     <TextBlock x:Name="map_reference" HorizontalAlignment="Left" Margin="3,-1,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="231" Width="169"/>
                 </Grid>
             </phone:PanoramaItem>
+            <TextBox HorizontalAlignment="Left" Height="660" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="420"/>
         </phone:Panorama>
 
     </Grid>
 
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsMenuEnabled="False">
-            <shell:ApplicationBarIconButton IconUri="/Model/settings.png" Text="Accept" Click="Event_Accept" />
+            <shell:ApplicationBarIconButton IconUri="/Model/settings.png" Text="Accept" Click="Demo_Refresh" />
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 

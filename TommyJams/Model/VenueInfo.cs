@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Device.Location;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TommyJams.ViewModel
+namespace TommyJams.Model
 {
-    class VenueInfo
+    public class VenueInfo
     {
         private string _venueName;
         public string VenueName
@@ -72,8 +73,8 @@ namespace TommyJams.ViewModel
             }
         }
 
-        private int _venueZRating;
-        public int VenueZRating
+        private double _venueZRating;
+        public double VenueZRating
         {
             get
             {
@@ -88,8 +89,8 @@ namespace TommyJams.ViewModel
             }
         }
 
-        private int _venueZType;
-        public int VenueZType
+        private string _venueZType;
+        public string VenueZType
         {
             get
             {
@@ -151,6 +152,23 @@ namespace TommyJams.ViewModel
                 }
             }
         }
+
+        private GeoCoordinate _venueGeoCoordinate;
+        public GeoCoordinate VenueGeoCoordinate
+        {
+            get
+            {
+                return _venueGeoCoordinate;
+            }
+            set
+            {
+                if (value != _venueGeoCoordinate)
+                {
+                    _venueGeoCoordinate = value;
+                }
+            }
+        }
+
 
     }
 }

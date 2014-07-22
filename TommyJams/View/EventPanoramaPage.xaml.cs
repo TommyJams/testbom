@@ -12,7 +12,6 @@ using Microsoft.Phone.Maps.Controls;
 using System.Device.Location;
 using Newtonsoft.Json;
 using System.Text;
-using TommyJams.ViewModel;
 using System.Net.Http.Headers;
 using System.Net.Http;
 using System.IO;
@@ -21,6 +20,7 @@ using System.Windows.Shapes;
 using System.Windows.Media;
 using TommyJams;
 using TommyJams.ViewModel;
+using TommyJams.Model;
 
 namespace TommyJams.View
 {
@@ -35,25 +35,48 @@ namespace TommyJams.View
         public EventPanoramaPage()
         {
             InitializeComponent();
-            //DataContext = App.ViewModel;
-            App.ViewModel.LoadEventInfo();
-            
-            Textblock_address.Text = App.ViewModel.eventItem.VenueAddress;
+
             Textblock_date.Text = App.ViewModel.eventItem.EventDate;
             Textblock_price.Text = App.ViewModel.eventItem.EventPrice.ToString();
             Textblock_time.Text = App.ViewModel.eventItem.EventTime;
-            Textblock_venue.Text = App.ViewModel.eventItem.VenueAddress;
-            
-            
-            
-            /*WebClient wc = new WebClient();
-            String defaultUri = "https://testneo4j.azure-mobile.net/api/getEventInfo?";
-            String completeUri = defaultUri + "eventID=" + App.EventID;
-
-            wc.DownloadStringCompleted += new DownloadStringCompletedEventHandler(webClient_DownloadStringCompleted);
-            wc.DownloadStringAsync(new System.Uri(completeUri));
-        */
+            Textblock_venue.Text = App.ViewModel.eventItem.VenueName;
+            mainHeader.Header = App.ViewModel.eventItem.EventName;
+            LoadData();
+          
         }
+
+        public async void LoadData()
+        {
+            App.ViewModel.eventItem = await App.ViewModel.LoadEventInfo();
+            App.ViewModel.artistInfo = await App.ViewModel.LoadArtistInfo();
+            App.ViewModel.venueInfo = await App.ViewModel.LoadVenueInfo();
+
+            ArtistListBox.ItemsSource = App.ViewModel.artistInfo;
+            var pushpin = MapExtensions.GetChildren(Map).OfType<Pushpin>().First(p => p.Name == "RouteDirectionsPushPin");
+            pushpin.GeoCoordinate = App.ViewModel.venueInfo.VenueGeoCoordinate;
+            Map.Center = App.ViewModel.venueInfo.VenueGeoCoordinate;
+            Map.ZoomLevel = 15;
+            map_reference.Text = App.ViewModel.venueInfo.VenueName + " " + App.ViewModel.venueInfo.VenueAddress + " " + App.ViewModel.venueInfo.VenueCity;
+
+            MapOverlay overlay = new MapOverlay
+            {
+                GeoCoordinate = Map.Center,
+                Content = new Ellipse
+                {
+                    Fill = new SolidColorBrush(Colors.Red),
+                    Width = 40,
+                    Height = 40
+                }
+
+            };
+            MapLayer layer = new MapLayer();
+            layer.Add(overlay);
+
+            Map.Layers.Add(layer);
+
+
+        }
+
 
         void webClient_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
@@ -120,6 +143,34 @@ namespace TommyJams.View
 
         }
 
+        public void Demo_Refresh(object sender, EventArgs e)
+        {
+            ArtistListBox.ItemsSource = App.ViewModel.artistInfo;
+            var pushpin = MapExtensions.GetChildren(Map).OfType<Pushpin>().First(p => p.Name == "RouteDirectionsPushPin");
+            pushpin.GeoCoordinate = App.ViewModel.venueInfo.VenueGeoCoordinate;
+            Map.Center = App.ViewModel.venueInfo.VenueGeoCoordinate;
+            Map.ZoomLevel = 15;
+            map_reference.Text = App.ViewModel.venueInfo.VenueName + " " + App.ViewModel.venueInfo.VenueAddress + " " + App.ViewModel.venueInfo.VenueCity;
+
+            MapOverlay overlay = new MapOverlay
+            {
+                GeoCoordinate = Map.Center,
+                Content = new Ellipse
+                {
+                    Fill = new SolidColorBrush(Colors.Red),
+                    Width = 40,
+                    Height = 40
+                }
+
+            };
+            MapLayer layer = new MapLayer();
+            layer.Add(overlay);
+
+            Map.Layers.Add(layer);
+
+
+        }
+
         public async void AcceptInvite()
         {
 
@@ -164,14 +215,16 @@ namespace TommyJams.View
                 }
 
                 string APIResult = result;
-                description.Text = "asdasda";
+                //description.Text = "asdasda";
                 String a = "";
             }
             catch (Exception e)
             {
 
             }
-        }       
+        }
+
+            
 
 
     }

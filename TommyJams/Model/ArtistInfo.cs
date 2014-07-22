@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TommyJams;
 
-namespace TommyJams.ViewModel
+namespace TommyJams.Model
 {
-    class ArtistInfo
+    public class ArtistInfo
     {
         private string _artistName;
         public string ArtistName

@@ -6,7 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TommyJams.ViewModel
+
+namespace TommyJams.Model
 {
     class Band
     {
@@ -80,12 +81,7 @@ namespace TommyJams.ViewModel
             }
         }
 
-        private ObservableCollection<BandMember> _bandmembers;
-        public ObservableCollection<BandMember> BandMembers
-        {
-            get;set;
-        }
-
+        
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged(String propertyName)
         {

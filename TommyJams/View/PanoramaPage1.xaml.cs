@@ -41,10 +41,17 @@ namespace TommyJams.View
             {
                 App.ViewModel.LoadData();
             }*/
-            App.ViewModel.LoadPrimaryEvents();
-            App.ViewModel.LoadSecondaryEvents();
+            LoadData();
+            //App.ViewModel.LoadSecondaryEvents();
             MainListBox.ItemsSource = App.ViewModel.Priority1Items;
             
+        }
+
+        public async void LoadData()
+        {
+            MainListBox.ItemsSource = await App.ViewModel.LoadPrimaryEvents();
+            MainListBox2.ItemsSource = await App.ViewModel.LoadSecondaryEvents();
+
         }
 
         private void ShowSplash()
@@ -119,7 +126,13 @@ namespace TommyJams.View
             StackPanel selected = sender as StackPanel;
             EventItem data = selected.DataContext as EventItem;
             App.EventID = data.EventID;
+            App.ViewModel.eventItem.EventDate = data.EventDate;
+            App.ViewModel.eventItem.EventTime = data.EventTime;
+            App.ViewModel.eventItem.EventPrice = data.EventPrice;
+            App.ViewModel.eventItem.EventDistance = data.EventDistance;
+            App.ViewModel.eventItem.VenueName = data.VenueName;
             NavigationService.Navigate(new Uri("/../../View/EventPanoramaPage.xaml", UriKind.RelativeOrAbsolute));
+
 
         }
 

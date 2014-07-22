@@ -11,8 +11,9 @@ using Microsoft.Phone.Controls;
 using TommyJams.ViewModel;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using TommyJams;
 
-namespace TommyJams.ViewModel
+namespace TommyJams.Model
 {
     public class EventItem
     {

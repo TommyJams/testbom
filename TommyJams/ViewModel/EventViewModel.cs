@@ -24,12 +24,17 @@ namespace TommyJams.ViewModel
             this.Priority1Items = new ObservableCollection<EventItem>();
             this.Priority2Items = new ObservableCollection<EventItem>();
             this.eventItem = new EventItem();
-            
+            this.artistInfo = new ObservableCollection<ArtistInfo>();
+            this.venueInfo = new VenueInfo();
+            this.model = new Models();
         }
 
         public ObservableCollection<EventItem> Priority1Items { get; set; }
         public ObservableCollection<EventItem> Priority2Items { get; set; }
         public EventItem eventItem { get; set; }
+        public ObservableCollection<ArtistInfo> artistInfo { get; set; }
+        public VenueInfo venueInfo { get; set; }
+        public Models model { get; set; }
 
         private string _sampleProperty = "Sample Runtime Property Value";
         public string SampleProperty
@@ -62,33 +67,42 @@ namespace TommyJams.ViewModel
             set;
         }
 
-        public void LoadPrimaryEvents()
+        public async Task<ObservableCollection<EventItem>> LoadPrimaryEvents()
         {
-            GetPrimaryEvents loadPrimaryEvents = new GetPrimaryEvents();
-            loadPrimaryEvents.LoadData();
+
+            var primaryItems = await model.GetPrimaryEvents();
+            return primaryItems;
+
+
             //download.Wait();
             //var result = download.Result;
         }
 
-        public void LoadSecondaryEvents()
+        public async Task<ObservableCollection<EventItem>> LoadSecondaryEvents()
         {
-            GetSecondaryEvents loadSecondaryEvents = new GetSecondaryEvents();
-            loadSecondaryEvents.LoadData();
+            var secondaryItems = await model.GetSecondaryEvents();
+            return secondaryItems;
         }
 
-        public void LoadEventInfo()
+        public async Task<EventItem> LoadEventInfo()
         {
-            GetEventInfo getEventInfo = new GetEventInfo();
-            getEventInfo.LoadData();
-
+            var eventInfo = await model.GetEventInfo();
+            return eventInfo;
         }
 
+        public async Task<ObservableCollection<ArtistInfo>> LoadArtistInfo()
+        {
+            var artistInfo = await model.GetArtistInfo();
+            return artistInfo;
+        }
+
+        public async Task<VenueInfo> LoadVenueInfo()
+        {
+            var venueInfo = await model.GetVenueInfo();
+            return venueInfo;
+            
+        }
         
-        
-
-
-
-
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged(String propertyName)
         {
