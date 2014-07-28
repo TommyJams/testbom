@@ -42,6 +42,7 @@ namespace TommyJams.View
             Textblock_venue.Text = App.ViewModel.eventItem.VenueName;
             mainHeader.Header = App.ViewModel.eventItem.EventName;
             LoadData();
+            AddButtons();
           
         }
 
@@ -222,6 +223,84 @@ namespace TommyJams.View
             {
 
             }
+        }
+
+        private void AddButtons()
+        {
+            //accept button
+            ApplicationBarIconButton accept = new ApplicationBarIconButton();
+            accept.Text = "Accept";
+            accept.IconUri = new Uri("/Resources/Images/accept.jpg",UriKind.Relative);
+            ApplicationBar.Buttons.Add(accept);
+            //reject button
+            ApplicationBarIconButton decline = new ApplicationBarIconButton();
+            decline.Text = "Decline";
+            decline.IconUri = new Uri("/Resources/Images/decline.jpg",UriKind.Relative);
+            ApplicationBar.Buttons.Add(decline);
+            //add bookmark button
+            ApplicationBarIconButton pinevent = new ApplicationBarIconButton();
+            pinevent.Text = "Pin Event";
+            pinevent.IconUri = new Uri("/Resources/Images/pinevent.jpg", UriKind.Relative);
+            ApplicationBar.Buttons.Add(pinevent);
+            //add invite friend button
+            ApplicationBarIconButton invitefriend = new ApplicationBarIconButton();
+            invitefriend.Text = "Invite Friends";
+            invitefriend.IconUri = new Uri("/Resources/Images/invitefriends.jpg",UriKind.Relative);
+            ApplicationBar.Buttons.Add(invitefriend);
+            
+        }
+
+        private void Panorama_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            //Removing buttons
+            if (Panorama.SelectedIndex == 0)
+            { if(ApplicationBar.Buttons.Count == 1)
+                {
+                    ApplicationBar.Buttons.RemoveAt(0);
+                    AddButtons();
+                }
+
+            }
+            else if(Panorama.SelectedIndex == 1)
+            {
+                if(ApplicationBar.Buttons.Count > 1)
+                {
+                    ApplicationBar.Buttons.RemoveAt(0);
+                    ApplicationBar.Buttons.RemoveAt(0);
+                    ApplicationBar.Buttons.RemoveAt(1);
+                }
+            }
+            else if(Panorama.SelectedIndex == 2)
+            {
+                if(ApplicationBar.Buttons.Count > 1)
+                {
+                    ApplicationBar.Buttons.RemoveAt(0);
+                    ApplicationBar.Buttons.RemoveAt(0);
+                    ApplicationBar.Buttons.RemoveAt(0);
+                }
+            }
+            else if(Panorama.SelectedIndex == 3)
+            {
+                if(ApplicationBar.Buttons.Count ==1)
+                {
+                    ApplicationBar.Buttons.RemoveAt(0);
+                    AddButtons();
+                }
+                
+            }
+            else if(Panorama.SelectedIndex == 4)
+            {
+                ApplicationBar.Buttons.RemoveAt(0);
+                ApplicationBar.Buttons.RemoveAt(0);
+                ApplicationBar.Buttons.RemoveAt(0);
+                ApplicationBar.Buttons.RemoveAt(0);
+                ApplicationBarIconButton proceed = new ApplicationBarIconButton();
+                proceed.Text = "Proceed";
+                proceed.IconUri=new Uri("/Resource/Images/proceed.jpg",UriKind.Relative);
+                ApplicationBar.Buttons.Add(proceed);
+            }
+            
+
         }
 
             

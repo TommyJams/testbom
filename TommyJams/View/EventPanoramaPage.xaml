@@ -20,7 +20,7 @@
 
     <!--LayoutRoot contains the root grid where all other page content is placed-->
     <Grid x:Name="LayoutRoot">
-        <phone:Panorama FontStretch="Condensed" Margin="-4,0,4,0">
+        <phone:Panorama x:Name="Panorama" FontStretch="Condensed" Margin="-4,0,4,0" SelectionChanged="Panorama_SelectionChanged">
 
 
             <phone:Panorama.Background>
@@ -89,14 +89,30 @@
                     <TextBlock x:Name="map_reference" HorizontalAlignment="Left" Margin="3,-1,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="231" Width="169"/>
                 </Grid>
             </phone:PanoramaItem>
-            <TextBox HorizontalAlignment="Left" Height="660" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="420"/>
-        </phone:Panorama>
+            
+        
 
+        
+        <!--Panorma Item four-->
+        <phone:PanoramaItem Header="Friends">
+            <Grid>
+                <ListBox x:Name="FriendListBox" Margin="1,-34,20,-71">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Height="400">
+
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+        </phone:PanoramaItem>
+
+        </phone:Panorama>
     </Grid>
 
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsMenuEnabled="False">
-            <shell:ApplicationBarIconButton IconUri="/Model/settings.png" Text="Accept" Click="Demo_Refresh" />
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 
