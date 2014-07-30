@@ -8,14 +8,13 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using Microsoft.Phone.Controls;
-using TommyJams.ViewModel;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using TommyJams;
 
 namespace TommyJams.Model
 {
-    public class EventItem
+    public class EventItem :INotifyPropertyChanged
     {
         private int _eventID;
         public int EventID

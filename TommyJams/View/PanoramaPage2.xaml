@@ -22,7 +22,24 @@
 
             <!--Panorama item one-->
             <phone:PanoramaItem Header="Notifications">
-                <Grid/>
+                <Grid>
+                    <Grid.RowDefinitions>
+
+                    </Grid.RowDefinitions>
+                    <Grid Margin="0,0,0,149">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="92"/>
+                            <RowDefinition Height="*"/>
+
+                        </Grid.RowDefinitions>
+                        <StackPanel Orientation="Horizontal" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Image x:Name="MyImage" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="50"/>
+                            <TextBlock x:Name="MyName" HorizontalAlignment="Center" TextWrapping="Wrap" FontSize="24" Height="50" Text="Your Name Here" Foreground="{StaticResource PhoneForegroundBrush}" VerticalAlignment="Center" Margin="10,5,0,0"/>
+
+                        </StackPanel>
+                    </Grid>
+
+                </Grid>
             </phone:PanoramaItem>
   
             <!--Panorama item two-->

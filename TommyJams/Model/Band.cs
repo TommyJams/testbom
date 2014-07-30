@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace TommyJams.Model
 {
-    class Band
+    class Band :INotifyPropertyChanged
     {
 
         private string _bandname;

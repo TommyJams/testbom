@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,7 +9,7 @@ using TommyJams;
 
 namespace TommyJams.Model
 {
-    public class ArtistInfo
+    public class ArtistInfo : INotifyPropertyChanged
     {
         private string _artistName;
         public string ArtistName
@@ -21,6 +23,7 @@ namespace TommyJams.Model
                 if (value != _artistName)
                 {
                     _artistName = value;
+                    NotifyPropertyChanged("ArtistName");
                 }
             }
         }
@@ -38,6 +41,7 @@ namespace TommyJams.Model
                 if (value != _artistImage)
                 {
                     _artistImage = value;
+                    NotifyPropertyChanged("ArtistImage");
                 }
             }
         }
@@ -54,6 +58,7 @@ namespace TommyJams.Model
                 if (value != _artistDescription)
                 {
                     _artistDescription = value;
+                    NotifyPropertyChanged("ArtistDescription");
                 }
             }
         }
@@ -70,6 +75,7 @@ namespace TommyJams.Model
                 if (value != _artistCity)
                 {
                     _artistCity = value;
+                    NotifyPropertyChanged("ArtistCity");
                 }
             }
         }
@@ -86,6 +92,7 @@ namespace TommyJams.Model
                 if (value != _artistCountry)
                 {
                     _artistCountry = value;
+                    NotifyPropertyChanged("ArtistCountry");
                 }
             }
         }
@@ -102,6 +109,7 @@ namespace TommyJams.Model
                 if (value != _artistFacebook)
                 {
                     _artistFacebook = value;
+                    NotifyPropertyChanged("ArtistFacebook");
                 }
             }
         }
@@ -110,6 +118,7 @@ namespace TommyJams.Model
         public string ArtistSocial
         {
             get
+
             {
                 return _artistSocial;
             }
@@ -118,7 +127,18 @@ namespace TommyJams.Model
                 if (value != _artistSocial)
                 {
                     _artistSocial = value;
+                    NotifyPropertyChanged("ArtistSocial");
                 }
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged(String propertyName)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (null != handler)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }
 

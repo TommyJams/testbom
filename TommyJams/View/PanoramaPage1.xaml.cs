@@ -32,26 +32,21 @@ namespace TommyJams.View
         public PanoramaPage1()
         {
             InitializeComponent();
-            DataContext = App.ViewModel;
+            this.DataContext = App.ViewModel;
         }
         
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            /*if (!App.ViewModel.IsDataLoaded)
-            {
-                App.ViewModel.LoadData();
-            }*/
             LoadData();
-            //App.ViewModel.LoadSecondaryEvents();
-            MainListBox.ItemsSource = App.ViewModel.Priority1Items;
-            
         }
 
         public async void LoadData()
         {
-            MainListBox.ItemsSource = await App.ViewModel.LoadPrimaryEvents();
-            MainListBox2.ItemsSource = await App.ViewModel.LoadSecondaryEvents();
-
+            await App.ViewModel.LoadPrimaryEvents();
+            await App.ViewModel.LoadSecondaryEvents();
+           
+            //ProgressBar.IsIndeterminate = false;
+            ProgressBar.Visibility = Visibility.Collapsed;
         }
 
         private void ShowSplash()
@@ -105,15 +100,14 @@ namespace TommyJams.View
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new Uri("/Controller/FacebookLoginPage.xaml", UriKind.Relative));
+            NavigationService.Navigate(new Uri("/View/FacebookLoginPage.xaml", UriKind.Relative));
             
 
         }
 
         private void ApplicationBarIconButton_Click(object sender, EventArgs e)
         {
-            MainListBox.ItemsSource = App.ViewModel.Priority1Items;
-            MainListBox2.ItemsSource = App.ViewModel.Priority2Items;
+            
         }
 
         private void Invite_Accept(object sender, EventArgs e)
@@ -126,11 +120,11 @@ namespace TommyJams.View
             StackPanel selected = sender as StackPanel;
             EventItem data = selected.DataContext as EventItem;
             App.EventID = data.EventID;
-            App.ViewModel.eventItem.EventDate = data.EventDate;
-            App.ViewModel.eventItem.EventTime = data.EventTime;
-            App.ViewModel.eventItem.EventPrice = data.EventPrice;
-            App.ViewModel.eventItem.EventDistance = data.EventDistance;
-            App.ViewModel.eventItem.VenueName = data.VenueName;
+            App.ViewModel.EventItem.EventDate = data.EventDate;
+            App.ViewModel.EventItem.EventTime = data.EventTime;
+            App.ViewModel.EventItem.EventPrice = data.EventPrice;
+            App.ViewModel.EventItem.EventDistance = data.EventDistance;
+            App.ViewModel.EventItem.VenueName = data.VenueName;
             NavigationService.Navigate(new Uri("/../../View/EventPanoramaPage.xaml", UriKind.RelativeOrAbsolute));
 
 

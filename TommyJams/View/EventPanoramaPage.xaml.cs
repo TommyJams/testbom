@@ -36,11 +36,11 @@ namespace TommyJams.View
         {
             InitializeComponent();
 
-            Textblock_date.Text = App.ViewModel.eventItem.EventDate;
-            Textblock_price.Text = App.ViewModel.eventItem.EventPrice.ToString();
-            Textblock_time.Text = App.ViewModel.eventItem.EventTime;
-            Textblock_venue.Text = App.ViewModel.eventItem.VenueName;
-            mainHeader.Header = App.ViewModel.eventItem.EventName;
+            Textblock_date.Text = App.ViewModel.EventItem.EventDate;
+            Textblock_price.Text = App.ViewModel.EventItem.EventPrice.ToString();
+            Textblock_time.Text = App.ViewModel.EventItem.EventTime;
+            Textblock_venue.Text = App.ViewModel.EventItem.VenueName;
+            mainHeader.Header = App.ViewModel.EventItem.EventName;
             LoadData();
             AddButtons();
           
@@ -48,16 +48,16 @@ namespace TommyJams.View
 
         public async void LoadData()
         {
-            App.ViewModel.eventItem = await App.ViewModel.LoadEventInfo();
-            App.ViewModel.artistInfo = await App.ViewModel.LoadArtistInfo();
-            App.ViewModel.venueInfo = await App.ViewModel.LoadVenueInfo();
+            App.ViewModel.EventItem = await App.ViewModel.LoadEventInfo();
+            App.ViewModel.ArtistInfo = await App.ViewModel.LoadArtistInfo();
+            App.ViewModel.VenueInfo = await App.ViewModel.LoadVenueInfo();
 
-            ArtistListBox.ItemsSource = App.ViewModel.artistInfo;
+            ArtistListBox.ItemsSource = App.ViewModel.ArtistInfo;
             var pushpin = MapExtensions.GetChildren(Map).OfType<Pushpin>().First(p => p.Name == "RouteDirectionsPushPin");
-            pushpin.GeoCoordinate = App.ViewModel.venueInfo.VenueGeoCoordinate;
-            Map.Center = App.ViewModel.venueInfo.VenueGeoCoordinate;
+            pushpin.GeoCoordinate = App.ViewModel.VenueInfo.VenueGeoCoordinate;
+            Map.Center = App.ViewModel.VenueInfo.VenueGeoCoordinate;
             Map.ZoomLevel = 15;
-            map_reference.Text = App.ViewModel.venueInfo.VenueName + " " + App.ViewModel.venueInfo.VenueAddress + " " + App.ViewModel.venueInfo.VenueCity;
+            map_reference.Text = App.ViewModel.VenueInfo.VenueName + " " + App.ViewModel.VenueInfo.VenueAddress + " " + App.ViewModel.VenueInfo.VenueCity;
 
             MapOverlay overlay = new MapOverlay
             {
@@ -146,12 +146,12 @@ namespace TommyJams.View
 
         public void Demo_Refresh(object sender, EventArgs e)
         {
-            ArtistListBox.ItemsSource = App.ViewModel.artistInfo;
+            ArtistListBox.ItemsSource = App.ViewModel.ArtistInfo;
             var pushpin = MapExtensions.GetChildren(Map).OfType<Pushpin>().First(p => p.Name == "RouteDirectionsPushPin");
-            pushpin.GeoCoordinate = App.ViewModel.venueInfo.VenueGeoCoordinate;
-            Map.Center = App.ViewModel.venueInfo.VenueGeoCoordinate;
+            pushpin.GeoCoordinate = App.ViewModel.VenueInfo.VenueGeoCoordinate;
+            Map.Center = App.ViewModel.VenueInfo.VenueGeoCoordinate;
             Map.ZoomLevel = 15;
-            map_reference.Text = App.ViewModel.venueInfo.VenueName + " " + App.ViewModel.venueInfo.VenueAddress + " " + App.ViewModel.venueInfo.VenueCity;
+            map_reference.Text = App.ViewModel.VenueInfo.VenueName + " " + App.ViewModel.VenueInfo.VenueAddress + " " + App.ViewModel.VenueInfo.VenueCity;
 
             MapOverlay overlay = new MapOverlay
             {

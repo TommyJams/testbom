@@ -8,7 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:src="clr-namespace:TommyJams.ViewModel"
     mc:Ignorable="d"
-    d:DataContext="{d:DesignData ../ViewModel/ModelSampleData.xaml}"
+    d:DataContext="{Binding ViewModel}"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
@@ -43,9 +43,11 @@
                     <Grid.Resources>
                         <src:EventViewModel  x:Key="Priority1Items"/>
                     </Grid.Resources>
-                    <ListBox x:Name="MainListBox" Margin="1,-34,20,-71" ItemsSource="{Binding Priority1Items}">
+                    <ProgressBar x:Name="ProgressBar" IsIndeterminate="True" Visibility="Visible" Height="300" Width="420"/>
+                    <ListBox x:Name="MainListBox" Margin="1,-34,20,-71" ItemsSource="{Binding Priority1Items, Mode=TwoWay}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
+                                
                                 <StackPanel Orientation="Vertical" 
                                                 Height="270"
                                                 VerticalAlignment="Center"

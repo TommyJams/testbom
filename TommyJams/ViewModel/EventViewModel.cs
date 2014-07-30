@@ -17,50 +17,121 @@ using TommyJams.Resources;
 
 namespace TommyJams.ViewModel
 {
-    public class EventViewModel
+    public class EventViewModel : INotifyPropertyChanged
     {
         public EventViewModel()
         {
-            this.Priority1Items = new ObservableCollection<EventItem>();
+            /*this.Priority1Items = new ObservableCollection<EventItem>();
             this.Priority2Items = new ObservableCollection<EventItem>();
-            this.eventItem = new EventItem();
-            this.artistInfo = new ObservableCollection<ArtistInfo>();
-            this.venueInfo = new VenueInfo();
-            this.model = new Models();
+            this.EventItem = new EventItem();
+            this.ArtistInfo = new ObservableCollection<ArtistInfo>();
+            this.VenueInfo = new VenueInfo();
+            this.Model = new Models();*/
         }
 
-        public ObservableCollection<EventItem> Priority1Items { get; set; }
-        public ObservableCollection<EventItem> Priority2Items { get; set; }
-        public EventItem eventItem { get; set; }
-        public ObservableCollection<ArtistInfo> artistInfo { get; set; }
-        public VenueInfo venueInfo { get; set; }
-        public Models model { get; set; }
+        //public ObservableCollection<EventItem> Priority1Items { get; set; }
 
-        private string _sampleProperty = "Sample Runtime Property Value";
-        public string SampleProperty
+        private ObservableCollection<EventItem> _priority1Items = new ObservableCollection<EventItem>();
+        public ObservableCollection<EventItem> Priority1Items 
         {
             get
             {
-                return _sampleProperty;
+                return _priority1Items;
             }
+
             set
             {
-                if (value != _sampleProperty)
+                if (value != _priority1Items)
                 {
-                    _sampleProperty = value;
-                    NotifyPropertyChanged("SampleProperty");
+                    _priority1Items = value;
+                    NotifyPropertyChanged("Priority1Items");
                 }
             }
         }
 
-        public string LocalizedSampleProperty
+        private ObservableCollection<EventItem> _priority2Items = new ObservableCollection<EventItem>();
+        public ObservableCollection<EventItem> Priority2Items 
         {
             get
             {
-                return AppResources.SampleProperty;
+                return _priority2Items;
+            }
+            set
+            {
+                if (value != _priority2Items)
+                {
+                    _priority2Items = value;
+                    NotifyPropertyChanged("Priority2Items");
+                }
+            }
+         }
+        private EventItem _eventItem = new EventItem();
+        public EventItem EventItem 
+        {
+            get
+            {
+                return _eventItem;
+            }
+            set
+            {
+                if (value != _eventItem)
+                {
+                    _eventItem = value;
+                    NotifyPropertyChanged("EventItem");
+                }
+            }
+        }
+        private ObservableCollection<ArtistInfo> _artistInfo = new ObservableCollection<ArtistInfo>();
+        public ObservableCollection<ArtistInfo> ArtistInfo
+        {
+            get
+            {
+                return _artistInfo;
+            }
+            set
+            {
+                if (value != _artistInfo)
+                {
+                    _artistInfo = value;
+                    NotifyPropertyChanged("ArtistInfo");
+                }
+            }
+        }
+        private VenueInfo _venueInfo = new VenueInfo();
+        public VenueInfo VenueInfo 
+        {
+            get
+            {
+                return _venueInfo;
+            }
+            set
+            {
+                if (value != _venueInfo)
+                {
+                    _venueInfo = value;
+                    NotifyPropertyChanged("VenueInfo");
+                }
+            }
+        }
+        private AppModel _appmodel = new AppModel();
+        public AppModel AppModel
+        {
+            get
+            {
+                return _appmodel;
+            }
+            set
+            {
+                if (value != _appmodel)
+                {
+                    _appmodel = value;
+                    NotifyPropertyChanged("AppModel");
+                }
             }
         }
 
+
+        
         public bool IsDataLoaded
         {
             get;
@@ -70,35 +141,37 @@ namespace TommyJams.ViewModel
         public async Task<ObservableCollection<EventItem>> LoadPrimaryEvents()
         {
 
-            var primaryItems = await model.GetPrimaryEvents();
+            var primaryItems = await AppModel.GetPrimaryEvents();
+            //this.Primary1Items =  primaryItems;
+            Priority1Items = primaryItems;
             return primaryItems;
-
-
             //download.Wait();
             //var result = download.Result;
         }
 
         public async Task<ObservableCollection<EventItem>> LoadSecondaryEvents()
         {
-            var secondaryItems = await model.GetSecondaryEvents();
-            return secondaryItems;
+            //var secondaryItems = await AppModel.GetSecondaryEvents();
+            Priority2Items = await AppModel.GetSecondaryEvents();
+            return Priority2Items;
+            //return secondaryItems;
         }
 
         public async Task<EventItem> LoadEventInfo()
         {
-            var eventInfo = await model.GetEventInfo();
+            var eventInfo = await AppModel.GetEventInfo();
             return eventInfo;
         }
 
         public async Task<ObservableCollection<ArtistInfo>> LoadArtistInfo()
         {
-            var artistInfo = await model.GetArtistInfo();
+            var artistInfo = await AppModel.GetArtistInfo();
             return artistInfo;
         }
 
         public async Task<VenueInfo> LoadVenueInfo()
         {
-            var venueInfo = await model.GetVenueInfo();
+            var venueInfo = await AppModel.GetVenueInfo();
             return venueInfo;
             
         }

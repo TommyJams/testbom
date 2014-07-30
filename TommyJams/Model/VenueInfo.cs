@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Device.Location;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace TommyJams.Model
 {
-    public class VenueInfo
+    public class VenueInfo:INotifyPropertyChanged
     {
         private string _venueName;
         public string VenueName
@@ -21,6 +22,7 @@ namespace TommyJams.Model
                 if (value != _venueName)
                 {
                     _venueName = value;
+                    NotifyPropertyChanged("VenueName");
                 }
             }
         }
@@ -37,6 +39,7 @@ namespace TommyJams.Model
                 if (value != _venueAddress)
                 {
                     _venueAddress = value;
+                    NotifyPropertyChanged("VenueAddress");
                 }
             }
         }
@@ -53,6 +56,7 @@ namespace TommyJams.Model
                 if (value != _venueCity)
                 {
                     _venueName = value;
+                    NotifyPropertyChanged("VenueCity");
                 }
             }
         }
@@ -69,6 +73,7 @@ namespace TommyJams.Model
                 if (value != _venueCoordinates)
                 {
                     _venueCoordinates = value;
+                    NotifyPropertyChanged("VenueCoordinates");
                 }
             }
         }
@@ -85,6 +90,7 @@ namespace TommyJams.Model
                 if (value != _venueZRating)
                 {
                     _venueZRating = value;
+                    NotifyPropertyChanged("VenueZRating");
                 }
             }
         }
@@ -101,6 +107,7 @@ namespace TommyJams.Model
                 if (value != _venueZType)
                 {
                     _venueZType = value;
+                    NotifyPropertyChanged("VenueZType");
                 }
             }
         }
@@ -117,6 +124,7 @@ namespace TommyJams.Model
                 if (value != _venueZPrice)
                 {
                     _venueZPrice = value;
+                    NotifyPropertyChanged("VenueZPrice");
                 }
             }
         }
@@ -133,6 +141,7 @@ namespace TommyJams.Model
                 if (value != _venueFacebook)
                 {
                     _venueFacebook = value;
+                    NotifyPropertyChanged("VenueFacebook");
                 }
             }
         }
@@ -149,6 +158,7 @@ namespace TommyJams.Model
                 if (value != _venueZomato)
                 {
                     _venueZomato = value;
+                    NotifyPropertyChanged("VenueZomato");
                 }
             }
         }
@@ -165,7 +175,18 @@ namespace TommyJams.Model
                 if (value != _venueGeoCoordinate)
                 {
                     _venueGeoCoordinate = value;
+                    NotifyPropertyChanged("VenueGeoCoordinate");
                 }
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged(String propertyName)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (null != handler)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }
 

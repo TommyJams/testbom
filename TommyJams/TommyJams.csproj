@@ -101,15 +101,9 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\Constants.cs" />
-    <Compile Include="Model\GetArtistInfo.cs" />
-    <Compile Include="Model\GetEventInfo.cs" />
-    <Compile Include="Model\GetPrimaryEvents.cs" />
-    <Compile Include="Model\GetSecondaryEvents.cs" />
-    <Compile Include="Model\GetVenueInfo.cs" />
-    <Compile Include="Model\Model.cs" />
+    <Compile Include="Model\AppModel.cs" />
     <Compile Include="Model\ArtistInfo.cs" />
     <Compile Include="Model\Band.cs" />
-    <Compile Include="ViewModel\BandMember.cs" />
     <Compile Include="Model\EventItem.cs" />
     <Compile Include="ViewModel\EventViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -126,6 +120,9 @@
     </Compile>
     <Compile Include="View\EventPanoramaPage.xaml.cs">
       <DependentUpon>EventPanoramaPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\FacebookLoginPage.xaml.cs">
+      <DependentUpon>FacebookLoginPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\MapTest.xaml.cs">
       <DependentUpon>MapTest.xaml</DependentUpon>
@@ -164,6 +161,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\EventPanoramaPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\FacebookLoginPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

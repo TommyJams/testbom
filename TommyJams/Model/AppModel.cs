@@ -13,10 +13,10 @@ using TommyJams.Model;
 
 namespace TommyJams.Model
 {
-    public class Models
+    public class AppModel
     {
 
-        public Models()
+        public AppModel()
         {
 
         }

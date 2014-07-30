@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace TommyJams.Model
 {
-    class TicketInfo
+    class TicketInfo : INotifyPropertyChanged
     {
         private string _ticketLink;
         public string ticketLink
@@ -20,6 +21,7 @@ namespace TommyJams.Model
                 if (value != _ticketLink)
                 {
                     _ticketLink = value;
+                    NotifyPropertyChanged("TicketLink");
                 }
             }
         }
@@ -36,6 +38,7 @@ namespace TommyJams.Model
                 if (value != _ticketAvailability)
                 {
                     _ticketAvailability = value;
+                    NotifyPropertyChanged("TicketAvailability");
                 }
             }
         }
@@ -52,7 +55,18 @@ namespace TommyJams.Model
                 if (value != _ticketPrice)
                 {
                     _ticketPrice = value;
+                    NotifyPropertyChanged("TicketPrice");
                 }
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged(String propertyName)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (null != handler)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }
 
