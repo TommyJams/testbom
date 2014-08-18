@@ -43,7 +43,9 @@ namespace TommyJams.View
             mainHeader.Header = App.ViewModel.EventItem.EventName;
             LoadData();
             AddButtons();
-          
+
+            this.DataContext = App.ViewModel;
+            
         }
 
         public async void LoadData()
@@ -53,12 +55,12 @@ namespace TommyJams.View
             App.ViewModel.VenueInfo = await App.ViewModel.LoadVenueInfo();
 
             ArtistListBox.ItemsSource = App.ViewModel.ArtistInfo;
+            VenueGrid.DataContext = App.ViewModel.VenueInfo;
+          
             var pushpin = MapExtensions.GetChildren(Map).OfType<Pushpin>().First(p => p.Name == "RouteDirectionsPushPin");
             pushpin.GeoCoordinate = App.ViewModel.VenueInfo.VenueGeoCoordinate;
             Map.Center = App.ViewModel.VenueInfo.VenueGeoCoordinate;
-            Map.ZoomLevel = 15;
-            map_reference.Text = App.ViewModel.VenueInfo.VenueName + " " + App.ViewModel.VenueInfo.VenueAddress + " " + App.ViewModel.VenueInfo.VenueCity;
-
+            Map.ZoomLevel = 10;
             MapOverlay overlay = new MapOverlay
             {
                 GeoCoordinate = Map.Center,
@@ -74,8 +76,7 @@ namespace TommyJams.View
             layer.Add(overlay);
 
             Map.Layers.Add(layer);
-
-
+            
         }
 
 
@@ -103,11 +104,11 @@ namespace TommyJams.View
                     a.HorizontalAccuracy = 0;
                     a.VerticalAccuracy = 0;
                     a.Speed = 0;
-                    var pushpin = MapExtensions.GetChildren(Map).OfType<Pushpin>().First(p => p.Name == "RouteDirectionsPushPin");
+                    /*var pushpin = MapExtensions.GetChildren(Map).OfType<Pushpin>().First(p => p.Name == "RouteDirectionsPushPin");
                     pushpin.GeoCoordinate = a;
                     Map.Center = a;
                     Map.ZoomLevel = 15;
-                    map_reference.Text = aProduct.VenueName + " " + aProduct.VenueAddress + " " + aProduct.VenueCity;
+                    //map_reference.Text = aProduct.VenueName + " " + aProduct.VenueAddress + " " + aProduct.VenueCity;
                     
                     MapOverlay overlay = new MapOverlay
                     {
@@ -123,7 +124,7 @@ namespace TommyJams.View
                     MapLayer layer = new MapLayer();
                     layer.Add(overlay);
 
-                    Map.Layers.Add(layer);
+                    Map.Layers.Add(layer);*/
                     break;
                     }
                     mainHeader.Header = productsString.ToString();
@@ -147,11 +148,11 @@ namespace TommyJams.View
         public void Demo_Refresh(object sender, EventArgs e)
         {
             ArtistListBox.ItemsSource = App.ViewModel.ArtistInfo;
-            var pushpin = MapExtensions.GetChildren(Map).OfType<Pushpin>().First(p => p.Name == "RouteDirectionsPushPin");
-            pushpin.GeoCoordinate = App.ViewModel.VenueInfo.VenueGeoCoordinate;
-            Map.Center = App.ViewModel.VenueInfo.VenueGeoCoordinate;
+            //var pushpin = MapExtensions.GetChildren(Map).OfType<Pushpin>().First(p => p.Name == "RouteDirectionsPushPin");
+            //pushpin.GeoCoordinate = App.ViewModel.VenueInfo.VenueGeoCoordinate;
+            /*Map.Center = App.ViewModel.VenueInfo.VenueGeoCoordinate;
             Map.ZoomLevel = 15;
-            map_reference.Text = App.ViewModel.VenueInfo.VenueName + " " + App.ViewModel.VenueInfo.VenueAddress + " " + App.ViewModel.VenueInfo.VenueCity;
+            //map_reference.Text = App.ViewModel.VenueInfo.VenueName + " " + App.ViewModel.VenueInfo.VenueAddress + " " + App.ViewModel.VenueInfo.VenueCity;
 
             MapOverlay overlay = new MapOverlay
             {
@@ -168,11 +169,11 @@ namespace TommyJams.View
             layer.Add(overlay);
 
             Map.Layers.Add(layer);
-
+            */
 
         }
 
-        public async void AcceptInvite()
+        public void AcceptInvite()
         {
 
             Uri myUri = new Uri("https://testneo4j.azure-mobile.net/api/joinEvent");
@@ -231,6 +232,7 @@ namespace TommyJams.View
             ApplicationBarIconButton accept = new ApplicationBarIconButton();
             accept.Text = "Accept";
             accept.IconUri = new Uri("/Resources/Images/accept.jpg",UriKind.Relative);
+            accept.Click += Event_Accept;
             ApplicationBar.Buttons.Add(accept);
             //reject button
             ApplicationBarIconButton decline = new ApplicationBarIconButton();

@@ -31,6 +31,10 @@ namespace TommyJams.Model
             Task<String> GetResult = client.GetStringAsync(completeUri);
             string result = await GetResult;
             ObservableCollection<ArtistInfo> artistInfo = JsonConvert.DeserializeObject<ObservableCollection<ArtistInfo>>(result) as ObservableCollection<ArtistInfo>;
+            foreach (ArtistInfo artist in artistInfo)
+            {
+                artist.ArtistImage = "http://" + artist.ArtistImage;
+            }
             return artistInfo;        
 
         }
@@ -82,9 +86,13 @@ namespace TommyJams.Model
                     var diff = eventTime.Hour - currentDate.Hour;
                     aProduct.EventStartingTime = "in " + diff + " hours";
                 }
+                else if ((eventDate - currentDate).TotalDays <= 7)
+                {
+                    aProduct.EventStartingTime = eventDate.DayOfWeek.ToString();
+                }
                 else
                 {
-                    aProduct.EventStartingTime = eventDate.ToString();
+                    aProduct.EventStartingTime = "on " + eventDate.Day + "/" + eventDate.Month;
                 }
 
                 String[] location = aProduct.VenueCoordinates.Split(' ');
@@ -95,8 +103,9 @@ namespace TommyJams.Model
                 //Stub for replacing myGeoCordinate from App
                 var myGeo = new GeoCoordinate(72.2, 84.3);
                 double x = eventGeo.GetDistanceTo(myGeo);
-                aProduct.EventDistance = (int)(x / 1000);
-
+                aProduct.EventDistance = "• " + ((int)(x / 1000)).ToString() + " Kms";
+                aProduct.EventPrice = "₹ " + aProduct.EventPrice;
+                aProduct.EventHotness = "• Hotness Level :" + aProduct.EventHotness;
             }
 
             return secondaryEvents;
@@ -111,7 +120,17 @@ namespace TommyJams.Model
             HttpClient client = new HttpClient();
             Task<String> GetResult = client.GetStringAsync(completeUri);
             string result = await GetResult;
-            VenueInfo venue;
+            VenueInfo venue = new VenueInfo();
+            /*dynamic json = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(result);
+            var VenueName = json[0]["venueName"];
+            venue.VenueName = VenueName.ToString();
+            venue.VenueCity = json[0]["venueCity"].ToString();
+            venue.VenueAddress = json[0]["venueAddress"].ToString();
+            venue.VenueFacebook = json[0]["venueFacebook"].ToString();
+            venue.VenueZomato = json[0]["venueZomato"].ToString();
+            venue.VenueZPrice = json[0]["venueZPrice"];
+            venue.VenueZRating = json[0]["venueZRating"];
+            venue.VenueZType = json[0]["venueZType"].ToString();*/
             ObservableCollection<VenueInfo> json = JsonConvert.DeserializeObject<ObservableCollection<VenueInfo>>(result) as ObservableCollection<VenueInfo>;
             StringBuilder productsString = new StringBuilder();
             venue = json[0];
@@ -159,9 +178,13 @@ namespace TommyJams.Model
                     var diff = eventTime.Hour - currentDate.Hour;
                     aProduct.EventStartingTime = "in " + diff + " hours";
                 }
+                else if ((eventDate - currentDate).TotalDays <= 7)
+                {
+                    aProduct.EventStartingTime = eventDate.DayOfWeek.ToString();
+                }
                 else
                 {
-                    aProduct.EventStartingTime = eventDate.ToString();
+                    aProduct.EventStartingTime = "on " + eventDate.Day + "/" + eventDate.Month;
                 }
 
                 String[] location = aProduct.VenueCoordinates.Split(' ');
@@ -171,9 +194,9 @@ namespace TommyJams.Model
                 var eventGeo = new GeoCoordinate(latitude, longitude);
                 var myGeo = new GeoCoordinate(72.2, 84.3);
                 double x = eventGeo.GetDistanceTo(myGeo);
-                aProduct.EventDistance = (int)(x / 1000);
-                //int a = 0;
-
+                aProduct.EventDistance = "• " + ((int)(x / 1000)).ToString() + " Kms";
+                aProduct.EventPrice = "₹ " + aProduct.EventPrice;
+                aProduct.EventHotness = "• Hotness Level :" + aProduct.EventHotness;
             }
             return primaryEvents;
 

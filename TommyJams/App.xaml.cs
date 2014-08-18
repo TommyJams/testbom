@@ -28,7 +28,7 @@ namespace TommyJams
         public static EventViewModel viewModel= null;
         public static bool isAuthenticated = false;
         public static int EventID = 5;
-        internal static string AccessToken = String.Empty;
+        internal static string AccessToken = "CAACEdEose0cBANAiEbyjsoZAQRA4bwlmrcURKZBDMKZCgHk6FUE8kYabMZBT4eHxnuCKX2IOvEA5ZBEaUz1rN82zjdyYkBG4HyYe6eJbbxPa6bZB9N6KUyWzwYbvS65TXjZBRIJo49V9ZCFQ4RKvapdsqYxFh27CWbvNPoIEuFJkedxCRoqYNnGcTfZC7T5XnQKALWuI2bbgnFNSWSqWjnMuY";
         internal static string FacebookId = "56784957689798";
         internal static string city = "Bangalore";
         internal static string country = "India";
@@ -36,6 +36,7 @@ namespace TommyJams
         public static Geolocator geoLocator;
         public static Geoposition myPosition;
         public static Geocoordinate myGeocoordinate;
+        public static FacebookData friends;
         public static EventViewModel ViewModel
         {
             get
@@ -50,6 +51,8 @@ namespace TommyJams
                 return viewModel;
             }
         }
+
+
 
         /// <summary>
         /// Constructor for the Application object.

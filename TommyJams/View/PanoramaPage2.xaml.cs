@@ -108,9 +108,10 @@ namespace TommyJams.View
                         var friend = (IDictionary<string, object>)item;
 
                         FacebookData.Friends.Add(new Friend { Name = (string)friend["name"], id = (string)friend["id"], PictureUri = new Uri(string.Format("https://graph.facebook.com/{0}/picture?type={1}&access_token={2}", (string)friend["id"], "square", App.AccessToken)) });
+                        
                     }
-
-                    NavigationService.Navigate(new Uri("/Pages/FriendSelector.xaml", UriKind.Relative));
+                    
+                    NavigationService.Navigate(new Uri("/View/FriendSelector.xaml", UriKind.Relative));
                 });
 
             };

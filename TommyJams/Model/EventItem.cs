@@ -98,8 +98,8 @@ namespace TommyJams.Model
             }
         }
 
-        private int _eventHotness;
-        public int EventHotness
+        private string _eventHotness;
+        public string EventHotness
         {
             get
             {
@@ -115,8 +115,8 @@ namespace TommyJams.Model
         }
 
 
-        private int _eventPrice;
-        public int EventPrice
+        private string _eventPrice;
+        public string EventPrice
         {
             get
             {
@@ -235,8 +235,8 @@ namespace TommyJams.Model
             }
         }
 
-        private int _eventDistance;
-        public int EventDistance
+        private string _eventDistance;
+        public string EventDistance
         {
             get
             {

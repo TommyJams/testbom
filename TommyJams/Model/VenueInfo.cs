@@ -55,7 +55,7 @@ namespace TommyJams.Model
             {
                 if (value != _venueCity)
                 {
-                    _venueName = value;
+                    _venueCity = value;
                     NotifyPropertyChanged("VenueCity");
                 }
             }

@@ -81,6 +81,7 @@ namespace TommyJams
 
             }
             //ShowSplash();
+            Thread.Sleep(5000);
             NavigationService.Navigate(new Uri("/View/PanoramaPage1.xaml", UriKind.Relative));
         }
 

@@ -62,7 +62,7 @@ namespace TommyJams.View
             bw.DoWork += (s, a) =>
             {
                 //This event occurs while the task is executing.
-                Thread.Sleep(8000); //A little dummy delay for show the effect
+                Thread.Sleep(1000); //A little dummy delay for show the effect
             };
             bw.RunWorkerCompleted += (s, a) =>
             {
@@ -98,22 +98,22 @@ namespace TommyJams.View
             
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void FacebookLogin_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new Uri("/View/FacebookLoginPage.xaml", UriKind.Relative));
             
 
         }
 
-        private void ApplicationBarIconButton_Click(object sender, EventArgs e)
+        private async void RefreshButton_Click(object sender, EventArgs e)
         {
-            
+            ProgressBar.Visibility = Visibility.Visible;
+            await App.ViewModel.LoadPrimaryEvents();
+            await App.ViewModel.LoadSecondaryEvents();
+            ProgressBar.Visibility = Visibility.Collapsed;
+
         }
 
-        private void Invite_Accept(object sender, EventArgs e)
-        {
-
-        }
 
         private void On_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
@@ -130,6 +130,18 @@ namespace TommyJams.View
 
         }
 
+        private void Panorama_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (Panorama.SelectedIndex == 2)
+            {
+                ApplicationBar.IsVisible = false;
+            }
+            else
+            {
+                ApplicationBar.IsVisible = true;
+            }
+
+        }
     }
     
 

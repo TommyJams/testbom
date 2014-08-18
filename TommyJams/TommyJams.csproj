@@ -124,6 +124,9 @@
     <Compile Include="View\FacebookLoginPage.xaml.cs">
       <DependentUpon>FacebookLoginPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\FriendSelector.xaml.cs">
+      <DependentUpon>FriendSelector.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\MapTest.xaml.cs">
       <DependentUpon>MapTest.xaml</DependentUpon>
     </Compile>
@@ -165,6 +168,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\FacebookLoginPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\FriendSelector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -223,17 +230,23 @@
     <Resource Include="Resources\Image\facebook_icon_large.gif">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Content Include="Resources\Image\foursquare.png" />
     <Content Include="Resources\Image\parvaaz2.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Resource Include="Resources\Image\play.gif">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Content Include="Resources\Image\reverbnation.png" />
     <Content Include="Resources\Image\settings.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Image\soundcloud.png" />
+    <Content Include="Resources\Image\testicon.jpg.jpeg" />
+    <Content Include="Resources\Image\zomato.png" />
     <Content Include="Resources\Songs\Babel.mp3" />
     <Content Include="Resources\Songs\I Will Wait.mp3" />
+    <Content Include="SplashScreenImage.jpg" />
     <Content Include="Toolkit.Content\ApplicationBar.Add.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Cancel.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Check.png" />

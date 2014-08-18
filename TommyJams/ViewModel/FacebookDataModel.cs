@@ -27,5 +27,15 @@ namespace TommyJams.ViewModel
                 return friends;
             }
         }
+
+        private static ObservableCollection<Friend> selectedFriends = new ObservableCollection<Friend>();
+
+        public static ObservableCollection<Friend> SelectedFriends
+        {
+            get
+            {
+                return selectedFriends;
+            }
+        }
     }
 }
