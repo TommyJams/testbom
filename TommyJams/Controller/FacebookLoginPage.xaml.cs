@@ -33,7 +33,7 @@ namespace TommyJams.Controller
         private async Task Authenticate()
         {
             string message = String.Empty;
-            try
+            /*try
             {
                 session = await App.FacebookSessionClient.LoginAsync("user_about_me,read_stream");
                 App.AccessToken = session.AccessToken;
@@ -45,7 +45,7 @@ namespace TommyJams.Controller
             {
                 message = "Login failed! Exception details: " + e.Message;
                 MessageBox.Show(message);
-            }
+            }*/
         }
 
     }

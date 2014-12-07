@@ -121,17 +121,11 @@
     <Compile Include="View\EventPanoramaPage.xaml.cs">
       <DependentUpon>EventPanoramaPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\FacebookLoginPage.xaml.cs">
-      <DependentUpon>FacebookLoginPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\FriendSelector.xaml.cs">
       <DependentUpon>FriendSelector.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\MapTest.xaml.cs">
       <DependentUpon>MapTest.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\PanoramaPage1.xaml.cs">
-      <DependentUpon>PanoramaPage1.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\PanoramaPage2.xaml.cs">
       <DependentUpon>PanoramaPage2.xaml</DependentUpon>
@@ -167,10 +161,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\FacebookLoginPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="View\FriendSelector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -178,10 +168,6 @@
     <Page Include="View\MapTest.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\PanoramaPage1.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\PanoramaPage2.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -2,89 +2,169 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
+using System.Windows.Media.Imaging;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using Microsoft.Phone.Tasks;
+using TommyJams.Model;
 using TommyJams.Resources;
-using Windows.UI.Popups;
-using System.Threading;
-using Microsoft.WindowsAzure.MobileServices;
 using Facebook;
+using Microsoft.WindowsAzure.MobileServices;
 using TommyJams.ViewModel;
 using Newtonsoft.Json;
-using System.Windows.Controls.Primitives;
-using TommyJams.View;
-using System.ComponentModel;
-using System.Device.Location;
 using System.Text;
-using Windows.ApplicationModel.Activation;
+using System.Collections.ObjectModel;
+using System.Globalization;
+using System.Windows.Controls.Primitives;
+using System.ComponentModel;
+using System.Threading;
+using Windows.UI.Popups;
 
-namespace TommyJams
+namespace TommyJams.View
 {
-    public class TodoItem
-    {
-        public string Id { get; set; }
-
-        [JsonProperty(PropertyName = "text")]
-        public string Text { get; set; }
-
-        [JsonProperty(PropertyName = "complete")]
-        public bool Complete { get; set; }
-    }
-
-
     public partial class MainPage : PhoneApplicationPage
     {
-        public Popup popup = new Popup();
-        // Constructor
         public MainPage()
         {
             InitializeComponent();
-            //Thread.Sleep(3000);
             DataContext = App.ViewModel;
-           
-            //Loaded+=SplashPage_Loaded;
-            //Loaded += LoadUserInfo;
-            
-            // Sample code to localize the ApplicationBar
-            //BuildLocalizedApplicationBar();
+            LoadData();
         }
 
+        private async System.Threading.Tasks.Task AuthenticateAsync()
+        {
+            if (App.MobileService.CurrentUser == null) //Login
+            {
+                try
+                {
+                    await App.MobileService.LoginAsync(MobileServiceAuthenticationProvider.Facebook);
+                    if (App.MobileService.CurrentUser != null)
+                    {
+                        App.FacebookId = App.MobileService.CurrentUser.UserId.Substring(9);
 
+                        BitmapImage bm = new BitmapImage(new Uri("http://graph.facebook.com/" + App.FacebookId + "/picture?type=square", UriKind.Absolute));
+                        fbUserImage.Source = bm;
+
+                        LoadData();
+                    }
+                }
+                catch (InvalidOperationException)
+                {
+                    MessageBox.Show("Sorry, could not authenticate using Facebook!");
+                }
+            }
+            else //Logout
+            {
+                App.MobileService.Logout();
+                if (App.MobileService.CurrentUser == null)
+                {
+                    App.FacebookId = App.FACEBOOK_DEFAULT_ID;
+
+                    BitmapImage bm = new BitmapImage(new Uri("../Resources/Image/facebook_icon_large.gif", UriKind.Relative));
+                    fbUserImage.Source = bm;
+
+                    LoadData();
+                }
+            }
+        }
+
+        public async void LoadData()
+        {
+            ProgressBar.Visibility = Visibility.Visible;
+            try
+            {
+                await App.ViewModel.LoadPrimaryEvents();
+                await App.ViewModel.LoadSecondaryEvents();
+            }
+            catch (NullReferenceException)
+            {
+                MessageBox.Show("Sorry, could not load data!");
+            }
+            catch (HttpRequestException)
+            {
+                MessageBox.Show("Sorry, could not connect to the internet!");
+            }
+           
+            //ProgressBar.IsIndeterminate = false;
+            ProgressBar.Visibility = Visibility.Collapsed;
+        }
 
         /*
-        private void LoadUserInfo(object sender, RoutedEventArgs e1)
+        private void MainLongListSelector1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var fb = new FacebookClient(App.AccessToken);
+            LongListSelector selector = sender as LongListSelector;
+            if (selector == null)
+                return;
+            EventItem data = selector.SelectedItem as EventItem;
 
-            fb.GetCompleted += (o, e) =>
-            {
-                if (e.Error != null)
-                {
-                    Dispatcher.BeginInvoke(() => NavigationService.Navigate(new Uri("/View/PanoramaPage1.xaml", UriKind.Relative)));
-                    return;
-                }
-                Dispatcher.BeginInvoke(() => NavigationService.Navigate(new Uri("/View/PanoramaPage2.xaml", UriKind.Relative)));
+            if (data == null)
+                return;
 
-            };
+            AudioPlayer.Source = new Uri(data.SongLink,UriKind.RelativeOrAbsolute);
+            selector.SelectedItem = null;
+        }*/
 
-            //fb.GetTaskAsync("me");
-        }
-        */
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (!App.ViewModel.IsDataLoaded)
+            HyperlinkButton selector = sender as HyperlinkButton;
+            EventItem data = selector.DataContext as EventItem;
+            //AudioPlayer.Source = new Uri(data.SongLink,UriKind.Relative);
+            try
             {
-                //App.ViewModel.LoadData();
-
+                WebBrowserTask webBrowserTask = new WebBrowserTask();
+                webBrowserTask.Uri = new Uri(data.EventSong, UriKind.Absolute);
+                webBrowserTask.Show();
             }
-            //ShowSplash();
-            Thread.Sleep(5000);
-            NavigationService.Navigate(new Uri("/View/PanoramaPage1.xaml", UriKind.Relative));
+            catch(UriFormatException)
+            {
+                MessageBox.Show("Sorry, this stream could not be processed.");
+            }
         }
 
+        private async void FacebookLogin_Click(object sender, RoutedEventArgs e)
+        {
+            //NavigationService.Navigate(new Uri("/View/FacebookLoginPage.xaml", UriKind.Relative));
+            
+            await AuthenticateAsync();
+            LoadData();
+        }
+
+        private async void RefreshButton_Click(object sender, EventArgs e)
+        {
+            LoadData();
+        }
+
+
+        private void On_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            StackPanel selected = sender as StackPanel;
+            EventItem data = selected.DataContext as EventItem;
+            App.EventID = data.EventID;
+            App.ViewModel.EventItem.EventDate = data.EventDate;
+            App.ViewModel.EventItem.EventTime = data.EventTime;
+            App.ViewModel.EventItem.EventPrice = data.EventPrice;
+            App.ViewModel.EventItem.EventDistance = data.EventDistance;
+            App.ViewModel.EventItem.EventImage = data.EventImage;
+            App.ViewModel.EventItem.VenueName = data.VenueName;
+            NavigationService.Navigate(new Uri("/../../View/EventPanoramaPage.xaml", UriKind.RelativeOrAbsolute));
+        }
+
+        private void Panorama_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (Panorama.SelectedIndex == 2)
+            {
+                ApplicationBar.IsVisible = false;
+            }
+            else
+            {
+                ApplicationBar.IsVisible = true;
+            }
+
+        }
 
         private void ShowSplash()
         {
@@ -107,24 +187,8 @@ namespace TommyJams
             };
             // Call to the Async Function, that produce the delay of the progress bar.
             // After that the pictured "Smoked by Windows Phone shown"
-            bw.RunWorkerAsync(); 
+            bw.RunWorkerAsync();
         }
-
-        // Sample code for building a localized ApplicationBar
-        //private void BuildLocalizedApplicationBar()
-        //{
-        //    // Set the page's ApplicationBar to a new instance of ApplicationBar.
-        //    ApplicationBar = new ApplicationBar();
-
-        //    // Create a new button and set the text value to the localized string from AppResources.
-        //    ApplicationBarIconButton appBarButton = new ApplicationBarIconButton(new Uri("/Assets/AppBar/appbar.add.rest.png", UriKind.Relative));
-        //    appBarButton.Text = AppResources.AppBarButtonText;
-        //    ApplicationBar.Buttons.Add(appBarButton);
-
-        //    // Create a new menu item with the localized string from AppResources.
-        //    ApplicationBarMenuItem appBarMenuItem = new ApplicationBarMenuItem(AppResources.AppBarMenuItemText);
-        //    ApplicationBar.MenuItems.Add(appBarMenuItem);
-        //}
 
         public BackgroundWorker backroungWorker { get; set; }
     }

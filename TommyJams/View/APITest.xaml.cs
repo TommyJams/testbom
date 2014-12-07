@@ -37,8 +37,6 @@ namespace TommyJams.View
 
     public partial class APITest : PhoneApplicationPage
     {
-        private MobileServiceCollection<TodoItem, TodoItem> items;
-        private IMobileServiceTable<TodoItem> todoTable = App.MobileService.GetTable<TodoItem>();
         //public static MobileServiceClient client = new MobileServiceClient("https://testneo4j.azure-mobile.net", "");
         public APITest()
         {

@@ -11,12 +11,12 @@
         <local:EventViewModel x:Key="ViewModel" />
         <DataTemplate x:Key="SmallPanoramaTitle">
             <ContentPresenter>
-                <TextBlock Text="{Binding}" FontSize="80" Margin="0,70,0,0" />
+                <TextBlock Text="{Binding}" FontSize="80" Margin="0,10,0,0" />
             </ContentPresenter>
         </DataTemplate>
         <DataTemplate x:Key="SmallPanoramaPageTitle">
             <ContentPresenter>
-                <TextBlock Text="{Binding}" FontSize="50" Margin="0,70,0,0" />
+                <TextBlock Text="{Binding}" FontSize="50" />
             </ContentPresenter>
         </DataTemplate>
         

@@ -5,6 +5,7 @@ using System.Net;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
+using System.Windows.Media.Imaging;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using Microsoft.Phone.Maps.Toolkit;
@@ -41,6 +42,12 @@ namespace TommyJams.View
             Textblock_time.Text = App.ViewModel.EventItem.EventTime;
             Textblock_venue.Text = App.ViewModel.EventItem.VenueName;
             mainHeader.Header = App.ViewModel.EventItem.EventName;
+
+            BitmapImage bitmapImage = new BitmapImage(new Uri(App.ViewModel.EventItem.EventImage,UriKind.Absolute));
+            ImageBrush imageBrush = new ImageBrush();
+            imageBrush.ImageSource = bitmapImage;
+            Panorama.Background = imageBrush;
+
             LoadData();
             AddButtons();
 

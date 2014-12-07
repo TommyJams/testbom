@@ -138,23 +138,14 @@ namespace TommyJams.ViewModel
             set;
         }
 
-        public async Task<ObservableCollection<EventItem>> LoadPrimaryEvents()
+        public async Task LoadPrimaryEvents()
         {
-
-            var primaryItems = await AppModel.GetPrimaryEvents();
-            //this.Primary1Items =  primaryItems;
-            Priority1Items = primaryItems;
-            return primaryItems;
-            //download.Wait();
-            //var result = download.Result;
+            Priority1Items = await AppModel.GetPrimaryEvents();
         }
 
-        public async Task<ObservableCollection<EventItem>> LoadSecondaryEvents()
+        public async Task LoadSecondaryEvents()
         {
-            //var secondaryItems = await AppModel.GetSecondaryEvents();
             Priority2Items = await AppModel.GetSecondaryEvents();
-            return Priority2Items;
-            //return secondaryItems;
         }
 
         public async Task<EventItem> LoadEventInfo()

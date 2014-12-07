@@ -22,6 +22,7 @@ namespace TommyJams
         /// Provides easy access to the root frame of the Phone Application.
         /// </summary>
         /// <returns>The root frame of the Phone Application.</returns>
+        internal const string FACEBOOK_DEFAULT_ID = "56784957689798";
         public static PhoneApplicationFrame RootFrame { get; private set; }
         public static MobileServiceUser user;
         //public static MainViewModel viewModel = null;
@@ -29,10 +30,9 @@ namespace TommyJams
         public static bool isAuthenticated = false;
         public static int EventID = 5;
         internal static string AccessToken = "CAACEdEose0cBANAiEbyjsoZAQRA4bwlmrcURKZBDMKZCgHk6FUE8kYabMZBT4eHxnuCKX2IOvEA5ZBEaUz1rN82zjdyYkBG4HyYe6eJbbxPa6bZB9N6KUyWzwYbvS65TXjZBRIJo49V9ZCFQ4RKvapdsqYxFh27CWbvNPoIEuFJkedxCRoqYNnGcTfZC7T5XnQKALWuI2bbgnFNSWSqWjnMuY";
-        internal static string FacebookId = "56784957689798";
+        internal static string FacebookId = FACEBOOK_DEFAULT_ID;
         internal static string city = "Bangalore";
         internal static string country = "India";
-        public static FacebookSessionClient FacebookSessionClient = new FacebookSessionClient(Constants.FBApi);
         public static Geolocator geoLocator;
         public static Geoposition myPosition;
         public static Geocoordinate myGeocoordinate;
@@ -106,8 +106,8 @@ namespace TommyJams
         }
 
         public static MobileServiceClient MobileService = new MobileServiceClient(
-            "https://nishant-todolist.azure-mobile.net/",
-            "KwwJTSMuuXAFekipvyZyrStRNUtLZf55"
+            "https://testneo4j.azure-mobile.net/",
+            "LxqAhRVmuUESACkYahJxCgfjOomzEP99"
             );
 
         // Code to execute when the application is launching (eg, from Start)
