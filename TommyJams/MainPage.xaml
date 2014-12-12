@@ -213,9 +213,11 @@
     </Grid>
 
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsMenuEnabled="False">
+        <shell:ApplicationBar IsMenuEnabled="True">
             <shell:ApplicationBarIconButton IconUri="\Resources\Image\settings.png" Text="Refresh" Click="RefreshButton_Click"/>
-
+            <shell:ApplicationBar.MenuItems>
+                <shell:ApplicationBarMenuItem Text="Settings" Click="Settings_Click"/>
+            </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 </phone:PhoneApplicationPage>
