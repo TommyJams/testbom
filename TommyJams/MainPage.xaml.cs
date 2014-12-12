@@ -256,5 +256,10 @@ namespace TommyJams.View
         }
 
         public BackgroundWorker backroungWorker { get; set; }
+
+        private void Settings_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/View/Settings.xaml", UriKind.Relative));
+        }
     }
 }
