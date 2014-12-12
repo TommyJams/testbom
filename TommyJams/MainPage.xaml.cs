@@ -10,6 +10,8 @@ using System.Windows.Media.Imaging;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using Microsoft.Phone.Tasks;
+//TODO: Remove reference to newtonsoft from view
+using Newtonsoft.Json.Linq;
 using TommyJams.Model;
 using TommyJams.Resources;
 using Facebook;
@@ -36,13 +38,20 @@ namespace TommyJams.View
             LoadData();
         }
 
+        //TODO: Move this to viewmodel
         private async Task AuthenticateAsync()
         {
             if (App.MobileService.CurrentUser == null) //Login
             {
                 try
                 {
-                    await App.MobileService.LoginAsync(MobileServiceAuthenticationProvider.Facebook);
+                    App.fbSession = await App.FacebookSession.LoginAsync("email, user_birthday");
+                    var client = new FacebookClient(App.fbSession.AccessToken);
+                    var fbToken = JObject.FromObject(new
+                    {
+                        access_token = App.fbSession.AccessToken,
+                    });
+                    await App.MobileService.LoginAsync(MobileServiceAuthenticationProvider.Facebook, fbToken);
                     if (App.MobileService.CurrentUser != null)
                     {
                         App.FacebookId = App.MobileService.CurrentUser.UserId.Substring(9); //Get facebook id number
@@ -75,27 +84,34 @@ namespace TommyJams.View
             }
         }
 
+        //TODO: Move this to viewmodel
         public async void NotifyUserAuthenticated()
         {
             try
             {
                 App.fbUser.fbid = App.FacebookId;
-                /*var fb = new FacebookClient(App.MobileService.CurrentUser.MobileServiceAuthenticationToken);
-                dynamic result = await fb.GetTaskAsync("me");
+                var fb = new FacebookClient(App.fbSession.AccessToken);
+                dynamic result = await fb.GetTaskAsync("me", new { fields = new[] { "name, gender, location, email, birthday" } });
                 
-                App.fbUser.name = (string)result["name"];
-
+                try
+                {
+                    App.fbUser.name = (string)result["name"];
+                    App.fbUser.gender = (string)result["gender"];
+                    //TODO: Add required checks here
+                    App.fbUser.city = ((string)result["location"]["name"]).Split(',')[0].Trim();
+                    App.fbUser.country = ((string)result["location"]["name"]).Split(',')[1].Trim();
+                    App.fbUser.email = (string)result["email"];
+                    App.fbUser.dob = (string)result["birthday"];
+                    
+                    //No longer available on facebook
+                    //App.fbUser.phone = (string)result["mobile_phone"];
+                }
+                catch(Exception)
+                {
+                    //There might be empty keys
+                }
                 
-                fb.GetTaskAsync("me");*/
-                
-                //Get these via facebook
-                App.fbUser.name = "Test Artist";
-                App.fbUser.email = "testartist.tommy@gmail.com";
-                App.fbUser.dob = "21081988";
-                App.fbUser.gender = "male";
-                App.fbUser.city = "Delhi";
-                App.fbUser.country = "India";
-                App.fbUser.phone = "+919611400393";
+                //Todo: add current ip
                 App.fbUser.ip = "0.0.0.0";
 
                 string responseAddUser = await App.ViewModel.AddUser(App.fbUser);

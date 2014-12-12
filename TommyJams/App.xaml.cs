@@ -25,6 +25,7 @@ namespace TommyJams
         internal const string FACEBOOK_DEFAULT_ID = "56784957689798";
         public static PhoneApplicationFrame RootFrame { get; private set; }
         public static MobileServiceUser user;
+        public static FacebookSession fbSession;
         //public static MainViewModel viewModel = null;
         public static EventViewModel viewModel= null;
         public static bool isAuthenticated = false;
@@ -103,7 +104,7 @@ namespace TommyJams
             
         }
 
-        public static FacebookSessionClient FacebookSessionClient = new FacebookSessionClient("526508354136712");
+        public static FacebookSessionClient FacebookSession = new FacebookSessionClient("526508354136712");
 
         public static MobileServiceClient MobileService = new MobileServiceClient(
             "https://testneo4j.azure-mobile.net/",

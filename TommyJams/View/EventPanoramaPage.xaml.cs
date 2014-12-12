@@ -42,9 +42,19 @@ namespace TommyJams.View
             panel5_price.Text = Textblock_price.Text = App.ViewModel.EventItem.EventPrice.ToString();
             panel5_time.Text = Textblock_time.Text = App.ViewModel.EventItem.EventTime;
             panel5_venue.Text = Textblock_venue.Text = App.ViewModel.EventItem.VenueName;
-            Panorama.Title = App.ViewModel.EventItem.EventName;
-            mainHeader.Header = "@"+App.ViewModel.EventItem.VenueName;
 
+            if (App.ViewModel.EventItem.EventImage != null)
+            {
+                BitmapImage bitmapImage = new BitmapImage(new Uri(App.ViewModel.EventItem.EventImage, UriKind.Absolute));
+                ImageBrush imageBrush = new ImageBrush();
+                imageBrush.ImageSource = bitmapImage;
+                Panorama.Background = imageBrush;
+            }
+
+            Panorama.Title = App.ViewModel.EventItem.EventName;
+            
+            mainHeader.Header = "@"+App.ViewModel.EventItem.VenueName;
+            
             LoadData();
             AddButtons();
 
@@ -60,6 +70,13 @@ namespace TommyJams.View
             ArtistListBox.ItemsSource = App.ViewModel.ArtistInfo;
             VenueGrid.DataContext = App.ViewModel.VenueInfo;
             venueMap.Center = App.ViewModel.VenueInfo.VenueGeoCoordinate;
+            if (App.ViewModel.EventItem.EventImage != null)
+            {
+                BitmapImage bitmapImage = new BitmapImage(new Uri(App.ViewModel.EventItem.EventImage, UriKind.Absolute));
+                ImageBrush imageBrush = new ImageBrush();
+                imageBrush.ImageSource = bitmapImage;
+                Panorama.Background = imageBrush;
+            }
         }
 
         void webClient_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
