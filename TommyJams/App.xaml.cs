@@ -31,6 +31,7 @@ namespace TommyJams
         public static int EventID = 5;
         internal static string AccessToken = "CAACEdEose0cBANAiEbyjsoZAQRA4bwlmrcURKZBDMKZCgHk6FUE8kYabMZBT4eHxnuCKX2IOvEA5ZBEaUz1rN82zjdyYkBG4HyYe6eJbbxPa6bZB9N6KUyWzwYbvS65TXjZBRIJo49V9ZCFQ4RKvapdsqYxFh27CWbvNPoIEuFJkedxCRoqYNnGcTfZC7T5XnQKALWuI2bbgnFNSWSqWjnMuY";
         internal static string FacebookId = FACEBOOK_DEFAULT_ID;
+        public static User fbUser;
         internal static string city = "Bangalore";
         internal static string country = "India";
         public static Geolocator geoLocator;
@@ -71,11 +72,8 @@ namespace TommyJams
             // Language display initialization
             InitializeLanguage();
 
+            fbUser = new User();
             
-            /*geoLocator = new Geolocator();
-            UpdateLocation();
-            */
-
             // Show graphics profiling information while debugging.
             if (Debugger.IsAttached)
             {
@@ -104,6 +102,8 @@ namespace TommyJams
             myGeocoordinate = myPosition.Coordinate;
             
         }
+
+        public static FacebookSessionClient FacebookSessionClient = new FacebookSessionClient("526508354136712");
 
         public static MobileServiceClient MobileService = new MobileServiceClient(
             "https://testneo4j.azure-mobile.net/",

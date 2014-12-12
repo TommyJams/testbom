@@ -1,27 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Device.Location;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using Microsoft.Phone.Maps.Toolkit;
 using Microsoft.Phone.Maps.Controls;
-using System.Device.Location;
+using Microsoft.Phone.Tasks;
 using Newtonsoft.Json;
-using System.Text;
-using System.Net.Http.Headers;
-using System.Net.Http;
-using System.IO;
-using TommyJams.Resources;
-using System.Windows.Shapes;
-using System.Windows.Media;
 using TommyJams;
-using TommyJams.ViewModel;
 using TommyJams.Model;
+using TommyJams.Resources;
+using TommyJams.ViewModel;
 
 namespace TommyJams.View
 {
@@ -37,22 +38,17 @@ namespace TommyJams.View
         {
             InitializeComponent();
 
-            Textblock_date.Text = App.ViewModel.EventItem.EventDate;
-            Textblock_price.Text = App.ViewModel.EventItem.EventPrice.ToString();
-            Textblock_time.Text = App.ViewModel.EventItem.EventTime;
-            Textblock_venue.Text = App.ViewModel.EventItem.VenueName;
-            mainHeader.Header = App.ViewModel.EventItem.EventName;
-
-            BitmapImage bitmapImage = new BitmapImage(new Uri(App.ViewModel.EventItem.EventImage,UriKind.Absolute));
-            ImageBrush imageBrush = new ImageBrush();
-            imageBrush.ImageSource = bitmapImage;
-            Panorama.Background = imageBrush;
+            panel5_date.Text = Textblock_date.Text = App.ViewModel.EventItem.EventDate;
+            panel5_price.Text = Textblock_price.Text = App.ViewModel.EventItem.EventPrice.ToString();
+            panel5_time.Text = Textblock_time.Text = App.ViewModel.EventItem.EventTime;
+            panel5_venue.Text = Textblock_venue.Text = App.ViewModel.EventItem.VenueName;
+            Panorama.Title = App.ViewModel.EventItem.EventName;
+            mainHeader.Header = "@"+App.ViewModel.EventItem.VenueName;
 
             LoadData();
             AddButtons();
 
             this.DataContext = App.ViewModel;
-            
         }
 
         public async void LoadData()
@@ -63,29 +59,8 @@ namespace TommyJams.View
 
             ArtistListBox.ItemsSource = App.ViewModel.ArtistInfo;
             VenueGrid.DataContext = App.ViewModel.VenueInfo;
-          
-            var pushpin = MapExtensions.GetChildren(Map).OfType<Pushpin>().First(p => p.Name == "RouteDirectionsPushPin");
-            pushpin.GeoCoordinate = App.ViewModel.VenueInfo.VenueGeoCoordinate;
-            Map.Center = App.ViewModel.VenueInfo.VenueGeoCoordinate;
-            Map.ZoomLevel = 10;
-            MapOverlay overlay = new MapOverlay
-            {
-                GeoCoordinate = Map.Center,
-                Content = new Ellipse
-                {
-                    Fill = new SolidColorBrush(Colors.Red),
-                    Width = 40,
-                    Height = 40
-                }
-
-            };
-            MapLayer layer = new MapLayer();
-            layer.Add(overlay);
-
-            Map.Layers.Add(layer);
-            
+            venueMap.Center = App.ViewModel.VenueInfo.VenueGeoCoordinate;
         }
-
 
         void webClient_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
@@ -182,7 +157,6 @@ namespace TommyJams.View
 
         public void AcceptInvite()
         {
-
             Uri myUri = new Uri("https://testneo4j.azure-mobile.net/api/joinEvent");
             HttpWebRequest myRequest = (HttpWebRequest)HttpWebRequest.Create(myUri);
             myRequest.Method = "POST" ;
@@ -308,12 +282,20 @@ namespace TommyJams.View
                 proceed.IconUri=new Uri("/Resource/Images/proceed.jpg",UriKind.Relative);
                 ApplicationBar.Buttons.Add(proceed);
             }
-            
-
         }
 
-            
+        private void venueMap_Loaded(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Phone.Maps.MapsSettings.ApplicationContext.ApplicationId = "ApplicationID";
+            Microsoft.Phone.Maps.MapsSettings.ApplicationContext.AuthenticationToken = "AuthenticationToken";
+        }
 
-
+        private async void venueMap_Tap(object sender, RoutedEventArgs e)
+        {
+            MapsDirectionsTask mapsDirectionsTask = new MapsDirectionsTask();
+            LabeledMapLocation venueLML = new LabeledMapLocation(App.ViewModel.VenueInfo.VenueName, App.ViewModel.VenueInfo.VenueGeoCoordinate);
+            mapsDirectionsTask.End = venueLML;
+            mapsDirectionsTask.Show();
+        }
     }
 }

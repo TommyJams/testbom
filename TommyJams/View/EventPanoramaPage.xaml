@@ -1,5 +1,4 @@
 ﻿<phone:PhoneApplicationPage 
-    xmlns:Controls="clr-namespace:Microsoft.Phone.Maps.Controls;assembly=Microsoft.Phone.Maps" 
     x:Class="TommyJams.View.EventPanoramaPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -7,10 +6,8 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:bm="clr-namespace:Microsoft.Phone.Maps.Controls;assembly=Microsoft.Phone.Maps"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Maps.Toolkit;assembly=Microsoft.Phone.Controls.Toolkit"
-    xmlns:mapss="clr-namespace:Microsoft.Phone.Controls.Maps;assembly=Microsoft.Phone.Controls.Maps"
-    xmlns:maptk="clr-namespace:Microsoft.Phone.Maps.Toolkit;assembly=Microsoft.Phone.Controls.Toolkit"
-    xmlns:maps="clr-namespace:Microsoft.Phone.Maps.Controls;assembly=Microsoft.Phone.Maps"        
     xmlns:toolkit1="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     xmlns:vm="clr-namespace:TommyJams.ViewModel"
     mc:Ignorable="d"
@@ -21,96 +18,125 @@
     SupportedOrientations="Portrait"  Orientation="Portrait"
     shell:SystemTray.IsVisible="True">
 
-    <phone:PhoneApplicationPage.DataContext>
-        <vm:EventViewModel/>
-    </phone:PhoneApplicationPage.DataContext>
-
     <!--LayoutRoot contains the root grid where all other page content is placed-->
     <Grid x:Name="LayoutRoot">
-        <phone:Panorama x:Name="Panorama" FontStretch="Condensed" Margin="-4,0,4,0" SelectionChanged="Panorama_SelectionChanged">
-
-
-            <phone:Panorama.Background>
-                <ImageBrush ImageSource="{Binding EventImage}"/>
-            </phone:Panorama.Background>
-
-
+        <phone:Panorama x:Name="Panorama" Title="eventName" TitleTemplate="{StaticResource SmallPanoramaTitle}" FontStretch="Condensed" Margin="-4,0,4,0" SelectionChanged="Panorama_SelectionChanged">
 
             <!--Panorama item one-->
-            <phone:PanoramaItem x:Name="mainHeader" Header="EventName" >
-                <Grid x:Name="ContentPanel" Grid.Row="1"  Margin="0,-38,0,0">
+            <phone:PanoramaItem x:Name="mainHeader" Header="venueName" HeaderTemplate="{StaticResource SmallPanoramaPageTitle}">
+                <Grid x:Name="ContentPanel">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Vertical" Grid.Row="1">
 
-                    <ListBox x:Name="MainListBox">
-                        <TextBlock x:Name="Venue" FontSize="20" HorizontalAlignment="Left" Height="70" TextWrapping="Wrap" Text="Venue" VerticalAlignment="Top" Width="360"/>
-
-                        <StackPanel Height="208" Margin="0,200,0,0" Width="350">
-                            <TextBlock HorizontalAlignment="Left" Height="30" TextWrapping="Wrap" Text="Friends Name" VerticalAlignment="Top" Width="150" Margin="100,10,0,0"/>
-                            <TextBlock TextWrapping="Wrap" Text="Invited you to the event " Width="250" Height="30" Margin="100,0,0,0"/>
-                            <Image Height="45" Width="50" Margin="-140,-100,140,-40" Source="C:\Users\Kumar\Documents\Visual Studio 2012\Projects\TommyJams\TommyJams\Assets\MapPin.png"/>
-                            <TextBlock x:Name="Textblock_time" HorizontalAlignment="Left" Height="30" TextWrapping="Wrap" Text="Time" VerticalAlignment="Top" Width="50" Margin="70,10,0,0"/>
-                            <TextBlock x:Name="Textblock_date" TextWrapping="Wrap" Text="Date " Width="50" Height="30" Margin="-150,0,0,0"/>
-                            <Image Height="45" Width="50" Margin="-150,-100,140,-40" Source="C:\Users\Kumar\Documents\Visual Studio 2012\Projects\TommyJams\TommyJams\Assets\MapPin.png"/>
-                            <TextBlock x:Name="Textblock_price" HorizontalAlignment="Left" Height="30" TextWrapping="Wrap" Text="Price" VerticalAlignment="Top" Width="50" Margin="260,-60,0,0"/>
-                            <TextBlock x:Name="Textblock_availability" TextWrapping="Wrap" Text="Available" Width="100" Height="30" Margin="260,-40,0,0"/>
-                            <Image Height="45" Width="50" Margin="170,-100,140,-40" Source="C:\Users\Kumar\Documents\Visual Studio 2012\Projects\TommyJams\TommyJams\Assets\MapPin.png"/>
-                            <TextBlock x:Name="Textblock_venue" HorizontalAlignment="Left" Height="30" TextWrapping="Wrap" Text="Venue" VerticalAlignment="Top" Width="100" Margin="90,10,0,0"/>
-                            <TextBlock x:Name="Textblock_distance" TextWrapping="Wrap" Text="• Address " Width="150" Height="30" Margin="-30,0,0,0"/>
-                            <TextBlock x:Name="Textblock_address" TextWrapping="Wrap" Text="• Distance " Width="150" Height="30" Margin="200,-30,0,0"/>
-                            <Image Height="45" Width="50" Margin="-100,-100,190,-40" Source="C:\Users\Kumar\Documents\Visual Studio 2012\Projects\TommyJams\TommyJams\Assets\MapPin.png"/>
-
+                        <StackPanel x:Name="panel1Invite" Orientation="Horizontal">
+                            <Image Height="80" Width="80" Source="../Resources/Image/play.gif"  VerticalAlignment="Center" Margin="10,0,0,0">
+                                <Image.Clip>
+                                    <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
+                                </Image.Clip>
+                            </Image>
+                            <StackPanel Orientation="Vertical" Margin="10">
+                                <TextBlock Text="Friends Name" FontSize="30" Foreground="#ffcc00"/>
+                                <TextBlock Text="Invited you" Foreground="#aaaaaa"/>
+                            </StackPanel>
                         </StackPanel>
 
-                    </ListBox>
+                        <StackPanel Orientation="Horizontal" Margin="40,0,0,0">
+                            <Image Height="50" Width="50" Source="../Resources/Image/play.gif" VerticalAlignment="Center"/>
+                            <StackPanel Orientation="Vertical" Margin="10">
+                                <TextBlock x:Name="Textblock_time" Text="Time" FontSize="30" />
+                                <TextBlock x:Name="Textblock_date" Text="Date" Foreground="#aaaaaa"/>
+                            </StackPanel>
+                            <Image Height="50" Width="50" Source="../Resources/Image/play.gif"  VerticalAlignment="Center" Margin="50,0,0,0"/>
+                            <StackPanel Orientation="Vertical" Margin="10">
+                                <TextBlock x:Name="Textblock_price" Text="Price" FontSize="30" />
+                                <TextBlock x:Name="Textblock_availability" Text="Availability" Foreground="#aaaaaa"/>
+                            </StackPanel>
+                        </StackPanel>
 
+                        <StackPanel Orientation="Horizontal" Margin="40,0,0,0">
+                            <Image Height="50" Width="50" Source="../Resources/Image/play.gif" VerticalAlignment="Center"/>
+                            <StackPanel Orientation="Vertical" Margin="10">
+                                <TextBlock x:Name="Textblock_venue" FontSize="30" Text="Venue"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock x:Name="Textblock_distance" Text="Distance" Foreground="#aaaaaa"/>
+                                    <TextBlock x:Name="Textblock_address" Text=" • Location" Foreground="#aaaaaa"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <StackPanel x:Name="panel1Attending" Orientation="Horizontal" Margin="10,0,0,0">
+                            <Image Source="../Resources/Image/play.gif" Height="80" Width="80" Margin="0,10,0,10">
+                                <Image.Clip>
+                                    <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
+                                </Image.Clip>
+                            </Image>
+                            <Image Source="../Resources/Image/play.gif" Height="80" Width="80" Margin="10,10,0,10">
+                                <Image.Clip>
+                                    <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
+                                </Image.Clip>
+                            </Image>
+                            <Image Source="../Resources/Image/play.gif" Height="80" Width="80" Margin="10,10,0,10">
+                                <Image.Clip>
+                                    <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
+                                </Image.Clip>
+                            </Image>
+                            <TextBlock Foreground="#aaaaaa" Text="+32 attending" VerticalAlignment="Center" Margin="10" />
+                        </StackPanel>
+
+                    </StackPanel>
                 </Grid>
             </phone:PanoramaItem>
 
             <!--Panorama item two-->
-            <phone:PanoramaItem>
+            <phone:PanoramaItem x:Name="artistHeader" Header="artist" HeaderTemplate="{StaticResource SmallPanoramaPageTitle}">
                 <Grid>
-                    <TextBlock Text="Artist" FontSize="25" Margin="0,0,0,0"/>
-                    <ListBox x:Name="ArtistListBox" Margin="0,40,20,-71">
+                    <ListBox x:Name="ArtistListBox">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <StackPanel Height="650">
-                                    <Image HorizontalAlignment="Left" Height="160" Margin="4,18,0,0" VerticalAlignment="Top" Width="413" Source="{Binding ArtistImage}"/>
-                                    <TextBlock x:Name ="description" HorizontalAlignment="Left" FontSize="15" Margin="2,15,0,0" TextWrapping="Wrap" Text="{Binding ArtistDescription}" VerticalAlignment="Top" Height="86" Width="411"/>
-                                    <Button BorderThickness="0" Margin="-200,-10,0,0" Width="150" Height="150">
-                                        <Ellipse Width="80" Height="80">
-                                            <Ellipse.Fill>
-                                                <ImageBrush>
-                                                    <ImageBrush.ImageSource>
-                                                        <BitmapImage UriSource="../Resources/Image/facebook_icon_large.gif" />
-                                                    </ImageBrush.ImageSource>
-                                                </ImageBrush>
-                                            </Ellipse.Fill>
-                                        </Ellipse>
+                                <StackPanel Orientation="Vertical" Margin="0,0,0,20">
+                                    <TextBlock x:Name ="artistName" Width="400" FontSize="30" TextWrapping="Wrap" Text="{Binding ArtistName}" VerticalAlignment="Top"/>
+                                    <Image Height="160" Width="400" Source="{Binding ArtistImage}" Opacity="0.8" HorizontalAlignment="Center" Margin="0,10,0,0"/>
+                                    <TextBlock x:Name ="artistDescription" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding ArtistDescription}"/>
+
+                                    <Button BorderThickness="0" HorizontalAlignment="Left">
+                                        <Button.Content>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Image Source="../Resources/Image/facebook_icon_large.gif" Height="80" Width="80">
+                                                    <Image.Clip>
+                                                        <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
+                                                    </Image.Clip>
+                                                </Image>
+                                                <TextBlock Text="Facebook" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                                            </StackPanel>
+                                        </Button.Content>
                                     </Button>
-                                    <TextBlock Text="Facebook" FontSize="20" Margin ="150,-85,0,0"/>
-                                    <Button BorderThickness="0" Margin="-200,-20,0,0" >
-                                        <Ellipse Width="80" Height="80">
-                                            <Ellipse.Fill>
-                                                <ImageBrush>
-                                                    <ImageBrush.ImageSource>
-                                                        <BitmapImage UriSource="../Resources/Image/soundcloud.png" />
-                                                    </ImageBrush.ImageSource>
-                                                </ImageBrush>
-                                            </Ellipse.Fill>
-                                        </Ellipse>
+                                    <Button BorderThickness="0" HorizontalAlignment="Left">
+                                        <Button.Content>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Image Source="../Resources/Image/soundcloud.png" Height="80" Width="80">
+                                                    <Image.Clip>
+                                                        <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
+                                                    </Image.Clip>
+                                                </Image>
+                                                <TextBlock Text="Soundcloud" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                                            </StackPanel>
+                                        </Button.Content>
                                     </Button>
-                                    <TextBlock Text="SoundCloud" FontSize="20" Margin ="150,-85,0,0"/>
-                                    <Button BorderThickness="0" Margin="-200,-20,0,0" >
-                                        <Ellipse Width="80" Height="80">
-                                            <Ellipse.Fill>
-                                                <ImageBrush>
-                                                    <ImageBrush.ImageSource>
-                                                        <BitmapImage UriSource="../Resources/Image/reverbnation.png" />
-                                                    </ImageBrush.ImageSource>
-                                                </ImageBrush>
-                                            </Ellipse.Fill>
-                                        </Ellipse>
+                                    <Button BorderThickness="0" HorizontalAlignment="Left">
+                                        <Button.Content>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Image Source="../Resources/Image/reverbnation.png" Height="80" Width="80">
+                                                    <Image.Clip>
+                                                        <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
+                                                    </Image.Clip>
+                                                </Image>
+                                                <TextBlock Text="ReverbNation" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                                            </StackPanel>
+                                        </Button.Content>
                                     </Button>
-                                    <TextBlock Text="ReverbNation" FontSize="20" Margin ="150,-85,0,0"/>
                                 </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
@@ -120,87 +146,78 @@
 
 
             <!--Panorama item three-->
-            <phone:PanoramaItem>
+            <phone:PanoramaItem x:Name="venueHeader" Header="venue" HeaderTemplate="{StaticResource SmallPanoramaPageTitle}">
 
-
-                <Grid x:Name="VenueGrid" Margin="0,0,0,0" DataContext="{Binding VenueInfo,Mode=TwoWay}">
-
-                    <TextBlock Text="Venue" Margin="0,0,0,0" FontSize="25"/>
-                    <maps:Map x:Name="Map" Grid.Row="0" Margin="200,0,0,350" Height="160" Width="200">
-                                        <maptk:MapExtensions.Children>
-                                            <maptk:Pushpin x:Name="RouteDirectionsPushPin"/>
-                                        </maptk:MapExtensions.Children>
-                                    </maps:Map>
-                    <TextBlock Margin="-200,-350,0,0" TextWrapping="Wrap" FontSize="40" Text="{Binding VenueAddress,Mode=TwoWay}" Height="160" Width="200"/>
+                <Grid x:Name="VenueGrid" DataContext="{Binding VenueInfo,Mode=TwoWay}">
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Vertical" Background="#ffcc00" Margin="10,0,0,0">
+                                <TextBlock TextWrapping="Wrap" Text="{Binding VenueName,Mode=TwoWay}" FontSize="30" Width="210" Foreground="Black" Margin="20,20,20,10"/>
+                                <TextBlock TextWrapping="Wrap" Text="{Binding VenueAddress,Mode=TwoWay}" Width="210" Foreground="Black" Margin="20,0,20,20"/>
+                            </StackPanel>
+                            <bm:Map x:Name="venueMap" Grid.Row="0" Height="160" Width="160" Loaded="venueMap_Loaded" Tap="venueMap_Tap"> 
+                                <toolkit:MapExtensions.Children>
+                                    <toolkit:Pushpin Content="{Binding VenueName}" GeoCoordinate="{Binding VenueGeoCoordinate}"/>
+                                </toolkit:MapExtensions.Children>
+                            </bm:Map>
+                        </StackPanel>
                     <!--I need icons for these-->
-                    <Ellipse Width="60" Height="60" Margin="-250,-150,0,0">
-                        <Ellipse.Fill>
-                            <ImageBrush>
-                                <ImageBrush.ImageSource>
-                                    <BitmapImage UriSource="../Resources/Image/facebook_icon_large.gif" />
-                                </ImageBrush.ImageSource>
-                            </ImageBrush>
-                        </Ellipse.Fill>
-                    </Ellipse>
-                    <Ellipse Width="60" Height="60" Margin="-50,-150,0,0">
-                        <Ellipse.Fill>
-                            <ImageBrush>
-                                <ImageBrush.ImageSource>
-                                    <BitmapImage UriSource="../Resources/Image/facebook_icon_large.gif" />
-                                </ImageBrush.ImageSource>
-                            </ImageBrush>
-                        </Ellipse.Fill>
-                    </Ellipse>
-                    <Ellipse Width="60" Height="60" Margin="150,-150,0,0">
-                        <Ellipse.Fill>
-                            <ImageBrush>
-                                <ImageBrush.ImageSource>
-                                    <BitmapImage UriSource="../Resources/Image/facebook_icon_large.gif" />
-                                </ImageBrush.ImageSource>
-                            </ImageBrush>
-                        </Ellipse.Fill>
-                    </Ellipse>
-                    
-                    
-                    <Button BorderThickness="0" Margin="0,50,0,0" Width="300" Height="110">
-                        <Ellipse Width="80" Height="80" Margin="-200,0,0,0">
-                            <Ellipse.Fill>
-                                <ImageBrush>
-                                    <ImageBrush.ImageSource>
-                                        <BitmapImage UriSource="../Resources/Image/facebook_icon_large.gif" />
-                                    </ImageBrush.ImageSource>
-                                </ImageBrush>
-                            </Ellipse.Fill>
-                        </Ellipse>
-                    </Button>
-                    <TextBlock Text="Facebook" FontSize="23" Margin ="160,50,0,0" Height="50"/>
-                    <Button BorderThickness="0" Margin="0,220,0,0" Width ="300" Height="110">
-                        <Ellipse Width="80" Height="80" Margin="-200,0,0,0">
-                            <Ellipse.Fill>
-                                <ImageBrush>
-                                    <ImageBrush.ImageSource>
-                                        <BitmapImage UriSource="../Resources/Image/soundcloud.png" />
-                                    </ImageBrush.ImageSource>
-                                </ImageBrush>
-                            </Ellipse.Fill>
-                        </Ellipse>
-                    </Button>
-                    <TextBlock Text="SoundCloud" FontSize="23" Margin ="160,230,0,0" Height="50"/>
-                    <Button BorderThickness="0" Margin="-200,410,0,0" Height="110">
-                        <Ellipse Width="80" Height="80">
-                            <Ellipse.Fill>
-                                <ImageBrush>
-                                    <ImageBrush.ImageSource>
-                                        <BitmapImage UriSource="../Resources/Image/reverbnation.png" />
-                                    </ImageBrush.ImageSource>
-                                </ImageBrush>
-                            </Ellipse.Fill>
-                        </Ellipse>
-                    </Button>
-                    <TextBlock Text="ReverbNation" FontSize="23" Margin ="160,520,0,0"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                            <Image Source="../Resources/Image/facebook_icon_large.gif" Height="80" Width="80" Margin="10">
+                                <Image.Clip>
+                                    <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
+                                </Image.Clip>
+                            </Image>
+                            <Image Source="../Resources/Image/facebook_icon_large.gif" Height="80" Width="80" Margin="10">
+                                <Image.Clip>
+                                    <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
+                                </Image.Clip>
+                            </Image>
+                            <Image Source="../Resources/Image/facebook_icon_large.gif" Height="80" Width="80" Margin="10">
+                                <Image.Clip>
+                                    <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
+                                </Image.Clip>
+                            </Image>
+                        </StackPanel>
 
+                        <Button BorderThickness="0" Padding="0" HorizontalAlignment="Left">
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="../Resources/Image/facebook_icon_large.gif" Height="80" Width="80">
+                                        <Image.Clip>
+                                            <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
+                                        </Image.Clip>
+                                    </Image>
+                                    <TextBlock Text="Facebook" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+                        <Button BorderThickness="0" Padding="0" HorizontalAlignment="Left">
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="../Resources/Image/soundcloud.png" Height="80" Width="80">
+                                        <Image.Clip>
+                                            <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
+                                        </Image.Clip>
+                                    </Image>
+                                    <TextBlock Text="Zomato" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+                        <Button BorderThickness="0" Padding="0" HorizontalAlignment="Left">
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="../Resources/Image/reverbnation.png" Height="80" Width="80">
+                                        <Image.Clip>
+                                            <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
+                                        </Image.Clip>
+                                    </Image>
+                                    <TextBlock Text="Website" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
 
-
+                    </StackPanel>
                 </Grid>
           </phone:PanoramaItem>
 
@@ -208,24 +225,35 @@
 
 
             <!--Panorma Item four-->
-            <phone:PanoramaItem Header="Friends">
+            <phone:PanoramaItem x:Name="socialHeader" Header="social" HeaderTemplate="{StaticResource SmallPanoramaPageTitle}">
                 <Grid>
-                    <ListBox x:Name="FriendListBox" Margin="1,-34,20,-71">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel x:Name="panel4Invite" Orientation="Horizontal" Grid.Row="1">
+                        <Image Height="80" Width="80" Source="../Resources/Image/play.gif"  VerticalAlignment="Center" Margin="10,0,0,0">
+                            <Image.Clip>
+                                <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
+                            </Image.Clip>
+                        </Image>
+                        <StackPanel Orientation="Vertical" Margin="10">
+                            <TextBlock Text="Friends Name" FontSize="30" Foreground="#ffcc00"/>
+                            <TextBlock Text="Invited you" Foreground="#aaaaaa"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="people attending" FontSize="30" Grid.Row="2" Margin="10"/>
+                    <ListBox x:Name="FriendListBox" Grid.Row="3">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <StackPanel>
-                                <Grid Height="50" Margin="0,0,0,1" Width="456">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="50*"/>
-                                        <ColumnDefinition Width="360*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Image HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="50" Source="{Binding PictureUri}" Grid.Column="0">
+                                <StackPanel Orientation="Horizontal" Grid.Row="1">
+                                    <Image Height="80" Width="80" Source="{Binding PictureUri}"  VerticalAlignment="Center" Margin="10,0,0,0">
                                         <Image.Clip>
-                                            <EllipseGeometry Center="25,25" RadiusX="25" RadiusY="25" />
+                                            <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
                                         </Image.Clip>
                                     </Image>
-                                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Name}" VerticalAlignment="Top" Grid.Column="1" FontSize="24"/>
-                                </Grid>
+                                    <TextBlock Text="{Binding Name}" FontSize="30" Foreground="#ffcc00"/>
                                 </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
@@ -234,33 +262,48 @@
             </phone:PanoramaItem>
 
             <!-- Panorama Item Five-->
-            <phone:PanoramaItem Header="Tickets">
-                <StackPanel>
-                    <Image HorizontalAlignment="Left" Margin ="40,30,0,0" Height="58" VerticalAlignment="Top" Width="72"/>
-                    <TextBlock TextWrapping="Wrap" Text="Venue" Height="39" Margin="155,-95,87,0"/>
-                    <TextBlock TextWrapping="Wrap" Text="Venue Address" Height="29" Margin="155,-25,87,0"/>
-                    <Image HorizontalAlignment="Left" Margin ="40,30,0,0" Height="58" VerticalAlignment="Top" Width="72"/>
-                    <TextBlock TextWrapping="Wrap" Text="Time" Height="39" Margin="155,-95,87,0"/>
-                    <TextBlock TextWrapping="Wrap" Text="Date" Height="29" Margin="155,-25,87,0"/>
-                    <Image HorizontalAlignment="Left" Margin ="40,30,0,0" Height="58" VerticalAlignment="Top" Width="72"/>
-                    <TextBlock TextWrapping="Wrap" Text="Price" Height="39" Margin="155,-95,87,0"/>
-                    <TextBlock TextWrapping="Wrap" Text="Availability" Height="29" Margin="155,-25,87,0"/>
-                    <TextBlock TextWrapping="Wrap" Text="Quantity" Width ="90" Height="29" Margin="-300,30,0,0" />
-                    
-                    <toolkit1:ListPicker x:Name="TicketSelector" Width="200" Margin="90,-30,0,0">
-                        <toolkit1:ListPickerItem Content="1" x:Name="One" />
-                        <toolkit1:ListPickerItem Content="2" x:Name="Two" />
-                        <toolkit1:ListPickerItem Content="3" x:Name="Three" />
-                        <toolkit1:ListPickerItem Content="4" x:Name="Four" />
-                        <toolkit1:ListPickerItem Content="5" x:Name="Five" />
-                        <toolkit1:ListPickerItem Content="6" x:Name="Six" />
-                        <toolkit1:ListPickerItem Content="7" x:Name="Seven" />
-                        <toolkit1:ListPickerItem Content="8" x:Name="Eight" />
-                        <toolkit1:ListPickerItem Content="9" x:Name="Nine" />
-                    </toolkit1:ListPicker>
+            <phone:PanoramaItem  x:Name="ticketsHeader" Header="tickets" HeaderTemplate="{StaticResource SmallPanoramaPageTitle}">
+                <StackPanel Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
+                        <Image Height="50" Width="50" Source="../Resources/Image/play.gif" VerticalAlignment="Center"/>
+                        <StackPanel Orientation="Vertical" Margin="10">
+                            <TextBlock x:Name="panel5_venue" FontSize="30" Text="Venue"/>
+                            <TextBlock x:Name="panel5_address" Text="Location" Foreground="#aaaaaa"/>
+                        </StackPanel>
+                    </StackPanel>
 
-                    <TextBlock Text="Total Fare" Width="100" Margin="-300,30,0,0"/>
-                    <TextBlock Text="1231" Width="50" Margin="200,-30,0,0" />
+                    <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
+                        <Image Height="50" Width="50" Source="../Resources/Image/play.gif" VerticalAlignment="Center"/>
+                        <StackPanel Orientation="Vertical" Margin="10">
+                            <TextBlock x:Name="panel5_time" FontSize="30" Text="Time"/>
+                            <TextBlock x:Name="panel5_date" Text="Date" Foreground="#aaaaaa"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
+                        <Image Height="50" Width="50" Source="../Resources/Image/play.gif" VerticalAlignment="Center"/>
+                        <StackPanel Orientation="Vertical" Margin="10">
+                            <TextBlock x:Name="panel5_price" FontSize="30" Text="Price"/>
+                            <TextBlock x:Name="panel5_availability" Text="Available" Foreground="#aaaaaa"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
+                        <TextBlock Text="Quantity:" FontSize="30" Foreground="#ffcc00" VerticalAlignment="Center"/>
+                        <toolkit1:ListPicker x:Name="TicketSelector" Width="100" Margin="10,0,0,0" Foreground="#ffcc00">
+                            <toolkit1:ListPickerItem Content="1" x:Name="One" HorizontalAlignment="Center"/>
+                            <toolkit1:ListPickerItem Content="2" x:Name="Two" HorizontalAlignment="Center"/>
+                            <toolkit1:ListPickerItem Content="3" x:Name="Three"  HorizontalAlignment="Center"/>
+                            <toolkit1:ListPickerItem Content="4" x:Name="Four"  HorizontalAlignment="Center"/>
+                            <toolkit1:ListPickerItem Content="5" x:Name="Five"  HorizontalAlignment="Center"/>
+                        </toolkit1:ListPicker>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
+                        <TextBlock Text="Total Fare:" FontSize="30" VerticalAlignment="Center"/>
+                        <TextBlock Text="$1231" FontSize="50" VerticalAlignment="Center" Margin="100,0,0,0"/>
+                    </StackPanel>
+
                 </StackPanel>
 
 

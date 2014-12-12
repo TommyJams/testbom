@@ -316,4 +316,236 @@ namespace TommyJams.Model
         }
 
     }
+
+    public class NotificationItem : INotifyPropertyChanged
+    {
+        private string _eventName;
+        public string EventName
+        {
+            get
+            {
+                return _eventName;
+            }
+            set
+            {
+                if (value != _eventName)
+                {
+                    _eventName = value;
+                    NotifyPropertyChanged("EventName");
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged(String propertyName)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (null != handler)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+
+        }
+    }
+
+    public class User : INotifyPropertyChanged
+    {
+        private string _fbid;
+        public string fbid
+        {
+            get
+            {
+                return _fbid;
+            }
+            set
+            {
+                if (value != _fbid)
+                {
+                    _fbid = value;
+                    NotifyPropertyChanged("fbid");
+                }
+            }
+        }
+
+        private string _name;
+        public string name
+        {
+            get
+            {
+                return _name;
+            }
+            set
+            {
+                if (value != _name)
+                {
+                    _name = value;
+                    NotifyPropertyChanged("name");
+                }
+            }
+        }
+
+        private string _email;
+        public string email
+        {
+            get
+            {
+                return _email;
+            }
+            set
+            {
+                if (value != _email)
+                {
+                    _email = value;
+                    NotifyPropertyChanged("email");
+                }
+            }
+        }
+
+        private string _dob;
+        public string dob
+        {
+            get
+            {
+                return _dob;
+            }
+            set
+            {
+                if (value != _dob)
+                {
+                    _dob = value;
+                    NotifyPropertyChanged("dob");
+                }
+            }
+        }
+
+        private string _gender;
+        public string gender
+        {
+            get
+            {
+                return _gender;
+            }
+            set
+            {
+                if (value != _gender)
+                {
+                    _gender = value;
+                    NotifyPropertyChanged("gender");
+                }
+            }
+        }
+
+        private string _city;
+        public string city
+        {
+            get
+            {
+                return _city;
+            }
+            set
+            {
+                if (value != _city)
+                {
+                    _city = value;
+                    NotifyPropertyChanged("city");
+                }
+            }
+        }
+
+        private string _country;
+        public string country
+        {
+            get
+            {
+                return _country;
+            }
+            set
+            {
+                if (value != _country)
+                {
+                    _country = value;
+                    NotifyPropertyChanged("country");
+                }
+            }
+        }
+
+        private string _phone;
+        public string phone
+        {
+            get
+            {
+                return _phone;
+            }
+            set
+            {
+                if (value != _phone)
+                {
+                    _phone = value;
+                    NotifyPropertyChanged("phone");
+                }
+            }
+        }
+
+        private string _ip;
+        public string ip
+        {
+            get
+            {
+                return _ip;
+            }
+            set
+            {
+                if (value != _ip)
+                {
+                    _ip = value;
+                    NotifyPropertyChanged("ip");
+                }
+            }
+        }
+
+        private string _lastLoginCity;
+        public string lastLoginCity
+        {
+            get
+            {
+                return _lastLoginCity;
+            }
+            set
+            {
+                if (value != _lastLoginCity)
+                {
+                    _lastLoginCity = value;
+                    NotifyPropertyChanged("lastLoginCity");
+                }
+            }
+        }
+
+        private string _lastLoginCountry;
+        public string lastLoginCountry
+        {
+            get
+            {
+                return _lastLoginCountry;
+            }
+            set
+            {
+                if (value != _lastLoginCountry)
+                {
+                    _lastLoginCountry = value;
+                    NotifyPropertyChanged("lastLoginCountry");
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged(String propertyName)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (null != handler)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+
+        }
+    }
 }

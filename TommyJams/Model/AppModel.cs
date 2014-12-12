@@ -146,8 +146,19 @@ namespace TommyJams.Model
             venue.VenueGeoCoordinate = a;
             
             return venue;
-           
+        }
 
+        public async Task<ObservableCollection<NotificationItem>> GetNotifications()
+        {
+            String defaultUri = "https://testneo4j.azure-mobile.net/api/getUpcomingEvents?";
+            String completeUri = defaultUri + "fbid=" + App.FacebookId + "&city=" + App.city + "&country=" + App.country;
+            HttpClient client = new HttpClient();
+            Task<String> GetResult = client.GetStringAsync(completeUri);
+            string result = await GetResult;
+
+            ObservableCollection<NotificationItem> notificationsList = JsonConvert.DeserializeObject<ObservableCollection<NotificationItem>>(result) as ObservableCollection<NotificationItem>;
+
+            return notificationsList;
         }
 
         public async Task<ObservableCollection<EventItem>> GetPrimaryEvents()
@@ -200,6 +211,28 @@ namespace TommyJams.Model
             }
             return primaryEvents;
 
+        }
+
+        public async Task<string> PutUser(User u)
+        {
+            String defaultUri = "https://testneo4j.azure-mobile.net/api/createuser";
+
+            string postData = JsonConvert.SerializeObject(u);
+            
+            HttpClient client = new HttpClient();
+            HttpResponseMessage response = await client.PostAsync(defaultUri, new StringContent(postData, Encoding.UTF8, "application/json"));
+            string content = await response.Content.ReadAsStringAsync();
+            
+            //response.EnsureSuccessStatusCode();
+            if(!response.IsSuccessStatusCode)
+            {
+                if(!content.Contains("already exists"))
+                {
+                    throw new HttpRequestException();
+                }
+            }
+
+            return content;
         }
     }
 

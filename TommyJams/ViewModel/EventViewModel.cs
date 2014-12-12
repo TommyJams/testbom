@@ -64,7 +64,25 @@ namespace TommyJams.ViewModel
                     NotifyPropertyChanged("Priority2Items");
                 }
             }
-         }
+        }
+
+        private ObservableCollection<NotificationItem> _notificationItems = new ObservableCollection<NotificationItem>();
+        public ObservableCollection<NotificationItem> NotificationItems
+        {
+            get
+            {
+                return _notificationItems;
+            }
+            set
+            {
+                if (value != _notificationItems)
+                {
+                    _notificationItems = value;
+                    NotifyPropertyChanged("NotificationItems");
+                }
+            }
+        }
+
         private EventItem _eventItem = new EventItem();
         public EventItem EventItem 
         {
@@ -81,6 +99,7 @@ namespace TommyJams.ViewModel
                 }
             }
         }
+
         private ObservableCollection<ArtistInfo> _artistInfo = new ObservableCollection<ArtistInfo>();
         public ObservableCollection<ArtistInfo> ArtistInfo
         {
@@ -138,6 +157,12 @@ namespace TommyJams.ViewModel
             set;
         }
 
+        public async Task<string> AddUser(User u)
+        {
+            string response = await AppModel.PutUser(u);
+            return response;
+        }
+
         public async Task LoadPrimaryEvents()
         {
             Priority1Items = await AppModel.GetPrimaryEvents();
@@ -146,6 +171,11 @@ namespace TommyJams.ViewModel
         public async Task LoadSecondaryEvents()
         {
             Priority2Items = await AppModel.GetSecondaryEvents();
+        }
+
+        public async Task LoadNotifications()
+        {
+            NotificationItems = await AppModel.GetNotifications();
         }
 
         public async Task<EventItem> LoadEventInfo()

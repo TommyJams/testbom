@@ -20,21 +20,6 @@ using System.Text;
 namespace TommyJams.View
 {
 
-    public class User
-    {
-        [DataMember(Name = "name")]
-        public String name { get; set; }
-        [DataMember(Name = "education")]
-        public String education { get; set; }
-        [DataMember(Name = "birtday")]
-        public String birthday { get; set; }
-    }
-
-    public class FbID
-    {
-        public String fbid { get; set; }
-    }
-
     public partial class APITest : PhoneApplicationPage
     {
         //public static MobileServiceClient client = new MobileServiceClient("https://testneo4j.azure-mobile.net", "");
@@ -59,7 +44,7 @@ namespace TommyJams.View
 
         void webClient_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
-            if (e.Error == null)
+            /*if (e.Error == null)
             {
                 try
                 {
@@ -71,8 +56,7 @@ namespace TommyJams.View
                         productsString.AppendFormat("Name: {0}",aProduct.nname);
                         break;
                     }
-                    */
-                    /*String final="";
+                    String final="";
                     for (int i = 0; i < e.Result.Length; i++)
                     {
                         if (e.Result[i] == '.')
@@ -82,7 +66,7 @@ namespace TommyJams.View
                             final = final + e.Result[i];
                         }
 
-                    }*/
+                    }
 
                     User json = JsonConvert.DeserializeObject<User>(result) as User;
                     StringBuilder productsString = new StringBuilder();
@@ -103,7 +87,7 @@ namespace TommyJams.View
                 }
                 
                 
-            }
+            }*/
         }
 
 
@@ -142,7 +126,7 @@ namespace TommyJams.View
 
         public async void testAPI(object sender, RoutedEventArgs e)
         {
-            try
+            /*try
             {
                 var client = new MobileServiceClient("https://testneo4j.azure-mobile.net/", "8MXv+0OPLj2Tg0cj6W8X5pOqWB2RdkTybv8kCc3AqG8P4VuIc0xjMfzV9TRDO1AdPggfIykoZ++x50H+B3XJrg==");
                 //HttpWebRequest webRequest = (HttpWebRequest)asynchronousResult.AsyncState;
@@ -159,7 +143,7 @@ namespace TommyJams.View
             catch (Exception ex)
             {
                 TextBlock.Text = ex.ToString();
-            }
+            }*/
 
 
         }

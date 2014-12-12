@@ -22,6 +22,7 @@ using System.Globalization;
 using System.Windows.Controls.Primitives;
 using System.ComponentModel;
 using System.Threading;
+using System.Threading.Tasks;
 using Windows.UI.Popups;
 
 namespace TommyJams.View
@@ -35,7 +36,7 @@ namespace TommyJams.View
             LoadData();
         }
 
-        private async System.Threading.Tasks.Task AuthenticateAsync()
+        private async Task AuthenticateAsync()
         {
             if (App.MobileService.CurrentUser == null) //Login
             {
@@ -44,12 +45,14 @@ namespace TommyJams.View
                     await App.MobileService.LoginAsync(MobileServiceAuthenticationProvider.Facebook);
                     if (App.MobileService.CurrentUser != null)
                     {
-                        App.FacebookId = App.MobileService.CurrentUser.UserId.Substring(9);
+                        App.FacebookId = App.MobileService.CurrentUser.UserId.Substring(9); //Get facebook id number
 
                         BitmapImage bm = new BitmapImage(new Uri("http://graph.facebook.com/" + App.FacebookId + "/picture?type=square", UriKind.Absolute));
                         fbUserImage.Source = bm;
 
+                        NotifyUserAuthenticated();
                         LoadData();
+                        ToggleNotifications();
                     }
                 }
                 catch (InvalidOperationException)
@@ -72,6 +75,41 @@ namespace TommyJams.View
             }
         }
 
+        public async void NotifyUserAuthenticated()
+        {
+            try
+            {
+                App.fbUser.fbid = App.FacebookId;
+                /*var fb = new FacebookClient(App.MobileService.CurrentUser.MobileServiceAuthenticationToken);
+                dynamic result = await fb.GetTaskAsync("me");
+                
+                App.fbUser.name = (string)result["name"];
+
+                
+                fb.GetTaskAsync("me");*/
+                
+                //Get these via facebook
+                App.fbUser.name = "Test Artist";
+                App.fbUser.email = "testartist.tommy@gmail.com";
+                App.fbUser.dob = "21081988";
+                App.fbUser.gender = "male";
+                App.fbUser.city = "Delhi";
+                App.fbUser.country = "India";
+                App.fbUser.phone = "+919611400393";
+                App.fbUser.ip = "0.0.0.0";
+
+                string responseAddUser = await App.ViewModel.AddUser(App.fbUser);
+            }
+            catch (NullReferenceException)
+            {
+                MessageBox.Show("Sorry, could not load data!");
+            }
+            catch (HttpRequestException e)
+            {
+                MessageBox.Show("Sorry, could not connect to the internet!");
+            }
+        }
+
         public async void LoadData()
         {
             ProgressBar.Visibility = Visibility.Visible;
@@ -91,6 +129,33 @@ namespace TommyJams.View
            
             //ProgressBar.IsIndeterminate = false;
             ProgressBar.Visibility = Visibility.Collapsed;
+        }
+
+        public async void ToggleNotifications()
+        {
+            if (App.MobileService.CurrentUser != null)
+            {
+                panelNotifications.Visibility = Visibility.Visible;
+                try
+                {
+                    await App.ViewModel.LoadNotifications();
+                }
+                catch (NullReferenceException)
+                {
+                    MessageBox.Show("Sorry, could not load data!");
+                }
+                catch (HttpRequestException)
+                {
+                    MessageBox.Show("Sorry, could not connect to the internet!");
+                }
+
+                notificationsProgressBar.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                notificationsProgressBar.Visibility = Visibility.Visible;
+                panelNotifications.Visibility = Visibility.Collapsed;
+            }
         }
 
         /*
@@ -130,7 +195,6 @@ namespace TommyJams.View
             //NavigationService.Navigate(new Uri("/View/FacebookLoginPage.xaml", UriKind.Relative));
             
             await AuthenticateAsync();
-            LoadData();
         }
 
         private async void RefreshButton_Click(object sender, EventArgs e)
@@ -144,6 +208,7 @@ namespace TommyJams.View
             StackPanel selected = sender as StackPanel;
             EventItem data = selected.DataContext as EventItem;
             App.EventID = data.EventID;
+            App.ViewModel.EventItem.EventName = data.EventName;
             App.ViewModel.EventItem.EventDate = data.EventDate;
             App.ViewModel.EventItem.EventTime = data.EventTime;
             App.ViewModel.EventItem.EventPrice = data.EventPrice;

@@ -16,7 +16,6 @@
     shell:SystemTray.IsVisible="True" Margin="-3,0,3,0">
 
 
-
     <!--LayoutRoot contains the root grid where all other page content is placed-->
     <Grid x:Name="LayoutRoot">
 
@@ -50,8 +49,6 @@
                                         </HyperlinkButton.Background>
                                     </HyperlinkButton>
 
-                                    
-
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock x:Name="genre" Text="{Binding EventGenre}" FontSize="15"/>
                                         <TextBlock x:Name="price" Text="{Binding EventPrice}" TextWrapping="Wrap" FontSize="15"/>
@@ -84,6 +81,7 @@
                                                 Height="145"
                                                 VerticalAlignment="Center"
                                                 HorizontalAlignment="Center"
+                                                Tap="On_Tap"
                                                 >
                                     <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
                                         <HyperlinkButton BorderThickness="0" Click="Button_Click" Width="100" Height="100">
@@ -115,6 +113,23 @@
             </phone:PanoramaItem>
 
             <!--Panorama Screen Three-->
+            <phone:PanoramaItem x:Name="panelNotifications" Header="notifications"  HeaderTemplate="{StaticResource SmallPanoramaPageTitle}" Visibility="Collapsed">
+                <Grid>
+                    <Grid.Resources>
+                        <src:EventViewModel  x:Key="NotificationItems"/>
+                    </Grid.Resources>
+                    <ListBox x:Name="notificationListBox" ItemsSource="{Binding NotificationItems, Mode=TwoWay}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding eventName}"/>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <ProgressBar x:Name="notificationsProgressBar" IsIndeterminate="True" Visibility="Visible" Height="300" Width="420"/>
+                </Grid>
+            </phone:PanoramaItem>
+
+            <!--Panorama Screen Four-->
             <phone:PanoramaItem Header="connect"  HeaderTemplate="{StaticResource SmallPanoramaPageTitle}">
                 <Grid Margin="0,-20,0,0">
                     <Button HorizontalAlignment="Left" Height="203" VerticalAlignment="Top" Width="208" Click="FacebookLogin_Click">
@@ -142,7 +157,6 @@
 
                 </Grid>
             </phone:PanoramaItem>
-
 
         </phone:Panorama>
         <phone:WebBrowser Name="Browser" Grid.Row="1"  Background="Aqua" Width="450" Height="600" Visibility="Collapsed"/>
