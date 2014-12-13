@@ -40,6 +40,7 @@ namespace TommyJams.View
                 else
                 {
                     city_name.FontStyle = System.Windows.FontStyles.Normal;
+                    settings_extension.City_setting(c.City_Name);
                 }
                 city_name.Text = c.City_Name;
                 city_list.Visibility = System.Windows.Visibility.Collapsed;
@@ -50,6 +51,10 @@ namespace TommyJams.View
         {
             PushNotification_toggle.IsChecked = settings_extension.PushNotification_setting_status();
             Calender_Toggle.IsChecked = settings_extension.CalenderEntries_setting_status();
+            if (settings_extension.City_setting_status() != "")
+                city_name.Text = settings_extension.City_setting_status();
+            else
+                city_name.Text = "Select a location";
         }
         protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
         {
@@ -137,11 +142,12 @@ namespace TommyJams.View
                             city_name.Text = c.City_Name;
                             city_name.FontStyle = System.Windows.FontStyles.Normal;
                             matchFound = true;
+                            settings_extension.City_setting(c.City_Name);
                         }
                     }
                     if(!matchFound)
                     {
-                        MessageBox.Show("Your location is not supported yet!");
+                        MessageBox.Show("Your location is not supported yet!");                        
                     }
                 }
             }
@@ -270,6 +276,29 @@ namespace TommyJams.View
                 settings.Add("CalenderEntries", "false");
             }
             settings["CalenderEntries"] = value.ToString();
+            settings.Save();
+        }
+        public static string City_setting_status()
+        {
+            if (settings.Contains("City"))
+            {                
+                return settings["City"].ToString();                
+            }
+            //Default Value
+            else
+            {
+                settings.Add("City", "");
+                settings.Save();
+                return "";
+            }
+        }
+        public static void City_setting(string value)
+        {
+            if (!settings.Contains("City"))
+            {
+                settings.Add("City", "");
+            }
+            settings["City"] = value;
             settings.Save();
         }
     }
