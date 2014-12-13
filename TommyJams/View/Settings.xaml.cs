@@ -9,6 +9,12 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using Facebook;
 using System.Windows.Media.Imaging;
+using Microsoft.Phone.Tasks;
+using System.IO.IsolatedStorage;
+using Windows.Devices.Geolocation;
+using Microsoft.Phone.Maps.Services;
+using System.Windows.Threading;
+using System.Device.Location;
 
 namespace TommyJams.View
 {
@@ -18,6 +24,34 @@ namespace TommyJams.View
         {
             InitializeComponent();
             LoadUserInfo();
+            city_list.City_LongListSelector.SelectionChanged += City_LongListSelector_SelectionChanged;   
+        }
+
+        void City_LongListSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (city_list.City_LongListSelector != null && city_list.City_LongListSelector.SelectedItem != null)
+            {
+                Cities c = city_list.City_LongListSelector.SelectedItem as Cities;
+                if (c.City_Name == "Current Location")
+                {
+                    city_name.FontStyle = System.Windows.FontStyles.Italic;
+                    GetLocation();
+                }
+                else
+                {
+                    city_name.FontStyle = System.Windows.FontStyles.Normal;
+                }
+                city_name.Text = c.City_Name;
+                city_list.Visibility = System.Windows.Visibility.Collapsed;
+            }
+        }
+        protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
+        {
+            if(city_list.Visibility== System.Windows.Visibility.Visible)
+            {
+                city_list.Visibility = System.Windows.Visibility.Collapsed;
+                e.Cancel = true;
+            }
         }
 
         private void LoadUserInfo()
@@ -44,6 +78,100 @@ namespace TommyJams.View
             };
 
             fb.GetTaskAsync("me");
+        }
+
+        private void RateApp_Click(object sender, RoutedEventArgs e)
+        {
+            MarketplaceReviewTask RateTask = new MarketplaceReviewTask();
+            RateTask.Show();
+        }
+        private async void GetLocation()
+        {
+            ReverseGeocodeQuery MyReverseGeocodeQuery = null;
+            GeoCoordinate MyCoordinate = null;
+            Dispatcher.BeginInvoke(() =>
+            {
+                location_progress.Visibility = System.Windows.Visibility.Visible;
+            });
+            try
+            {
+                var geoLocator = new Geolocator();
+                Geoposition currentPosition = await geoLocator.GetGeopositionAsync();
+                MyCoordinate = new GeoCoordinate(currentPosition.Coordinate.Latitude, currentPosition.Coordinate.Longitude);
+ 
+                if (MyReverseGeocodeQuery == null || !MyReverseGeocodeQuery.IsBusy)
+                {
+                    MyReverseGeocodeQuery = new ReverseGeocodeQuery();
+                    MyReverseGeocodeQuery.GeoCoordinate = new GeoCoordinate(MyCoordinate.Latitude, MyCoordinate.Longitude);
+                    MyReverseGeocodeQuery.QueryCompleted += ReverseGeocodeQuery_QueryCompleted;
+                    MyReverseGeocodeQuery.QueryAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Location service is not enabled!");
+            }            
+        }
+
+        private void ReverseGeocodeQuery_QueryCompleted(object sender, QueryCompletedEventArgs<IList<MapLocation>> e)
+        {
+            Dispatcher.BeginInvoke(() =>
+            {
+                location_progress.Visibility = System.Windows.Visibility.Collapsed;
+            });
+            if (e.Error == null)
+            {
+                if (e.Result.Count > 0)
+                {
+                    bool matchFound = false;
+                    foreach (Cities c in city_list.cities)
+                    {
+                        if (e.Result[0].Information.Address.City.ToLower() == c.City_Name.ToLower())
+                        {
+                            city_name.Text = c.City_Name;
+                            city_name.FontStyle = System.Windows.FontStyles.Normal;
+                            matchFound = true;
+                        }
+                    }
+                    if(!matchFound)
+                    {
+                        MessageBox.Show("Your location is not supported yet!");
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show(e.Error.Message);
+            }
+        }
+        private void city_selection_button_Click(object sender, RoutedEventArgs e)
+        {
+            city_list.Visibility = System.Windows.Visibility.Visible;
+        }
+    }
+
+    abstract class settings_extension
+    {
+        private static IsolatedStorageSettings settings;
+        static void Save_setting(string key, string value)
+        {
+            if (settings.Contains(key))
+            {
+                settings[key] = value;                
+            }
+            else
+            {
+                settings.Add(key, value);
+            }
+            settings.Save();
+        }
+        static string get_value(string key)
+        {
+            if (settings.Contains(key))
+            {
+                return settings[key].ToString();
+            }
+            return "";
         }
     }
 }

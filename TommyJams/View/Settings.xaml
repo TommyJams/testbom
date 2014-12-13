@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:view="clr-namespace:TommyJams.View"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
@@ -12,62 +13,114 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
-    shell:SystemTray.IsVisible="True">
+    shell:SystemTray.IsVisible="False">
+	<phone:PhoneApplicationPage.Resources>
+		<Style x:Key="City_list" TargetType="Button">
+			<Setter Property="Background" Value="Transparent"/>
+			<Setter Property="BorderBrush" Value="{StaticResource PhoneForegroundBrush}"/>
+			<Setter Property="Foreground" Value="{StaticResource PhoneForegroundBrush}"/>
+			<Setter Property="BorderThickness" Value="{StaticResource PhoneBorderThickness}"/>
+			<Setter Property="FontFamily" Value="{StaticResource PhoneFontFamilySemiBold}"/>
+			<Setter Property="FontSize" Value="{StaticResource PhoneFontSizeMedium}"/>
+			<Setter Property="Padding" Value="10,5,10,6"/>
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="Button">
+						<Grid Background="Transparent">
+							<VisualStateManager.VisualStateGroups>
+								<VisualStateGroup x:Name="CommonStates">
+									<VisualState x:Name="Normal"/>
+									<VisualState x:Name="MouseOver"/>
+									<VisualState x:Name="Pressed">
+										<Storyboard>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentContainer">
+												<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneButtonBasePressedForegroundBrush}"/>
+											</ObjectAnimationUsingKeyFrames>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="ButtonBackground">
+												<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneAccentBrush}"/>
+											</ObjectAnimationUsingKeyFrames>
+										</Storyboard>
+									</VisualState>
+									<VisualState x:Name="Disabled">
+										<Storyboard>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentContainer">
+												<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneDisabledBrush}"/>
+											</ObjectAnimationUsingKeyFrames>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="ButtonBackground">
+												<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneDisabledBrush}"/>
+											</ObjectAnimationUsingKeyFrames>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="ButtonBackground">
+												<DiscreteObjectKeyFrame KeyTime="0" Value="Transparent"/>
+											</ObjectAnimationUsingKeyFrames>
+										</Storyboard>
+									</VisualState>
+								</VisualStateGroup>
+							</VisualStateManager.VisualStateGroups>
+							<Border x:Name="ButtonBackground" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" CornerRadius="0" Padding="0" Margin="0,12">
+								<ContentControl x:Name="ContentContainer" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Padding="{TemplateBinding Padding}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+							</Border>
+						</Grid>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+	</phone:PhoneApplicationPage.Resources>
 
     <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot" Background="Transparent">
+    <Grid x:Name="LayoutRoot" Margin="0" Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <!--TitlePanel contains the name of the application and page title-->
-        <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="TommyJams" Style="{StaticResource PhoneTextNormalStyle}"/>
-            <TextBlock Text="Settings" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}" Height="80"/>
+        <StackPanel Grid.Row="0" Margin="20,25,20,40">
+           <TextBlock Text="SETTINGS" Foreground="{StaticResource TommyJams_Yellow}" FontSize="35" FontFamily="Segoe WP"/>
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
-        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-            <Grid.RowDefinitions>
+        <Grid x:Name="ContentPanel" Margin="20,0" Grid.Row="1">
+            <ScrollViewer>
+                <StackPanel>
+                    <TextBlock Text="connected account" Foreground="{StaticResource TommyJams_Grey_Text}" Margin="0,0,0,12" FontSize="24"/>
+                    <Grid x:Name="user_profile" Margin="0,0,0,20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Image x:Name="MyImage" Stretch="UniformToFill" Width="100" Height="100" Source="/TommyJams;component/Resources/Image/facebook_icon_large.gif">
+                            <Image.Clip>
+                                <EllipseGeometry Center="50,50" RadiusX="50" RadiusY="50" />
+                            </Image.Clip>
+                        </Image>
+                        <StackPanel Margin="10" Grid.Column="1">
+                            <TextBlock x:Name="MyName" Text="Lorem Ipsum" FontSize="24"/>
+                            <TextBlock Text="@Lorem_Ipsum" FontSize="18" Foreground="{StaticResource TommyJams_Grey_Text}"/>
+                            <TextBlock Text="facebook" FontSize="18" Foreground="{StaticResource TommyJams_Grey_Text}"/>
+                        </StackPanel>
+                    </Grid>
+                    <TextBlock Text="Location" Foreground="{StaticResource TommyJams_Grey_Text}"/>
+                    <Button x:Name="city_selection_button" Click="city_selection_button_Click" HorizontalContentAlignment="Stretch" Padding="10,5,0,6" Style="{StaticResource City_list}">
+                        <Grid>
+                            <TextBlock x:Name="city_name" Text="Select a location" FontSize="26" FontFamily="Segoe WP" />
+                            <ProgressBar x:Name="location_progress" Visibility="Collapsed" IsIndeterminate="True" VerticalAlignment="Bottom"/>
+                        </Grid>
+                    </Button>
 
-            </Grid.RowDefinitions>
-            <Grid Margin="4,0,-4,146">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="229*"/>
-                    <ColumnDefinition Width="227*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="92"/>
-                    <RowDefinition Height="*"/>
+                    <TextBlock Text="Updates" FontSize="29.333" Margin="0,10" />
+                    
+                    <toolkit:ToggleSwitch x:Name="PushNotification_toggle" Content="On" IsChecked="True" Header="PushNotifications" />
+                    <toolkit:ToggleSwitch x:Name="Calender_Toggle" Content="On" IsChecked="True" Header="Calender Entries" />
 
-                </Grid.RowDefinitions>
-                <TextBlock x:Name="Title" Text="Connected Account" Margin="7,-24,-7,44" Grid.ColumnSpan="2" />
-
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Height="127" Margin="3,18,1,332" Width="452" Grid.ColumnSpan="2" Grid.RowSpan="2">
-                    <Image x:Name="MyImage" HorizontalAlignment="Left" Height="125" VerticalAlignment="Top" Width="183" Margin="0,2,0,0"/>
-                    <TextBlock x:Name="MyName" HorizontalAlignment="Center" TextWrapping="Wrap" FontSize="24" Height="77" Text="Please Login" Foreground="{StaticResource PhoneForegroundBrush}" VerticalAlignment="Center" Margin="10,31,0,21" Width="250"/>
+                    <Button x:Name="RateApp" Content="rate app" Style="{StaticResource Clean_Buton}" HorizontalAlignment="Left" Foreground="{StaticResource TommyJams_Grey_Text}" FontSize="30" Margin="0,0" Click="RateApp_Click"/>
+                    <Button x:Name="Logout" Content="logout" Style="{StaticResource Clean_Buton}" HorizontalAlignment="Left" Foreground="{StaticResource TommyJams_Grey_Text}" FontSize="30" Margin="0,0"/>
+                    <Button x:Name="About" Content="about" Style="{StaticResource Clean_Buton}" HorizontalAlignment="Left" Foreground="{StaticResource TommyJams_Grey_Text}" FontSize="30" Margin="0,0"/>
 
                 </StackPanel>
-
-
-                <TextBlock x:Name="LocationTitle" Width="190" Margin="11,0,28,299" Text="Location" Height="29" VerticalAlignment="Bottom" Grid.Row="1"/>
-
-                <Border BorderBrush="Gray" BorderThickness="2" Margin="0,91,12,255" Grid.Row="1" RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="2">
-                    <TextBlock x:Name="CurrentLocation" Width="334" Text="Bangalore" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="52" VerticalAlignment="Top" RenderTransformOrigin="0.492,0.379" Margin="9,5,-121,-6" Grid.Row="1"/>
-                </Border>
-                <TextBlock Text="Updates" Margin="3,134,224,222" Grid.Row="1" RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="2" />
-
-            </Grid>
-            <toolkit:ToggleSwitch x:Name="toggle1" Content="On" IsChecked="True" Header="PushNotifications" Margin="0,245,0,260"/>
-            <toolkit:ToggleSwitch x:Name="toggle2" Content="On" IsChecked="True" Header="Calender Entries" Margin="0,316,0,190"/>
-
-            <Button x:Name="ShareApp" Content="Share/Rate App" Margin="0,396,224,155" BorderThickness="0"/>
-            <Button x:Name="Logout" HorizontalAlignment="left" Content="Logout" Margin="-1,444,0,110" BorderThickness="0" Width="148"/>
-            <Button x:Name="About" HorizontalAlignment="left" Content="About" Margin="-1,487,0,67" BorderThickness="0" Width="139"/>
+            </ScrollViewer>
 
         </Grid>
-
+        <view:City_List x:Name="city_list" Visibility="Collapsed" Grid.RowSpan="2"/>
     </Grid>
 
 </phone:PhoneApplicationPage>
