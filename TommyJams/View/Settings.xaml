@@ -74,7 +74,7 @@
         </Grid.RowDefinitions>
 
         <!--TitlePanel contains the name of the application and page title-->
-        <StackPanel Grid.Row="0" Margin="20,25,20,40">
+        <StackPanel Grid.Row="0" Margin="20,25,20,30">
            <TextBlock Text="SETTINGS" Foreground="{StaticResource TommyJams_Yellow}" FontSize="35" FontFamily="Segoe WP"/>
         </StackPanel>
 
