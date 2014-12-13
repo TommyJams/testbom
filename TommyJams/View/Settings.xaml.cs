@@ -45,6 +45,12 @@ namespace TommyJams.View
                 city_list.Visibility = System.Windows.Visibility.Collapsed;
             }
         }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            PushNotification_toggle.IsChecked = settings_extension.PushNotification_setting_status();
+            Calender_Toggle.IsChecked = settings_extension.CalenderEntries_setting_status();
+        }
         protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
         {
             if(city_list.Visibility== System.Windows.Visibility.Visible)
@@ -148,12 +154,32 @@ namespace TommyJams.View
         {
             city_list.Visibility = System.Windows.Visibility.Visible;
         }
+
+        private void PushNotification_toggle_Checked(object sender, RoutedEventArgs e)
+        {
+            settings_extension.PushNotification_setting(true);
+        }
+
+        private void PushNotification_toggle_Unchecked(object sender, RoutedEventArgs e)
+        {
+            settings_extension.PushNotification_setting(false);
+        }
+
+        private void Calender_Toggle_Checked(object sender, RoutedEventArgs e)
+        {
+            settings_extension.CalenderEntries_setting(true);
+        }
+
+        private void Calender_Toggle_Unchecked(object sender, RoutedEventArgs e)
+        {
+            settings_extension.CalenderEntries_setting(false);
+        }
     }
 
     abstract class settings_extension
     {
-        private static IsolatedStorageSettings settings;
-        static void Save_setting(string key, string value)
+        private static IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings ;
+        public static void Save_setting(string key, string value)
         {
             if (settings.Contains(key))
             {
@@ -165,13 +191,75 @@ namespace TommyJams.View
             }
             settings.Save();
         }
-        static string get_value(string key)
+        public static string get_value(string key)
         {
             if (settings.Contains(key))
             {
                 return settings[key].ToString();
             }
             return "";
+        }
+
+        public static bool PushNotification_setting_status()
+        {
+            if (settings.Contains("PushNotification"))
+            {
+                if (settings["PushNotification"].ToString().ToLower() == "true")
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            //Default Value
+            else
+            {
+                settings.Add("PushNotification", "false");
+                settings.Save();
+                return false;
+            }
+        }
+        public static void PushNotification_setting(bool value)
+        {
+            if (!settings.Contains("PushNotification"))
+            {
+                settings.Add("PushNotification", "false");
+            }
+            settings["PushNotification"] = value.ToString();
+            settings.Save();
+        }
+
+        public static bool CalenderEntries_setting_status()
+        {
+            if (settings.Contains("CalenderEntries"))
+            {
+                if (settings["CalenderEntries"].ToString().ToLower() == "true")
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            //Default Value
+            else
+            {
+                settings.Add("CalenderEntries", "false");
+                settings.Save();
+                return false;
+            }
+        }
+        public static void CalenderEntries_setting(bool value)
+        {
+            if (!settings.Contains("CalenderEntries"))
+            {
+                settings.Add("CalenderEntries", "false");
+            }
+            settings["CalenderEntries"] = value.ToString();
+            settings.Save();
         }
     }
 }
