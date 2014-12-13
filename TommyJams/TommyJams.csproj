@@ -116,6 +116,9 @@
     <Compile Include="ViewModel\FacebookDataModel.cs" />
     <Compile Include="Model\TicketInfo.cs" />
     <Compile Include="Model\VenueInfo.cs" />
+    <Compile Include="View\About.xaml.cs">
+      <DependentUpon>About.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\APITest.xaml.cs">
       <DependentUpon>APITest.xaml</DependentUpon>
     </Compile>
@@ -156,6 +159,10 @@
     </Page>
     <Page Include="ViewModel\ModelSampleData.xaml">
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\About.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\APITest.xaml">
       <SubType>Designer</SubType>

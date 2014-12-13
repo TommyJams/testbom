@@ -174,6 +174,17 @@ namespace TommyJams.View
         {
             settings_extension.CalenderEntries_setting(false);
         }
+
+        private void Logout_Click(object sender, RoutedEventArgs e)
+        {
+            App.MobileService.Logout();
+            LoadUserInfo();
+        }
+
+        private void About_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/View/About.xaml",UriKind.Relative));
+        }
     }
 
     abstract class settings_extension
