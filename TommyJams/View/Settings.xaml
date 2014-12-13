@@ -113,8 +113,8 @@
                     <toolkit:ToggleSwitch x:Name="Calender_Toggle" Content="On" IsChecked="True" Header="Calender Entries" Checked="Calender_Toggle_Checked" Unchecked="Calender_Toggle_Unchecked" />
 
                     <Button x:Name="RateApp" Content="rate app" Style="{StaticResource Clean_Buton}" HorizontalAlignment="Left" Foreground="{StaticResource TommyJams_Grey_Text}" FontSize="30" Margin="0,0" Click="RateApp_Click"/>
-                    <Button x:Name="Logout" Content="logout" Style="{StaticResource Clean_Buton}" HorizontalAlignment="Left" Foreground="{StaticResource TommyJams_Grey_Text}" FontSize="30" Margin="0,0"/>
-                    <Button x:Name="About" Content="about" Style="{StaticResource Clean_Buton}" HorizontalAlignment="Left" Foreground="{StaticResource TommyJams_Grey_Text}" FontSize="30" Margin="0,0"/>
+                    <Button x:Name="Logout" Content="logout" Style="{StaticResource Clean_Buton}" HorizontalAlignment="Left" Foreground="{StaticResource TommyJams_Grey_Text}" FontSize="30" Margin="0,0" Click="Logout_Click"/>
+                    <Button x:Name="About" Content="about" Style="{StaticResource Clean_Buton}" HorizontalAlignment="Left" Foreground="{StaticResource TommyJams_Grey_Text}" FontSize="30" Margin="0,0" Click="About_Click"/>
 
                 </StackPanel>
             </ScrollViewer>
