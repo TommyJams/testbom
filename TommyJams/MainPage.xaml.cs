@@ -11,11 +11,8 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using Microsoft.Phone.Tasks;
 //TODO: Remove reference to newtonsoft from view
-using Newtonsoft.Json.Linq;
 using TommyJams.Model;
 using TommyJams.Resources;
-using Facebook;
-using Microsoft.WindowsAzure.MobileServices;
 using TommyJams.ViewModel;
 using Newtonsoft.Json;
 using System.Text;
@@ -45,84 +42,41 @@ namespace TommyJams.View
             {
                 try
                 {
-                    App.fbSession = await App.FacebookSession.LoginAsync("email, user_birthday");
-                    var client = new FacebookClient(App.fbSession.AccessToken);
-                    var fbToken = JObject.FromObject(new
-                    {
-                        access_token = App.fbSession.AccessToken,
-                    });
-                    await App.MobileService.LoginAsync(MobileServiceAuthenticationProvider.Facebook, fbToken);
+                    await App.ViewModel.LoginToFacebook();
+
                     if (App.MobileService.CurrentUser != null)
                     {
-                        App.FacebookId = App.MobileService.CurrentUser.UserId.Substring(9); //Get facebook id number
-
                         BitmapImage bm = new BitmapImage(new Uri("http://graph.facebook.com/" + App.FacebookId + "/picture?type=square", UriKind.Absolute));
                         fbUserImage.Source = bm;
 
-                        NotifyUserAuthenticated();
-                        LoadData();
                         ToggleNotifications();
+                        LoadData();
                     }
                 }
                 catch (InvalidOperationException)
                 {
                     MessageBox.Show("Sorry, could not authenticate using Facebook!");
                 }
+                catch (NullReferenceException)
+                {
+                    MessageBox.Show("Sorry, could not load data!");
+                }
+                catch (HttpRequestException e)
+                {
+                    MessageBox.Show("Sorry, could not connect to the internet!");
+                }
             }
             else //Logout
             {
-                App.MobileService.Logout();
+                App.ViewModel.LogoutFromFacebook();
+
                 if (App.MobileService.CurrentUser == null)
                 {
-                    App.FacebookId = App.FACEBOOK_DEFAULT_ID;
-
                     BitmapImage bm = new BitmapImage(new Uri("../Resources/Image/facebook_icon_large.gif", UriKind.Relative));
                     fbUserImage.Source = bm;
 
                     LoadData();
                 }
-            }
-        }
-
-        //TODO: Move this to viewmodel
-        public async void NotifyUserAuthenticated()
-        {
-            try
-            {
-                App.fbUser.fbid = App.FacebookId;
-                var fb = new FacebookClient(App.fbSession.AccessToken);
-                dynamic result = await fb.GetTaskAsync("me", new { fields = new[] { "name, gender, location, email, birthday" } });
-                
-                try
-                {
-                    App.fbUser.name = (string)result["name"];
-                    App.fbUser.gender = (string)result["gender"];
-                    //TODO: Add required checks here
-                    App.fbUser.city = ((string)result["location"]["name"]).Split(',')[0].Trim();
-                    App.fbUser.country = ((string)result["location"]["name"]).Split(',')[1].Trim();
-                    App.fbUser.email = (string)result["email"];
-                    App.fbUser.dob = (string)result["birthday"];
-                    
-                    //No longer available on facebook
-                    //App.fbUser.phone = (string)result["mobile_phone"];
-                }
-                catch(Exception)
-                {
-                    //There might be empty keys
-                }
-                
-                //Todo: add current ip
-                App.fbUser.ip = "0.0.0.0";
-
-                string responseAddUser = await App.ViewModel.AddUser(App.fbUser);
-            }
-            catch (NullReferenceException)
-            {
-                MessageBox.Show("Sorry, could not load data!");
-            }
-            catch (HttpRequestException e)
-            {
-                MessageBox.Show("Sorry, could not connect to the internet!");
             }
         }
 
@@ -133,6 +87,8 @@ namespace TommyJams.View
             {
                 await App.ViewModel.LoadPrimaryEvents();
                 await App.ViewModel.LoadSecondaryEvents();
+                if(App.MobileService.CurrentUser != null)
+                    await App.ViewModel.LoadNotifications();
             }
             catch (NullReferenceException)
             {
@@ -147,29 +103,14 @@ namespace TommyJams.View
             ProgressBar.Visibility = Visibility.Collapsed;
         }
 
-        public async void ToggleNotifications()
+        public void ToggleNotifications()
         {
             if (App.MobileService.CurrentUser != null)
             {
                 panelNotifications.Visibility = Visibility.Visible;
-                try
-                {
-                    await App.ViewModel.LoadNotifications();
-                }
-                catch (NullReferenceException)
-                {
-                    MessageBox.Show("Sorry, could not load data!");
-                }
-                catch (HttpRequestException)
-                {
-                    MessageBox.Show("Sorry, could not connect to the internet!");
-                }
-
-                notificationsProgressBar.Visibility = Visibility.Collapsed;
             }
             else
             {
-                notificationsProgressBar.Visibility = Visibility.Visible;
                 panelNotifications.Visibility = Visibility.Collapsed;
             }
         }

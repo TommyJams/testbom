@@ -15,7 +15,6 @@
     SupportedOrientations="Portrait"  Orientation="Portrait"
     shell:SystemTray.IsVisible="True" Margin="-3,0,3,0">
 
-
     <!--LayoutRoot contains the root grid where all other page content is placed-->
     <Grid x:Name="LayoutRoot">
 
@@ -118,14 +117,64 @@
                     <Grid.Resources>
                         <src:EventViewModel  x:Key="NotificationItems"/>
                     </Grid.Resources>
-                    <ListBox x:Name="notificationListBox" ItemsSource="{Binding NotificationItems, Mode=TwoWay}">
+                    <StackPanel Orientation="Vertical">
+                    <TextBlock Text="upcoming events" TextWrapping="Wrap" FontSize="30" Margin="10"/>
+                    <ListBox x:Name="upcomingEventsListBox" ItemsSource="{Binding UpcomingEvents, Mode=TwoWay}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding eventName}"/>
+                                    <StackPanel Orientation="Horizontal" Tap="On_Tap">
+                                        <Rectangle Fill="#ffcc00" Width="5"/>
+                                        <StackPanel Orientation="Vertical" Margin="10,0,0,0">
+                                            <TextBlock Text="{Binding EventGenre}" TextWrapping="Wrap" FontSize="15"/>
+
+                                            <TextBlock Text="{Binding EventName}" TextWrapping="Wrap" FontSize="25" Foreground="#ffcc00"/>
+                                            <TextBlock Text="{Binding VenueName}" TextWrapping="Wrap" FontSize="15"/>
+
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding EventTime}" TextWrapping="Wrap" FontSize="15"/>
+                                                <TextBlock Text="{Binding EventDate}" TextWrapping="Wrap" FontSize="15"/>
+                                                <TextBlock Text="{Binding EventPrice}" TextWrapping="Wrap" FontSize="15"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-                    <ProgressBar x:Name="notificationsProgressBar" IsIndeterminate="True" Visibility="Visible" Height="300" Width="420"/>
+                    <TextBlock Text="invitations" TextWrapping="Wrap" FontSize="30" Margin="10"/>
+                    <ListBox x:Name="invitationListBox" ItemsSource="{Binding NotificationItems, Mode=TwoWay}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" Tap="On_Tap">
+                                    <Rectangle Fill="#ffcc00" Width="5"/>
+                                        <StackPanel Orientation="Vertical" Margin="10,0,0,0">
+                                            <TextBlock Text="{Binding EventGenre}" TextWrapping="Wrap" FontSize="15"/>
+
+                                            <TextBlock Text="{Binding EventName}" TextWrapping="Wrap" FontSize="25" Foreground="#ffcc00"/>
+                                            <TextBlock Text="{Binding VenueName}" TextWrapping="Wrap" FontSize="15"/>
+
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding EventTime}" TextWrapping="Wrap" FontSize="15"/>
+                                                <TextBlock Text="{Binding EventDate}" TextWrapping="Wrap" FontSize="15"/>
+                                                <TextBlock Text="{Binding EventPrice}" TextWrapping="Wrap" FontSize="15"/>
+                                            </StackPanel>
+
+                                            <StackPanel Orientation="Horizontal">
+                                                <Image Height="80" Width="80" Source="{Binding InviteeName}" VerticalAlignment="Center" Margin="10,0,0,0">
+                                                    <Image.Clip>
+                                                        <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
+                                                    </Image.Clip>
+                                                </Image>
+                                                <StackPanel Orientation="Vertical">
+                                                    <TextBlock Text="{Binding InviteeName}" TextWrapping="Wrap" FontSize="25" Foreground="#ffcc00"/>
+                                                    <TextBlock Text="invited you" TextWrapping="Wrap" FontSize="15"/>
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    </StackPanel>
                 </Grid>
             </phone:PanoramaItem>
 

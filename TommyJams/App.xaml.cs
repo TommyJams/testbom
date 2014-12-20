@@ -73,8 +73,6 @@ namespace TommyJams
             // Language display initialization
             InitializeLanguage();
 
-            fbUser = new User();
-            
             // Show graphics profiling information while debugging.
             if (Debugger.IsAttached)
             {

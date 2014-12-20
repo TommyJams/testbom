@@ -317,21 +317,72 @@ namespace TommyJams.Model
 
     }
 
-    public class NotificationItem : INotifyPropertyChanged
+    public class NotificationItem : EventItem
     {
-        private string _eventName;
-        public string EventName
+        private string _inviteeName;
+        public string InviteeName
         {
             get
             {
-                return _eventName;
+                return _inviteeName;
             }
             set
             {
-                if (value != _eventName)
+                if (value != _inviteeName)
                 {
-                    _eventName = value;
-                    NotifyPropertyChanged("EventName");
+                    _inviteeName = value;
+                    NotifyPropertyChanged("InviteeName");
+                }
+            }
+        }
+
+        private string _inviteeFBID;
+        public string InviteeFBID
+        {
+            get
+            {
+                return _inviteeFBID;
+            }
+            set
+            {
+                if (value != _inviteeFBID)
+                {
+                    _inviteeFBID = value;
+                    NotifyPropertyChanged("InviteeFBID");
+                }
+            }
+        }
+
+        private string _inviteeImage;
+        public string InviteeImage
+        {
+            get
+            {
+                return _inviteeImage;
+            }
+            set
+            {
+                if (value != _inviteeImage)
+                {
+                    _inviteeImage = value;
+                    NotifyPropertyChanged("InviteeImage");
+                }
+            }
+        }
+
+        private bool _inviteExists = false;
+        public bool InviteExists
+        {
+            get
+            {
+                return _inviteExists;
+            }
+            set
+            {
+                if (value != _inviteExists)
+                {
+                    _inviteExists = value;
+                    NotifyPropertyChanged("InviteExists");
                 }
             }
         }

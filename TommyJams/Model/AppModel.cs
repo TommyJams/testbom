@@ -53,9 +53,6 @@ namespace TommyJams.Model
             List<EventItem> eventInfo = JsonConvert.DeserializeObject<List<EventItem>>(result) as List<EventItem>;
 
             return eventInfo[0];
-
-
-
         }
 
         public async Task<ObservableCollection<EventItem>> GetSecondaryEvents()
@@ -148,15 +145,70 @@ namespace TommyJams.Model
             return venue;
         }
 
-        public async Task<ObservableCollection<NotificationItem>> GetNotifications()
+        public async Task<ObservableCollection<EventItem>> GetUpcomingEvents()
         {
             String defaultUri = "https://testneo4j.azure-mobile.net/api/getUpcomingEvents?";
-            String completeUri = defaultUri + "fbid=" + App.FacebookId + "&city=" + App.city + "&country=" + App.country;
+            String completeUri = defaultUri + "fbid=" + App.FacebookId;
+            HttpClient client = new HttpClient();
+            Task<String> GetResult = client.GetStringAsync(completeUri);
+            string result = await GetResult;
+
+            ObservableCollection<EventItem> upcomingEventsList = JsonConvert.DeserializeObject<ObservableCollection<EventItem>>(result) as ObservableCollection<EventItem>;
+
+            StringBuilder genreString = new StringBuilder();
+            foreach (EventItem aProduct in upcomingEventsList)
+            {
+                foreach (String genre in aProduct.EventTags)
+                {
+                    genreString.AppendFormat("#{0} ", genre);
+                }
+                aProduct.EventGenre = genreString.ToString();
+                genreString.Clear();
+
+                DateTime eventTime = DateTime.ParseExact(aProduct.EventTime, "HHmm", CultureInfo.InvariantCulture);
+                aProduct.EventTime = eventTime.ToShortTimeString();
+
+                DateTime eventDate = DateTime.ParseExact(aProduct.EventDate, "yyyyMMdd", CultureInfo.InvariantCulture);
+                aProduct.EventDate = " • " + eventDate.ToShortDateString();
+                aProduct.EventPrice = " • ₹" + aProduct.EventPrice;
+            }
+
+            return upcomingEventsList;
+        }
+
+        public async Task<ObservableCollection<NotificationItem>> GetInvitations()
+        {
+            String defaultUri = "https://testneo4j.azure-mobile.net/api/getInvitations?";
+            String completeUri = defaultUri + "fbid=" + App.FacebookId;
             HttpClient client = new HttpClient();
             Task<String> GetResult = client.GetStringAsync(completeUri);
             string result = await GetResult;
 
             ObservableCollection<NotificationItem> notificationsList = JsonConvert.DeserializeObject<ObservableCollection<NotificationItem>>(result) as ObservableCollection<NotificationItem>;
+
+            StringBuilder genreString = new StringBuilder();
+            foreach (NotificationItem aProduct in notificationsList)
+            {
+                foreach (String genre in aProduct.EventTags)
+                {
+                    genreString.AppendFormat("#{0} ", genre);
+                }
+                aProduct.EventGenre = genreString.ToString();
+                genreString.Clear();
+
+                DateTime eventTime = DateTime.ParseExact(aProduct.EventTime, "HHmm", CultureInfo.InvariantCulture);
+                aProduct.EventTime = eventTime.ToShortTimeString();
+
+                DateTime eventDate = DateTime.ParseExact(aProduct.EventDate, "yyyyMMdd", CultureInfo.InvariantCulture);
+                aProduct.EventDate = " • " + eventDate.ToShortDateString();
+                aProduct.EventPrice = " • ₹" + aProduct.EventPrice;
+
+                if (aProduct.InviteeFBID.Length > 0)
+                {
+                    aProduct.InviteExists = true;
+                    aProduct.InviteeImage = "http://graph.facebook.com/" + aProduct.InviteeFBID + "/picture?type=square";
+                }
+            }
 
             return notificationsList;
         }
@@ -174,13 +226,13 @@ namespace TommyJams.Model
             StringBuilder genreString = new StringBuilder();
             foreach (EventItem aProduct in primaryEvents)
             {
-                genreString.Append("genre:");
                 foreach (String genre in aProduct.EventTags)
                 {
-                    genreString.AppendFormat("{0} ", genre);
+                    genreString.AppendFormat("#{0} ", genre);
                 }
                 aProduct.EventGenre = genreString.ToString();
                 genreString.Clear();
+                
                 DateTime eventDate = DateTime.ParseExact(aProduct.EventDate, "yyyyMMdd", CultureInfo.InvariantCulture);
                 DateTime currentDate = DateTime.Now;
                 if ((eventDate.Day == currentDate.Day) && (eventDate.Month == currentDate.Month))
@@ -205,15 +257,29 @@ namespace TommyJams.Model
                 var eventGeo = new GeoCoordinate(latitude, longitude);
                 var myGeo = new GeoCoordinate(72.2, 84.3);
                 double x = eventGeo.GetDistanceTo(myGeo);
-                aProduct.EventDistance = "• " + ((int)(x / 1000)).ToString() + " Kms";
-                aProduct.EventPrice = "₹ " + aProduct.EventPrice;
-                aProduct.EventHotness = "• Hotness Level :" + aProduct.EventHotness;
+                
+                aProduct.EventDistance = " • " + ((int)(x / 1000)).ToString() + "Km";
+                aProduct.EventPrice = " ₹" + aProduct.EventPrice;
+                aProduct.EventHotness = " • " + aProduct.EventHotness;
             }
             return primaryEvents;
 
         }
 
-        public async Task<string> PutUser(User u)
+        public async Task<int> GetUserPresence()
+        {
+            String defaultUri = "https://testneo4j.azure-mobile.net/api/getUserPresence?";
+            String completeUri = defaultUri + "fbid=" + App.FacebookId;
+
+            HttpClient client = new HttpClient();
+            string result = await client.GetStringAsync(completeUri);
+            var jResult = JsonConvert.DeserializeObject<List<User>>(result);
+            User u = jResult[0];
+
+            return (u.fbid != null) ? 1 : 0;
+        }
+
+        public async Task<string> PushAddUser(User u)
         {
             String defaultUri = "https://testneo4j.azure-mobile.net/api/createuser";
 
@@ -233,6 +299,28 @@ namespace TommyJams.Model
             }
 
             return content;
+        }
+
+        public async Task<string> PushJoinEvent(int eventID)
+        {
+            String defaultUri = "https://testneo4j.azure-mobile.net/api/joinevent";
+
+            if (App.MobileService.CurrentUser != null)
+            {
+                string postData = "{\"fbid\":\"" + App.FacebookId + "\", \"eventID\":\"" + eventID + "\"}";
+
+                HttpClient client = new HttpClient();
+                HttpResponseMessage response = await client.PostAsync(defaultUri, new StringContent(postData, Encoding.UTF8, "application/json"));
+                string content = await response.Content.ReadAsStringAsync();
+
+                response.EnsureSuccessStatusCode();
+                
+                return content;
+            }
+            else
+            {
+                throw new Exception("Login!");
+            }
         }
     }
 

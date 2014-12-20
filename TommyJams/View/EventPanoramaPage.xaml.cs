@@ -140,8 +140,13 @@ namespace TommyJams.View
 
         private void Event_Accept(object sender, EventArgs e)
         {
-            this.AcceptInvite();
+            this.JoinEvent();
 
+        }
+
+        private void Invite_Friends(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/../../View/FriendSelector.xaml", UriKind.RelativeOrAbsolute));
         }
 
         public void Demo_Refresh(object sender, EventArgs e)
@@ -172,55 +177,15 @@ namespace TommyJams.View
 
         }
 
-        public void AcceptInvite()
+        public async void JoinEvent()
         {
-            Uri myUri = new Uri("https://testneo4j.azure-mobile.net/api/joinEvent");
-            HttpWebRequest myRequest = (HttpWebRequest)HttpWebRequest.Create(myUri);
-            myRequest.Method = "POST" ;
-            myRequest.BeginGetRequestStream(new AsyncCallback(GetRequestStreamCallback), myRequest);
-            //RouteDirectionsPushPin.GeoCoordinate=
-        }
-
-        void GetRequestStreamCallback(IAsyncResult callbackResult)
-        {
-            HttpWebRequest myRequest = (HttpWebRequest)callbackResult.AsyncState;
-
-            // End the stream request operation
-            Stream postStream = myRequest.EndGetRequestStream(callbackResult);
-
-            // Create the post data
-            string postData = "{\"fbid\":\"56784957689798\",\"eventID\":\"5\"}";
-            byte[] byteArray = Encoding.UTF8.GetBytes(postData);
-
-            // Add the post data to the web request
-            postStream.Write(byteArray, 0, byteArray.Length);
-            postStream.Close();
-
-            // Start the web request
-            myRequest.BeginGetResponse(new AsyncCallback(GetResponsetStreamCallback), myRequest);
-        }
-
-        void GetResponsetStreamCallback(IAsyncResult callbackResult)
-        {
-            //lib = new ApiLibrary();
-
             try
             {
-                HttpWebRequest request = (HttpWebRequest)callbackResult.AsyncState;
-                HttpWebResponse response = (HttpWebResponse)request.EndGetResponse(callbackResult);
-                string result = "";
-                using (StreamReader httpWebStreamReader = new StreamReader(response.GetResponseStream()))
-                {
-                    result = httpWebStreamReader.ReadToEnd();
-                }
-
-                string APIResult = result;
-                //description.Text = "asdasda";
-                String a = "";
+                string responseJoinEvent = await App.ViewModel.JoinEvent();
             }
-            catch (Exception e)
+            catch(Exception)
             {
-
+                MessageBox.Show("Sorry, could not join event!");
             }
         }
 
@@ -246,6 +211,7 @@ namespace TommyJams.View
             ApplicationBarIconButton invitefriend = new ApplicationBarIconButton();
             invitefriend.Text = "Invite Friends";
             invitefriend.IconUri = new Uri("/Resources/Images/invitefriends.jpg",UriKind.Relative);
+            invitefriend.Click += Invite_Friends;
             ApplicationBar.Buttons.Add(invitefriend);
             
         }
@@ -301,13 +267,14 @@ namespace TommyJams.View
             }
         }
 
+        //TODO: Get these authentication tokens when publishing app
         private void venueMap_Loaded(object sender, RoutedEventArgs e)
         {
             Microsoft.Phone.Maps.MapsSettings.ApplicationContext.ApplicationId = "ApplicationID";
             Microsoft.Phone.Maps.MapsSettings.ApplicationContext.AuthenticationToken = "AuthenticationToken";
         }
 
-        private async void venueMap_Tap(object sender, RoutedEventArgs e)
+        private void venueMap_Tap(object sender, RoutedEventArgs e)
         {
             MapsDirectionsTask mapsDirectionsTask = new MapsDirectionsTask();
             LabeledMapLocation venueLML = new LabeledMapLocation(App.ViewModel.VenueInfo.VenueName, App.ViewModel.VenueInfo.VenueGeoCoordinate);

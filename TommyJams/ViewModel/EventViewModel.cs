@@ -1,4 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using Facebook;
+using Microsoft.WindowsAzure.MobileServices;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -62,6 +65,23 @@ namespace TommyJams.ViewModel
                 {
                     _priority2Items = value;
                     NotifyPropertyChanged("Priority2Items");
+                }
+            }
+        }
+
+        private ObservableCollection<EventItem> _upcomingEvents = new ObservableCollection<EventItem>();
+        public ObservableCollection<EventItem> UpcomingEvents
+        {
+            get
+            {
+                return _upcomingEvents;
+            }
+            set
+            {
+                if (value != _upcomingEvents)
+                {
+                    _upcomingEvents = value;
+                    NotifyPropertyChanged("UpcomingEvents");
                 }
             }
         }
@@ -157,10 +177,85 @@ namespace TommyJams.ViewModel
             set;
         }
 
+        public async Task LoginToFacebook()
+        {
+            if (App.MobileService.CurrentUser == null)
+            {
+                App.fbSession = await App.FacebookSession.LoginAsync("email, user_birthday");
+                var client = new FacebookClient(App.fbSession.AccessToken);
+                var fbToken = JObject.FromObject(new
+                {
+                    access_token = App.fbSession.AccessToken,
+                });
+
+                await App.MobileService.LoginAsync(MobileServiceAuthenticationProvider.Facebook, fbToken);
+
+                if (App.MobileService.CurrentUser != null)
+                {
+                    App.FacebookId = App.MobileService.CurrentUser.UserId.Substring(9); //Get facebook id number
+                    App.fbUser = new User(); 
+                    App.fbUser.fbid = App.FacebookId;
+                    if((await AppModel.GetUserPresence())== 0)
+                    {
+                        var fb = new FacebookClient(App.fbSession.AccessToken);
+                        dynamic result = await fb.GetTaskAsync("me", new { fields = new[] { "name, gender, location, email, birthday" } });
+
+                        try
+                        {
+                            App.fbUser.name = (string)result["name"];
+                            App.fbUser.gender = (string)result["gender"];
+                            //TODO: Add required checks here
+                            App.fbUser.city = ((string)result["location"]["name"]).Split(',')[0].Trim();
+                            App.fbUser.country = ((string)result["location"]["name"]).Split(',')[1].Trim();
+                            App.fbUser.email = (string)result["email"];
+                            App.fbUser.dob = (string)result["birthday"];
+                            //TODO: add current ip
+                            App.fbUser.ip = "0.0.0.0";
+                        }
+                        catch (Exception)
+                        {
+                            //There might be empty keys
+                        }
+
+                        string responseAddUser = await AddUser(App.fbUser);
+                    }
+                }
+                else
+                {
+                    App.FacebookId = App.FACEBOOK_DEFAULT_ID;
+                }
+            }
+            else
+            {
+                //Already logged in
+            }
+        }
+
+        public void LogoutFromFacebook()
+        {
+            if (App.MobileService.CurrentUser != null)
+            {
+                App.MobileService.Logout();
+                if (App.MobileService.CurrentUser == null)
+                {
+                    App.FacebookId = App.FACEBOOK_DEFAULT_ID;
+                    App.fbUser = null;
+                }
+            }
+            else
+            {
+                //Already logged out
+            }
+        }
+
         public async Task<string> AddUser(User u)
         {
-            string response = await AppModel.PutUser(u);
-            return response;
+            return await AppModel.PushAddUser(u);
+        }
+
+        public async Task<string> JoinEvent()
+        {
+            return await AppModel.PushJoinEvent(EventItem.EventID);
         }
 
         public async Task LoadPrimaryEvents()
@@ -175,7 +270,8 @@ namespace TommyJams.ViewModel
 
         public async Task LoadNotifications()
         {
-            NotificationItems = await AppModel.GetNotifications();
+            UpcomingEvents = await AppModel.GetUpcomingEvents();
+            NotificationItems = await AppModel.GetInvitations();
         }
 
         public async Task<EventItem> LoadEventInfo()
