@@ -13,6 +13,8 @@ using TommyJams.Model;
 using TommyJams.View;
 using TommyJams.ViewModel;
 using Windows.Devices.Geolocation;
+using Microsoft.Phone.Notification;
+using System.Text;
 
 namespace TommyJams
 {
@@ -109,10 +111,63 @@ namespace TommyJams
             "LxqAhRVmuUESACkYahJxCgfjOomzEP99"
             );
 
+        public static HttpNotificationChannel CurrentChannel { get; private set; }
+
+        private void AcquirePushChannel()
+        {
+            CurrentChannel = HttpNotificationChannel.Find("TommyPushChannel");
+
+            if (CurrentChannel == null)
+            {
+                CurrentChannel = new HttpNotificationChannel("TommyPushChannel");
+                CurrentChannel.Open();
+                CurrentChannel.BindToShellToast();
+                CurrentChannel.BindToShellTile();
+            }
+            CurrentChannel.ShellToastNotificationReceived += CurrentChannel_ShellToastNotificationReceived;
+            
+            CurrentChannel.ChannelUriUpdated +=
+                new EventHandler<NotificationChannelUriEventArgs>(async (o, args) =>
+                {
+                    // Register for notifications using the new channel
+                    await MobileService.GetPush()
+                        .RegisterNativeAsync(CurrentChannel.ChannelUri.ToString());
+                });
+        }
+
+        void CurrentChannel_ShellToastNotificationReceived(object sender, NotificationEventArgs e)
+        {
+            StringBuilder message = new StringBuilder();
+            string relativeUri = string.Empty;
+
+            message.AppendFormat("Received Toast {0}:\n", DateTime.Now.ToShortTimeString());
+
+            // Parse out the information that was part of the message.
+            foreach (string key in e.Collection.Keys)
+            {
+                message.AppendFormat("{0}: {1}\n", key, e.Collection[key]);
+
+                if (string.Compare(
+                    key,
+                    "wp:Param",
+                    System.Globalization.CultureInfo.InvariantCulture,
+                    System.Globalization.CompareOptions.IgnoreCase) == 0)
+                {
+                    relativeUri = e.Collection[key];
+                }
+            }
+            
+            Deployment.Current.Dispatcher.BeginInvoke(() =>
+            {
+                // Display a dialog of all the fields in the toast.
+                MessageBox.Show(message.ToString());                
+            });
+        }
         // Code to execute when the application is launching (eg, from Start)
         // This code will not execute when the application is reactivated
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
+            AcquirePushChannel();
         }
 
         // Code to execute when the application is activated (brought to foreground)
