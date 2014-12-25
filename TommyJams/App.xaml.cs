@@ -15,6 +15,8 @@ using TommyJams.ViewModel;
 using Windows.Devices.Geolocation;
 using Microsoft.Phone.Notification;
 using System.Text;
+using Microsoft.Phone.Notification;
+using Microsoft.WindowsAzure.Messaging;
 
 namespace TommyJams
 {
@@ -32,6 +34,8 @@ namespace TommyJams
         public static EventViewModel viewModel= null;
         public static bool isAuthenticated = false;
         public static int EventID = 5;
+        public static string NotificationHubPath = "testneo4jhub";
+        public static string ConnectionString = "Endpoint=sb://testneo4jhub-ns.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=0E6XY/X2R9CBq9+5RmOTJBaEh+1Kuc4mYFHjJkvTtWc=";
         internal static string AccessToken = "CAACEdEose0cBANAiEbyjsoZAQRA4bwlmrcURKZBDMKZCgHk6FUE8kYabMZBT4eHxnuCKX2IOvEA5ZBEaUz1rN82zjdyYkBG4HyYe6eJbbxPa6bZB9N6KUyWzwYbvS65TXjZBRIJo49V9ZCFQ4RKvapdsqYxFh27CWbvNPoIEuFJkedxCRoqYNnGcTfZC7T5XnQKALWuI2bbgnFNSWSqWjnMuY";
         internal static string FacebookId = FACEBOOK_DEFAULT_ID;
         public static User fbUser;
@@ -115,24 +119,21 @@ namespace TommyJams
 
         private void AcquirePushChannel()
         {
-            CurrentChannel = HttpNotificationChannel.Find("TommyPushChannel");
-
-            if (CurrentChannel == null)
+            var channel = HttpNotificationChannel.Find("MyPushChannel");
+            if (channel == null)
             {
-                CurrentChannel = new HttpNotificationChannel("TommyPushChannel");
-                CurrentChannel.Open();
-                CurrentChannel.BindToShellToast();
-                CurrentChannel.BindToShellTile();
+                channel = new HttpNotificationChannel("MyPushChannel");
+                channel.Open();
+                channel.BindToShellToast();
+                channel.BindToShellTile();
+                channel.ShellToastNotificationReceived += CurrentChannel_ShellToastNotificationReceived;
             }
-            CurrentChannel.ShellToastNotificationReceived += CurrentChannel_ShellToastNotificationReceived;
-            
-            CurrentChannel.ChannelUriUpdated +=
-                new EventHandler<NotificationChannelUriEventArgs>(async (o, args) =>
-                {
-                    // Register for notifications using the new channel
-                    await MobileService.GetPush()
-                        .RegisterNativeAsync(CurrentChannel.ChannelUri.ToString());
-                });
+
+            channel.ChannelUriUpdated += new EventHandler<NotificationChannelUriEventArgs>(async (o, args) =>
+            {
+                var hub = new NotificationHub(NotificationHubPath, ConnectionString);
+                await hub.RegisterNativeAsync(args.ChannelUri.ToString());
+            });
         }
 
         void CurrentChannel_ShellToastNotificationReceived(object sender, NotificationEventArgs e)
