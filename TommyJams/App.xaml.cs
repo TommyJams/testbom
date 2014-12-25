@@ -131,8 +131,13 @@ namespace TommyJams
 
             channel.ChannelUriUpdated += new EventHandler<NotificationChannelUriEventArgs>(async (o, args) =>
             {
-                var hub = new NotificationHub(NotificationHubPath, ConnectionString);
-                await hub.RegisterNativeAsync(args.ChannelUri.ToString());
+                //Register to Nitification Hub
+                //var hub = new NotificationHub(NotificationHubPath, ConnectionString);
+                //await hub.RegisterNativeAsync(args.ChannelUri.ToString());
+
+                //Register to Mobile Service 
+                await MobileService.GetPush()
+                .RegisterNativeAsync(args.ChannelUri.ToString());
             });
         }
 
