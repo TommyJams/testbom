@@ -15,6 +15,7 @@ using Windows.Devices.Geolocation;
 using Microsoft.Phone.Maps.Services;
 using System.Windows.Threading;
 using System.Device.Location;
+using Microsoft.Phone.Notification;
 
 namespace TommyJams.View
 {
@@ -164,11 +165,17 @@ namespace TommyJams.View
         private void PushNotification_toggle_Checked(object sender, RoutedEventArgs e)
         {
             settings_extension.PushNotification_setting(true);
+            App.AcquirePushChannel();
         }
 
         private void PushNotification_toggle_Unchecked(object sender, RoutedEventArgs e)
         {
             settings_extension.PushNotification_setting(false);
+            var channel = HttpNotificationChannel.Find(App.PushChannel);
+            if (channel != null)
+            {
+                channel.Close();
+            }
         }
 
         private void Calender_Toggle_Checked(object sender, RoutedEventArgs e)
@@ -233,9 +240,9 @@ namespace TommyJams.View
             //Default Value
             else
             {
-                settings.Add("PushNotification", "false");
+                settings.Add("PushNotification", "true");
                 settings.Save();
-                return false;
+                return true;
             }
         }
         public static void PushNotification_setting(bool value)
@@ -264,9 +271,9 @@ namespace TommyJams.View
             //Default Value
             else
             {
-                settings.Add("CalenderEntries", "false");
+                settings.Add("CalenderEntries", "true");
                 settings.Save();
-                return false;
+                return true;
             }
         }
         public static void CalenderEntries_setting(bool value)
