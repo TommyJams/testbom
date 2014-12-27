@@ -103,19 +103,19 @@ namespace TommyJams.ViewModel
             }
         }
 
-        private EventItem _eventItem = new EventItem();
-        public EventItem EventItem 
+        private NotificationItem _notificationItem = new NotificationItem();
+        public NotificationItem NotificationItem
         {
             get
             {
-                return _eventItem;
+                return _notificationItem;
             }
             set
             {
-                if (value != _eventItem)
+                if (value != _notificationItem)
                 {
-                    _eventItem = value;
-                    NotifyPropertyChanged("EventItem");
+                    _notificationItem = value;
+                    NotifyPropertyChanged("NotificationItem");
                 }
             }
         }
@@ -255,7 +255,7 @@ namespace TommyJams.ViewModel
 
         public async Task<string> JoinEvent()
         {
-            return await AppModel.PushJoinEvent(EventItem.EventID);
+            return await AppModel.PushJoinEvent();
         }
 
         public async Task LoadPrimaryEvents()
@@ -274,10 +274,34 @@ namespace TommyJams.ViewModel
             NotificationItems = await AppModel.GetInvitations();
         }
 
-        public async Task<EventItem> LoadEventInfo()
+        public async Task<NotificationItem> LoadEventInfo()
         {
-            var eventInfo = await AppModel.GetEventInfo();
-            return eventInfo;
+            NotificationItem nItem = new NotificationItem();
+            
+            //TODO: HUGE HACK!!! REMOVE!!!
+            EventItem eventInfo = await AppModel.GetEventInfo();
+            nItem.EventDate = eventInfo.EventDate;
+            nItem.EventDistance = eventInfo.EventDistance;
+            nItem.EventGenre = eventInfo.EventGenre;
+            nItem.EventHotness = eventInfo.EventHotness;
+            nItem.EventID = eventInfo.EventID;
+            nItem.EventImage = eventInfo.EventImage;
+            nItem.EventName = eventInfo.EventName;
+            nItem.EventPrice = eventInfo.EventPrice;
+            nItem.EventSong = eventInfo.EventSong;
+            nItem.EventStartingTime = eventInfo.EventStartingTime;
+            nItem.EventTags = eventInfo.EventTags;
+            nItem.EventTime = eventInfo.EventTime;
+            nItem.TheTime = eventInfo.TheTime;
+            nItem.VenueAddress = eventInfo.VenueAddress;
+            nItem.VenueCity = eventInfo.VenueCity;
+            nItem.VenueCoordinates = eventInfo.VenueCoordinates;
+            nItem.VenueName = eventInfo.VenueName;
+            nItem.InviteeFBID = NotificationItem.InviteeFBID;
+            nItem.InviteeImage = NotificationItem.InviteeImage;
+            nItem.InviteExists = NotificationItem.InviteExists;
+            nItem.InviteeName = NotificationItem.InviteeName;
+            return nItem;
         }
 
         public async Task<ObservableCollection<ArtistInfo>> LoadArtistInfo()
@@ -291,6 +315,11 @@ namespace TommyJams.ViewModel
             var venueInfo = await AppModel.GetVenueInfo();
             return venueInfo;
             
+        }
+
+        public async Task DoneSelectedFriends()
+        {
+            await AppModel.PushInviteFriends();
         }
         
         public event PropertyChangedEventHandler PropertyChanged;

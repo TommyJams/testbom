@@ -38,7 +38,7 @@ namespace TommyJams
         public static Geolocator geoLocator;
         public static Geoposition myPosition;
         public static Geocoordinate myGeocoordinate;
-        public static FacebookData friends;
+        public static FacebookData friends= null;
         public static EventViewModel ViewModel
         {
             get
@@ -47,14 +47,25 @@ namespace TommyJams
                 if (viewModel == null)
                 {
                     viewModel = new EventViewModel();
-                    //viewModel.LoadData();
                 }
 
                 return viewModel;
             }
         }
 
+        public static FacebookData FBViewModel
+        {
+            get
+            {
+                // Delay creation of the view model until necessary
+                if (friends == null)
+                {
+                    friends = new FacebookData();
+                }
 
+                return friends;
+            }
+        }
 
         /// <summary>
         /// Constructor for the Application object.

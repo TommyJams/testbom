@@ -46,12 +46,9 @@ namespace TommyJams.Model
             String defaultUri = "https://testneo4j.azure-mobile.net/api/getEventInfo?";
             String completeUri = defaultUri + "eventID=" + App.EventID;
             HttpClient client = new HttpClient();
-            Task<String> GetResult = client.GetStringAsync(completeUri);
-            string result = await GetResult;
+            string result = await client.GetStringAsync(completeUri);
 
-            CivicAddressResolver resolver = new CivicAddressResolver();
             List<EventItem> eventInfo = JsonConvert.DeserializeObject<List<EventItem>>(result) as List<EventItem>;
-
             return eventInfo[0];
         }
 
@@ -301,13 +298,13 @@ namespace TommyJams.Model
             return content;
         }
 
-        public async Task<string> PushJoinEvent(int eventID)
+        public async Task<string> PushJoinEvent()
         {
             String defaultUri = "https://testneo4j.azure-mobile.net/api/joinevent";
 
             if (App.MobileService.CurrentUser != null)
             {
-                string postData = "{\"fbid\":\"" + App.FacebookId + "\", \"eventID\":\"" + eventID + "\"}";
+                string postData = "{\"fbid\":\"" + App.FacebookId + "\", \"eventID\":\"" + App.ViewModel.NotificationItem.EventID + "\"}";
 
                 HttpClient client = new HttpClient();
                 HttpResponseMessage response = await client.PostAsync(defaultUri, new StringContent(postData, Encoding.UTF8, "application/json"));
@@ -315,6 +312,39 @@ namespace TommyJams.Model
 
                 response.EnsureSuccessStatusCode();
                 
+                return content;
+            }
+            else
+            {
+                throw new Exception("Login!");
+            }
+        }
+
+        public async Task<string> PushInviteFriends()
+        {
+            String defaultUri = "https://testneo4j.azure-mobile.net/api/invitefriends";
+
+            if (App.MobileService.CurrentUser != null)
+            {
+                string postData = "{\"fbid\":\"" + App.FacebookId + "\", \"eventID\":\"" + App.ViewModel.NotificationItem.EventID + "\", \"invites\":[";
+                bool inviteeExists = false;
+
+                foreach(Friend friendItem in App.FBViewModel.SelectedFriends)
+                {
+                    postData += "{\"fbid\":\"" + friendItem.id + "\"},";
+                    inviteeExists = true;
+                }
+
+                if (inviteeExists)
+                    postData = postData.Remove(postData.Length - 1);
+                postData += "]}";
+
+                HttpClient client = new HttpClient();
+                HttpResponseMessage response = await client.PostAsync(defaultUri, new StringContent(postData, Encoding.UTF8, "application/json"));
+                string content = await response.Content.ReadAsStringAsync();
+
+                response.EnsureSuccessStatusCode();
+
                 return content;
             }
             else

@@ -88,7 +88,10 @@ namespace TommyJams.View
                 await App.ViewModel.LoadPrimaryEvents();
                 await App.ViewModel.LoadSecondaryEvents();
                 if(App.MobileService.CurrentUser != null)
+                {
                     await App.ViewModel.LoadNotifications();
+                    await App.FBViewModel.LoadFacebookFriends();
+                }
             }
             catch (NullReferenceException)
             {
@@ -160,18 +163,38 @@ namespace TommyJams.View
         }
 
 
-        private void On_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        private void On_Tap_Event(object sender, System.Windows.Input.GestureEventArgs e)
         {
             StackPanel selected = sender as StackPanel;
             EventItem data = selected.DataContext as EventItem;
             App.EventID = data.EventID;
-            App.ViewModel.EventItem.EventName = data.EventName;
-            App.ViewModel.EventItem.EventDate = data.EventDate;
-            App.ViewModel.EventItem.EventTime = data.EventTime;
-            App.ViewModel.EventItem.EventPrice = data.EventPrice;
-            App.ViewModel.EventItem.EventDistance = data.EventDistance;
-            App.ViewModel.EventItem.EventImage = data.EventImage;
-            App.ViewModel.EventItem.VenueName = data.VenueName;
+            App.ViewModel.NotificationItem.EventName = data.EventName;
+            App.ViewModel.NotificationItem.EventDate = data.EventDate;
+            App.ViewModel.NotificationItem.EventTime = data.EventTime;
+            App.ViewModel.NotificationItem.EventPrice = data.EventPrice;
+            App.ViewModel.NotificationItem.EventDistance = data.EventDistance;
+            App.ViewModel.NotificationItem.EventImage = data.EventImage;
+            App.ViewModel.NotificationItem.VenueName = data.VenueName;
+            App.ViewModel.NotificationItem.EventImage = data.EventImage;
+            NavigationService.Navigate(new Uri("/../../View/EventPanoramaPage.xaml", UriKind.RelativeOrAbsolute));
+        }
+
+        private void On_Tap_Invite(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            StackPanel selected = sender as StackPanel;
+            NotificationItem data = selected.DataContext as NotificationItem;
+            App.EventID = data.EventID;
+            App.ViewModel.NotificationItem.EventName = data.EventName;
+            App.ViewModel.NotificationItem.EventDate = data.EventDate;
+            App.ViewModel.NotificationItem.EventTime = data.EventTime;
+            App.ViewModel.NotificationItem.EventPrice = data.EventPrice;
+            App.ViewModel.NotificationItem.EventDistance = data.EventDistance;
+            App.ViewModel.NotificationItem.EventImage = data.EventImage;
+            App.ViewModel.NotificationItem.VenueName = data.VenueName;
+            App.ViewModel.NotificationItem.EventImage = data.EventImage;
+            App.ViewModel.NotificationItem.InviteExists = data.InviteExists;
+            App.ViewModel.NotificationItem.InviteeName = data.InviteeName;
+            App.ViewModel.NotificationItem.InviteeImage = data.InviteeImage;
             NavigationService.Navigate(new Uri("/../../View/EventPanoramaPage.xaml", UriKind.RelativeOrAbsolute));
         }
 

@@ -31,14 +31,14 @@
                     </Grid.RowDefinitions>
                     <StackPanel Orientation="Vertical" Grid.Row="1">
 
-                        <StackPanel x:Name="panel1Invite" Orientation="Horizontal">
-                            <Image Height="80" Width="80" Source="../Resources/Image/play.gif"  VerticalAlignment="Center" Margin="10,0,0,0">
+                        <StackPanel x:Name="panel1Invite" Orientation="Horizontal" Visibility="Collapsed">
+                            <Image x:Name="Textblock_inviteeImage" Height="80" Width="80" Source="../Resources/Image/play.gif"  VerticalAlignment="Center" Margin="10,0,0,0">
                                 <Image.Clip>
                                     <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
                                 </Image.Clip>
                             </Image>
                             <StackPanel Orientation="Vertical" Margin="10">
-                                <TextBlock Text="Friends Name" FontSize="30" Foreground="#ffcc00"/>
+                                <TextBlock x:Name="Textblock_inviteeName" Text="Friends Name" FontSize="30" Foreground="#ffcc00"/>
                                 <TextBlock Text="Invited you" Foreground="#aaaaaa"/>
                             </StackPanel>
                         </StackPanel>
@@ -232,14 +232,14 @@
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
-                    <StackPanel x:Name="panel4Invite" Orientation="Horizontal" Grid.Row="1">
-                        <Image Height="80" Width="80" Source="../Resources/Image/play.gif"  VerticalAlignment="Center" Margin="10,0,0,0">
+                    <StackPanel x:Name="panel4Invite" Orientation="Horizontal" Grid.Row="1" Visibility="Collapsed">
+                        <Image x:Name="panel4InviteeImage" Height="80" Width="80" Source="../Resources/Image/play.gif"  VerticalAlignment="Center" Margin="10,0,0,0">
                             <Image.Clip>
                                 <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
                             </Image.Clip>
                         </Image>
                         <StackPanel Orientation="Vertical" Margin="10">
-                            <TextBlock Text="Friends Name" FontSize="30" Foreground="#ffcc00"/>
+                            <TextBlock x:Name="panel4InviteeName" Text="Friends Name" FontSize="30" Foreground="#ffcc00"/>
                             <TextBlock Text="Invited you" Foreground="#aaaaaa"/>
                         </StackPanel>
                     </StackPanel>

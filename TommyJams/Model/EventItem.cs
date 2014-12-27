@@ -14,6 +14,15 @@ using TommyJams;
 
 namespace TommyJams.Model
 {
+    public class Friend
+    {
+        public string id { get; set; }
+
+        public string name { get; set; }
+
+        public string pictureUri { get; set; }
+    }
+
     public class EventItem :INotifyPropertyChanged
     {
         private int _eventID;

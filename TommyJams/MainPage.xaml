@@ -37,7 +37,7 @@
                                                 Height="250"
                                                 VerticalAlignment="Center"
                                                 HorizontalAlignment="Center" Width="397"
-                                                Tap="On_Tap"
+                                                Tap="On_Tap_Event"
                                                 Margin="0,0,0,20"
                                                 >
                                     <Image Source="{Binding EventImage}" Height="150"/>
@@ -80,7 +80,7 @@
                                                 Height="145"
                                                 VerticalAlignment="Center"
                                                 HorizontalAlignment="Center"
-                                                Tap="On_Tap"
+                                                Tap="On_Tap_Event"
                                                 >
                                     <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
                                         <HyperlinkButton BorderThickness="0" Click="Button_Click" Width="100" Height="100">
@@ -122,7 +122,7 @@
                     <ListBox x:Name="upcomingEventsListBox" ItemsSource="{Binding UpcomingEvents, Mode=TwoWay}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                    <StackPanel Orientation="Horizontal" Tap="On_Tap">
+                                    <StackPanel Orientation="Horizontal" Tap="On_Tap_Event" Margin="20,20,0,0">
                                         <Rectangle Fill="#ffcc00" Width="5"/>
                                         <StackPanel Orientation="Vertical" Margin="10,0,0,0">
                                             <TextBlock Text="{Binding EventGenre}" TextWrapping="Wrap" FontSize="15"/>
@@ -144,7 +144,7 @@
                     <ListBox x:Name="invitationListBox" ItemsSource="{Binding NotificationItems, Mode=TwoWay}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <StackPanel Orientation="Horizontal" Tap="On_Tap">
+                                    <StackPanel Orientation="Horizontal" Tap="On_Tap_Invite" Margin="20,20,0,0">
                                     <Rectangle Fill="#ffcc00" Width="5"/>
                                         <StackPanel Orientation="Vertical" Margin="10,0,0,0">
                                             <TextBlock Text="{Binding EventGenre}" TextWrapping="Wrap" FontSize="15"/>
@@ -159,12 +159,12 @@
                                             </StackPanel>
 
                                             <StackPanel Orientation="Horizontal">
-                                                <Image Height="80" Width="80" Source="{Binding InviteeName}" VerticalAlignment="Center" Margin="10,0,0,0">
+                                                <Image Height="80" Width="80" Source="{Binding InviteeImage}" VerticalAlignment="Center" Margin="0,10,0,0">
                                                     <Image.Clip>
                                                         <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
                                                     </Image.Clip>
                                                 </Image>
-                                                <StackPanel Orientation="Vertical">
+                                                <StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="10,0,0,0">
                                                     <TextBlock Text="{Binding InviteeName}" TextWrapping="Wrap" FontSize="25" Foreground="#ffcc00"/>
                                                     <TextBlock Text="invited you" TextWrapping="Wrap" FontSize="15"/>
                                                 </StackPanel>

@@ -127,9 +127,6 @@
     <Compile Include="View\MapTest.xaml.cs">
       <DependentUpon>MapTest.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\PanoramaPage2.xaml.cs">
-      <DependentUpon>PanoramaPage2.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
@@ -168,10 +165,6 @@
     <Page Include="View\MapTest.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\PanoramaPage2.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Settings.xaml">
       <SubType>Designer</SubType>

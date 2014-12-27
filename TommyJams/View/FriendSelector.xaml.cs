@@ -7,7 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
-using TommyJams.ViewModel;
+using TommyJams.Model;
 
 namespace TommyJams.View
 {
@@ -16,11 +16,23 @@ namespace TommyJams.View
         public FriendSelector()
         {
             InitializeComponent();
-            
-
+            this.DataContext = App.FBViewModel;
         }
 
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        private void DoneIconButton_Click(object sender, EventArgs e)
+        {
+            App.FBViewModel.ClearSelectedFriends();
+            var selectedFriends = this.friendList.SelectedItems;
+            foreach (Friend friendItem in selectedFriends)
+            {
+                App.FBViewModel.AddSelectedFriends(friendItem);
+            }
+            App.ViewModel.DoneSelectedFriends();
+
+            NavigationService.GoBack();
+        }
+
+        /*protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             // this runs in the UI thread, so it is ok to modify the 
             // viewmodel directly here
@@ -32,12 +44,7 @@ namespace TommyJams.View
             }
 
             base.OnNavigatedFrom(e);
-        }
-
-        private void Done_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
+        }*/
 
     }
 }

@@ -38,22 +38,31 @@ namespace TommyJams.View
         {
             InitializeComponent();
 
-            panel5_date.Text = Textblock_date.Text = App.ViewModel.EventItem.EventDate;
-            panel5_price.Text = Textblock_price.Text = App.ViewModel.EventItem.EventPrice.ToString();
-            panel5_time.Text = Textblock_time.Text = App.ViewModel.EventItem.EventTime;
-            panel5_venue.Text = Textblock_venue.Text = App.ViewModel.EventItem.VenueName;
-
-            if (App.ViewModel.EventItem.EventImage != null)
+            panel5_date.Text = Textblock_date.Text = App.ViewModel.NotificationItem.EventDate;
+            panel5_price.Text = Textblock_price.Text = App.ViewModel.NotificationItem.EventPrice.ToString();
+            panel5_time.Text = Textblock_time.Text = App.ViewModel.NotificationItem.EventTime;
+            panel5_venue.Text = Textblock_venue.Text = App.ViewModel.NotificationItem.VenueName;
+            if(App.ViewModel.NotificationItem.InviteExists)
             {
-                BitmapImage bitmapImage = new BitmapImage(new Uri(App.ViewModel.EventItem.EventImage, UriKind.Absolute));
+                panel4InviteeName.Text = Textblock_inviteeName.Text = App.ViewModel.NotificationItem.InviteeName;
+                
+                BitmapImage bitmapImage = new BitmapImage(new Uri(App.ViewModel.NotificationItem.InviteeImage, UriKind.Absolute));
+                ImageBrush imageBrush = new ImageBrush();
+                panel4InviteeImage.Source = Textblock_inviteeImage.Source = bitmapImage;
+                
+                panel4Invite.Visibility = panel1Invite.Visibility = Visibility.Visible;
+            }
+
+            if (App.ViewModel.NotificationItem.EventImage != null)
+            {
+                BitmapImage bitmapImage = new BitmapImage(new Uri(App.ViewModel.NotificationItem.EventImage, UriKind.Absolute));
                 ImageBrush imageBrush = new ImageBrush();
                 imageBrush.ImageSource = bitmapImage;
                 Panorama.Background = imageBrush;
             }
 
-            Panorama.Title = App.ViewModel.EventItem.EventName;
-            
-            mainHeader.Header = "@"+App.ViewModel.EventItem.VenueName;
+            Panorama.Title = App.ViewModel.NotificationItem.EventName;
+            mainHeader.Header = "@"+App.ViewModel.NotificationItem.VenueName;
             
             LoadData();
             AddButtons();
@@ -63,16 +72,16 @@ namespace TommyJams.View
 
         public async void LoadData()
         {
-            App.ViewModel.EventItem = await App.ViewModel.LoadEventInfo();
+            App.ViewModel.NotificationItem = await App.ViewModel.LoadEventInfo();
             App.ViewModel.ArtistInfo = await App.ViewModel.LoadArtistInfo();
             App.ViewModel.VenueInfo = await App.ViewModel.LoadVenueInfo();
 
             ArtistListBox.ItemsSource = App.ViewModel.ArtistInfo;
             VenueGrid.DataContext = App.ViewModel.VenueInfo;
             venueMap.Center = App.ViewModel.VenueInfo.VenueGeoCoordinate;
-            if (App.ViewModel.EventItem.EventImage != null)
+            if (App.ViewModel.NotificationItem.EventImage != null)
             {
-                BitmapImage bitmapImage = new BitmapImage(new Uri(App.ViewModel.EventItem.EventImage, UriKind.Absolute));
+                BitmapImage bitmapImage = new BitmapImage(new Uri(App.ViewModel.NotificationItem.EventImage, UriKind.Absolute));
                 ImageBrush imageBrush = new ImageBrush();
                 imageBrush.ImageSource = bitmapImage;
                 Panorama.Background = imageBrush;
@@ -191,80 +200,45 @@ namespace TommyJams.View
 
         private void AddButtons()
         {
-            //accept button
-            ApplicationBarIconButton accept = new ApplicationBarIconButton();
-            accept.Text = "Accept";
-            accept.IconUri = new Uri("/Resources/Images/accept.jpg",UriKind.Relative);
-            accept.Click += Event_Accept;
-            ApplicationBar.Buttons.Add(accept);
-            //reject button
-            ApplicationBarIconButton decline = new ApplicationBarIconButton();
-            decline.Text = "Decline";
-            decline.IconUri = new Uri("/Resources/Images/decline.jpg",UriKind.Relative);
-            ApplicationBar.Buttons.Add(decline);
-            //add bookmark button
-            ApplicationBarIconButton pinevent = new ApplicationBarIconButton();
-            pinevent.Text = "Pin Event";
-            pinevent.IconUri = new Uri("/Resources/Images/pinevent.jpg", UriKind.Relative);
-            ApplicationBar.Buttons.Add(pinevent);
-            //add invite friend button
-            ApplicationBarIconButton invitefriend = new ApplicationBarIconButton();
-            invitefriend.Text = "Invite Friends";
-            invitefriend.IconUri = new Uri("/Resources/Images/invitefriends.jpg",UriKind.Relative);
-            invitefriend.Click += Invite_Friends;
-            ApplicationBar.Buttons.Add(invitefriend);
-            
+            if (Panorama.SelectedIndex != 4)
+            {
+                //add bookmark button
+                ApplicationBarIconButton pinevent = new ApplicationBarIconButton();
+                pinevent.Text = "Pin Event";
+                pinevent.IconUri = new Uri("/Resources/Images/pinevent.jpg", UriKind.Relative);
+                ApplicationBar.Buttons.Add(pinevent);
+            }
+
+            if (App.MobileService.CurrentUser != null && (Panorama.SelectedIndex == -1 || Panorama.SelectedIndex == 0 || Panorama.SelectedIndex == 3))
+            {
+                //accept button
+                ApplicationBarIconButton accept = new ApplicationBarIconButton();
+                accept.Text = "Accept";
+                accept.IconUri = new Uri("/Resources/Images/accept.jpg", UriKind.Relative);
+                accept.Click += Event_Accept;
+                ApplicationBar.Buttons.Add(accept);
+
+                //add invite friend button
+                ApplicationBarIconButton invitefriend = new ApplicationBarIconButton();
+                invitefriend.Text = "Invite Friends";
+                invitefriend.IconUri = new Uri("/Resources/Images/invitefriends.jpg", UriKind.Relative);
+                invitefriend.Click += Invite_Friends;
+                ApplicationBar.Buttons.Add(invitefriend);
+            }
+            else if (App.MobileService.CurrentUser != null && Panorama.SelectedIndex == 4)
+            {
+                ApplicationBarIconButton proceed = new ApplicationBarIconButton();
+                proceed.Text = "Proceed";
+                proceed.IconUri = new Uri("/Resource/Images/proceed.jpg", UriKind.Relative);
+                ApplicationBar.Buttons.Add(proceed);
+            }
         }
 
         private void Panorama_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //Removing buttons
-            if (Panorama.SelectedIndex == 0)
-            { if(ApplicationBar.Buttons.Count == 1)
-                {
-                    ApplicationBar.Buttons.RemoveAt(0);
-                    AddButtons();
-                }
-
-            }
-            else if(Panorama.SelectedIndex == 1)
-            {
-                if(ApplicationBar.Buttons.Count > 1)
-                {
-                    ApplicationBar.Buttons.RemoveAt(0);
-                    ApplicationBar.Buttons.RemoveAt(0);
-                    ApplicationBar.Buttons.RemoveAt(1);
-                }
-            }
-            else if(Panorama.SelectedIndex == 2)
-            {
-                if(ApplicationBar.Buttons.Count > 1)
-                {
-                    ApplicationBar.Buttons.RemoveAt(0);
-                    ApplicationBar.Buttons.RemoveAt(0);
-                    ApplicationBar.Buttons.RemoveAt(0);
-                }
-            }
-            else if(Panorama.SelectedIndex == 3)
-            {
-                if(ApplicationBar.Buttons.Count ==1)
-                {
-                    ApplicationBar.Buttons.RemoveAt(0);
-                    AddButtons();
-                }
-                
-            }
-            else if(Panorama.SelectedIndex == 4)
-            {
-                ApplicationBar.Buttons.RemoveAt(0);
-                ApplicationBar.Buttons.RemoveAt(0);
-                ApplicationBar.Buttons.RemoveAt(0);
-                ApplicationBar.Buttons.RemoveAt(0);
-                ApplicationBarIconButton proceed = new ApplicationBarIconButton();
-                proceed.Text = "Proceed";
-                proceed.IconUri=new Uri("/Resource/Images/proceed.jpg",UriKind.Relative);
-                ApplicationBar.Buttons.Add(proceed);
-            }
+            ApplicationBar.Buttons.Clear();
+            AddButtons();
         }
 
         //TODO: Get these authentication tokens when publishing app
