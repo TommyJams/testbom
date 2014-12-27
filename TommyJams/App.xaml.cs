@@ -13,6 +13,12 @@ using TommyJams.Model;
 using TommyJams.View;
 using TommyJams.ViewModel;
 using Windows.Devices.Geolocation;
+using Microsoft.Phone.Notification;
+using System.Text;
+using Microsoft.Phone.Notification;
+using Microsoft.WindowsAzure.Messaging;
+using System.Collections.Generic;
+using System.Windows.Media;
 
 namespace TommyJams
 {
@@ -30,6 +36,9 @@ namespace TommyJams
         public static EventViewModel viewModel= null;
         public static bool isAuthenticated = false;
         public static int EventID = 5;
+        public static string PushChannel = "TommyJamsPushChannel";
+        public static string NotificationHubPath = "testneo4jhub";
+        public static string ConnectionString = "Endpoint=sb://testneo4jhub-ns.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=0E6XY/X2R9CBq9+5RmOTJBaEh+1Kuc4mYFHjJkvTtWc=";
         internal static string AccessToken = "CAACEdEose0cBANAiEbyjsoZAQRA4bwlmrcURKZBDMKZCgHk6FUE8kYabMZBT4eHxnuCKX2IOvEA5ZBEaUz1rN82zjdyYkBG4HyYe6eJbbxPa6bZB9N6KUyWzwYbvS65TXjZBRIJo49V9ZCFQ4RKvapdsqYxFh27CWbvNPoIEuFJkedxCRoqYNnGcTfZC7T5XnQKALWuI2bbgnFNSWSqWjnMuY";
         internal static string FacebookId = FACEBOOK_DEFAULT_ID;
         public static User fbUser;
@@ -120,10 +129,68 @@ namespace TommyJams
             "LxqAhRVmuUESACkYahJxCgfjOomzEP99"
             );
 
+        public static HttpNotificationChannel CurrentChannel { get; private set; }
+
+        public static void AcquirePushChannel()
+        {
+            if (settings_extension.PushNotification_setting_status())
+            {
+                var channel = HttpNotificationChannel.Find(PushChannel);
+                if (channel == null)
+                {
+                    channel = new HttpNotificationChannel(PushChannel);
+                    channel.Open();
+                    channel.BindToShellToast();
+                    channel.BindToShellTile();
+                    channel.ShellToastNotificationReceived += CurrentChannel_ShellToastNotificationReceived;
+                }
+
+                channel.ChannelUriUpdated += new EventHandler<NotificationChannelUriEventArgs>(async (o, args) =>
+                {
+                    //Register to Nitification Hub
+                    //var hub = new NotificationHub(NotificationHubPath, ConnectionString);
+                    //await hub.RegisterNativeAsync(args.ChannelUri.ToString());
+
+                    //Register to Mobile Service 
+                    await MobileService.GetPush()
+                    .RegisterNativeAsync(args.ChannelUri.ToString());
+                });
+            }
+        }
+
+        public static void CurrentChannel_ShellToastNotificationReceived(object sender, NotificationEventArgs e)
+        {
+            StringBuilder message = new StringBuilder();
+            string relativeUri = string.Empty;
+
+            message.AppendFormat("Received Toast {0}:\n", DateTime.Now.ToShortTimeString());
+
+            // Parse out the information that was part of the message.
+            foreach (string key in e.Collection.Keys)
+            {
+                message.AppendFormat("{0}: {1}\n", key, e.Collection[key]);
+
+                if (string.Compare(
+                    key,
+                    "wp:Param",
+                    System.Globalization.CultureInfo.InvariantCulture,
+                    System.Globalization.CompareOptions.IgnoreCase) == 0)
+                {
+                    relativeUri = e.Collection[key];
+                }
+            }
+            
+            Deployment.Current.Dispatcher.BeginInvoke(() =>
+            {
+                // Display a dialog of all the fields in the toast.
+                MessageBox.Show(message.ToString());                
+            });
+        }
         // Code to execute when the application is launching (eg, from Start)
         // This code will not execute when the application is reactivated
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
+            AcquirePushChannel();
         }
 
         // Code to execute when the application is activated (brought to foreground)

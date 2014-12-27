@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="TommyJams.View.City_List"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    d:DesignHeight="800" d:DesignWidth="480">
+    
+    <StackPanel x:Name="LayoutRoot" Background="{StaticResource PhoneChromeBrush}">
+        <TextBlock Text="Select Location" FontSize="30" FontFamily="Segoe WP Semibold" Margin="20" Foreground="{StaticResource TommyJams_Yellow}"/>
+        <phone:LongListSelector x:Name="City_LongListSelector" Margin="12" VerticalAlignment="Top" HorizontalContentAlignment="Stretch" >
+            <phone:LongListSelector.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Margin="5">
+                        <!-- Visible only if text is Current Location-->
+                        <TextBlock Visibility="{Binding IsCurrentLocation}" Text="{Binding City_Name}" FontStyle="Italic" FontFamily="Segoe WP" FontSize="28" Foreground="White"/>
+                        <!-- Visible if text is a City Name -->
+                        <TextBlock Visibility="{Binding IsNotCurrentLocation}" Text="{Binding City_Name}" FontFamily="Segoe WP" FontSize="28" Foreground="White"/>
+                    </StackPanel>
+                </DataTemplate>
+            </phone:LongListSelector.ItemTemplate>
+        </phone:LongListSelector>
+    </StackPanel>
+</UserControl>
