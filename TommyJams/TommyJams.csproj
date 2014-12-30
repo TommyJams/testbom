@@ -206,11 +206,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="fbchannel.ashx" />
+    <None Include="packages.config" />
+    <None Include="Properties\AppManifest.xml" />
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <None Include="packages.config" />
-    <None Include="Properties\AppManifest.xml" />
     <None Include="Properties\WMAppManifest.xml">
       <SubType>Designer</SubType>
     </None>

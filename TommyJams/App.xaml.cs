@@ -20,6 +20,7 @@ using Microsoft.WindowsAzure.Messaging;
 using System.Collections.Generic;
 using System.Windows.Media;
 using Windows.Networking.PushNotifications;
+using Windows.Data.Xml.Dom;
 
 namespace TommyJams
 {
@@ -134,6 +135,7 @@ namespace TommyJams
                 try
                 {
                     await MobileService.GetPush().RegisterNativeAsync(channel.Uri);
+                    channel.PushNotificationReceived += channel_PushNotificationReceived;
                 }
                 catch (System.Exception ex)
                 {
@@ -149,6 +151,38 @@ namespace TommyJams
                     channel.Close();
                 }
             
+        }
+
+        static void channel_PushNotificationReceived(PushNotificationChannel sender, PushNotificationReceivedEventArgs args)
+        {
+            if (args.NotificationType == PushNotificationType.Toast)
+            {
+                StringBuilder message = new StringBuilder();
+                string relativeUri = string.Empty;
+
+                message.AppendFormat("Received Toast {0}:\n", DateTime.Now.ToShortTimeString());
+
+                // Parse out the information that was part of the message.
+                XmlDocument toastXML = args.ToastNotification.Content;
+                XmlNodeList toastNodes = toastXML.ChildNodes;
+                foreach(IXmlNode x in toastNodes)
+                {
+                    message.AppendFormat("{0} : {1} : {2}\n",x.NodeName, x.NodeValue, x.InnerText);
+                }
+
+                XmlNodeList toastText = toastXML.GetElementsByTagName("text");
+                message.AppendFormat("{0}: {1}\n","text", toastText[0].InnerText);
+                message.AppendFormat("{0}: {1}\n", "text", toastText[1].InnerText);
+
+                
+                
+
+                Deployment.Current.Dispatcher.BeginInvoke(() =>
+                {
+                    // Display a dialog of all the fields in the toast.
+                    MessageBox.Show(message.ToString());
+                });
+            }
         }
 
         public static void CurrentChannel_ShellToastNotificationReceived(object sender, NotificationEventArgs e)
