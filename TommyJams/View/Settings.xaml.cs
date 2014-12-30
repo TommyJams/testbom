@@ -165,16 +165,15 @@ namespace TommyJams.View
         private void PushNotification_toggle_Checked(object sender, RoutedEventArgs e)
         {
             settings_extension.PushNotification_setting(true);
-            App.AcquirePushChannel();
+            App.InitNotificationsAsync();
         }
 
         private void PushNotification_toggle_Unchecked(object sender, RoutedEventArgs e)
         {
             settings_extension.PushNotification_setting(false);
-            var channel = HttpNotificationChannel.Find(App.PushChannel);
-            if (channel != null)
+            if (App.channel != null)
             {
-                channel.Close();
+                App.channel.Close();
             }
         }
 

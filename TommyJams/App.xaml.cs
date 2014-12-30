@@ -19,6 +19,7 @@ using Microsoft.Phone.Notification;
 using Microsoft.WindowsAzure.Messaging;
 using System.Collections.Generic;
 using System.Windows.Media;
+using Windows.Networking.PushNotifications;
 
 namespace TommyJams
 {
@@ -118,33 +119,36 @@ namespace TommyJams
             "LxqAhRVmuUESACkYahJxCgfjOomzEP99"
             );
 
-        public static HttpNotificationChannel CurrentChannel { get; private set; }
+        public static PushNotificationChannel channel { get; private set; }
 
-        public static void AcquirePushChannel()
+        public static async void InitNotificationsAsync()
         {
-            if (settings_extension.PushNotification_setting_status())
+            // Request a push notification channel if Push Notification settings are enabled
+            if (settings_extension.PushNotification_setting_status()== true)
             {
-                var channel = HttpNotificationChannel.Find(PushChannel);
-                if (channel == null)
+                channel = await PushNotificationChannelManager
+                    .CreatePushNotificationChannelForApplicationAsync();
+
+                // Register for notifications using the new channel
+                System.Exception exception = null;
+                try
                 {
-                    channel = new HttpNotificationChannel(PushChannel);
-                    channel.Open();
-                    channel.BindToShellToast();
-                    channel.BindToShellTile();
-                    channel.ShellToastNotificationReceived += CurrentChannel_ShellToastNotificationReceived;
+                    await MobileService.GetPush().RegisterNativeAsync(channel.Uri);
                 }
-
-                channel.ChannelUriUpdated += new EventHandler<NotificationChannelUriEventArgs>(async (o, args) =>
+                catch (System.Exception ex)
                 {
-                    //Register to Nitification Hub
-                    //var hub = new NotificationHub(NotificationHubPath, ConnectionString);
-                    //await hub.RegisterNativeAsync(args.ChannelUri.ToString());
-
-                    //Register to Mobile Service 
-                    await MobileService.GetPush()
-                    .RegisterNativeAsync(args.ChannelUri.ToString());
-                });
+                    exception = ex;
+                }
+                if (exception != null)
+                {
+                    Debug.WriteLine(exception.Message);
+                }
             }
+            else if(channel!=null)
+                {
+                    channel.Close();
+                }
+            
         }
 
         public static void CurrentChannel_ShellToastNotificationReceived(object sender, NotificationEventArgs e)
@@ -179,7 +183,7 @@ namespace TommyJams
         // This code will not execute when the application is reactivated
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
-            AcquirePushChannel();
+            InitNotificationsAsync();
         }
 
         // Code to execute when the application is activated (brought to foreground)

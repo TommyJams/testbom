@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2014/deployment" AppPlatformVersion="8.1">
   <DefaultLanguage xmlns="" code="en-US" />
-  <App xmlns="" ProductID="{e4312153-3f4c-49dd-904d-5fbe8f1d6073}" Title="TommyJams" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="TommyJams author" Description="Sample description" Publisher="TommyJams" PublisherID="{3f72d71c-dd80-408e-affb-aa06372f396a}">
+  <App xmlns="" ProductID="{e4312153-3f4c-49dd-904d-5fbe8f1d6073}" Title="TommyJams" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="TommyJams author" Description="Sample description" Publisher="TommyJams" PublisherID="{3f72d71c-dd80-408e-affb-aa06372f396a}" NotificationService="WNS">
     <IconPath IsRelative="true" IsResource="false">Assets\ApplicationIcon.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING" />
