@@ -13,9 +13,9 @@ namespace TommyJams.ViewModel
 {
     public class FacebookData : INotifyPropertyChanged
     {
-        private ObservableCollection<Friend> friends = new ObservableCollection<Friend>();
+        private ObservableCollection<OtherUser> friends = new ObservableCollection<OtherUser>();
 
-        public ObservableCollection<Friend> Friends
+        public ObservableCollection<OtherUser> Friends
         {
             get
             {
@@ -32,9 +32,9 @@ namespace TommyJams.ViewModel
             }
         }
 
-        private ObservableCollection<Friend> selectedFriends = new ObservableCollection<Friend>();
+        private ObservableCollection<OtherUser> selectedFriends = new ObservableCollection<OtherUser>();
 
-        public ObservableCollection<Friend> SelectedFriends
+        public ObservableCollection<OtherUser> SelectedFriends
         {
             get
             {
@@ -67,10 +67,11 @@ namespace TommyJams.ViewModel
             var result = (IDictionary<string, object>)await fb.GetTaskAsync("me/friends");
             string fbDataStr = result["data"].ToString();
 
-            Friends = JsonConvert.DeserializeObject<ObservableCollection<Friend>>(fbDataStr) as ObservableCollection<Friend>;
-            foreach(Friend friendItem in Friends)
+            Friends = JsonConvert.DeserializeObject<ObservableCollection<OtherUser>>(fbDataStr) as ObservableCollection<OtherUser>;
+            foreach(OtherUser friendItem in Friends)
             {
                 friendItem.pictureUri = "http://graph.facebook.com/" + friendItem.id + "/picture?type=square";
+                friendItem.friend = "Facebook";
             }
         }
 
@@ -79,7 +80,7 @@ namespace TommyJams.ViewModel
             SelectedFriends.Clear();
         }
 
-        public void AddSelectedFriends(Friend friendItem)
+        public void AddSelectedFriends(OtherUser friendItem)
         {
             SelectedFriends.Add(friendItem);
         }

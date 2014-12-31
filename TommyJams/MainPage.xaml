@@ -20,7 +20,6 @@
 
         <MediaElement x:Name="AudioPlayer" Volume="1"/>
         <phone:Panorama x:Name="Panorama" Title="TommyJams" TitleTemplate="{StaticResource SmallPanoramaTitle}" SelectionChanged="Panorama_SelectionChanged">
-
             <!--Panorama Screen One-->
             <phone:PanoramaItem x:Name="gigsHeader" Header="events" HeaderTemplate="{StaticResource SmallPanoramaPageTitle}">
 

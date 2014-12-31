@@ -35,7 +35,7 @@ namespace TommyJams
         //public static MainViewModel viewModel = null;
         public static EventViewModel viewModel= null;
         public static bool isAuthenticated = false;
-        public static int EventID = 5;
+        public static string EventID = "5";
         public static string PushChannel = "TommyJamsPushChannel";
         public static string NotificationHubPath = "testneo4jhub";
         public static string ConnectionString = "Endpoint=sb://testneo4jhub-ns.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=0E6XY/X2R9CBq9+5RmOTJBaEh+1Kuc4mYFHjJkvTtWc=";

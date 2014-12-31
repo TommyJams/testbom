@@ -16,6 +16,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TommyJams.Model;
 using TommyJams.Resources;
+using Windows.Security.Credentials;
 
 
 namespace TommyJams.ViewModel
@@ -136,6 +137,7 @@ namespace TommyJams.ViewModel
                 }
             }
         }
+
         private VenueInfo _venueInfo = new VenueInfo();
         public VenueInfo VenueInfo 
         {
@@ -152,6 +154,24 @@ namespace TommyJams.ViewModel
                 }
             }
         }
+
+        private ObservableCollection<OtherUser> _socialInfo = new ObservableCollection<OtherUser>();
+        public ObservableCollection<OtherUser> SocialInfo
+        {
+            get
+            {
+                return _socialInfo;
+            }
+            set
+            {
+                if (value != _socialInfo)
+                {
+                    _socialInfo = value;
+                    NotifyPropertyChanged("SocialInfo");
+                }
+            }
+        }
+
         private AppModel _appmodel = new AppModel();
         public AppModel AppModel
         {
@@ -179,67 +199,152 @@ namespace TommyJams.ViewModel
 
         public async Task LoginToFacebook()
         {
-            if (App.MobileService.CurrentUser == null)
+            // Use the PasswordVault to securely store and access credentials.
+            PasswordVault vault = new PasswordVault();
+            PasswordCredential credential = null;
+            PasswordCredential fbcredential = null;
+
+            while (credential == null)
             {
-                App.fbSession = await App.FacebookSession.LoginAsync("email, user_birthday");
-                var client = new FacebookClient(App.fbSession.AccessToken);
-                var fbToken = JObject.FromObject(new
+                try
                 {
-                    access_token = App.fbSession.AccessToken,
-                });
-
-                await App.MobileService.LoginAsync(MobileServiceAuthenticationProvider.Facebook, fbToken);
-
-                if (App.MobileService.CurrentUser != null)
+                    // Try to get an existing credential from the vault.
+                    credential = vault.FindAllByResource("Facebook").FirstOrDefault();
+                    fbcredential = vault.FindAllByResource("FacebookAccessToken").FirstOrDefault();
+                }
+                catch (Exception)
                 {
-                    App.FacebookId = App.MobileService.CurrentUser.UserId.Substring(9); //Get facebook id number
-                    App.fbUser = new User(); 
-                    App.fbUser.fbid = App.FacebookId;
-                    if((await AppModel.GetUserPresence())== 0)
+                    // When there is no matching resource an error occurs, which we ignore.
+                }
+
+                if (credential != null)
+                {
+                    // Create a user from the stored credentials.
+                    App.MobileService.CurrentUser = new MobileServiceUser(credential.UserName);
+                    credential.RetrievePassword();
+                    App.MobileService.CurrentUser.MobileServiceAuthenticationToken = credential.Password;
+
+                    try
                     {
-                        var fb = new FacebookClient(App.fbSession.AccessToken);
-                        dynamic result = await fb.GetTaskAsync("me", new { fields = new[] { "name, gender, location, email, birthday" } });
+                        //Check fb access token expiry
+                        fbcredential.RetrievePassword();
+                        var client = new FacebookClient(fbcredential.Password);
+                        dynamic result = client.GetTaskAsync("me/friends");
+                        App.fbSession = new Facebook.Client.FacebookSession();
+                        App.FacebookId = App.fbSession.FacebookId = fbcredential.UserName;
+                        App.fbSession.AccessToken = fbcredential.Password;
+                    }
+                    catch (FacebookOAuthException)
+                    {
+                        // Remove the credential with the expired token.
+                        vault.Remove(credential);
+                        vault.Remove(fbcredential);
+                        credential = null;
+                        fbcredential = null;
+                        continue;
+                    }
 
-                        try
-                        {
-                            App.fbUser.name = (string)result["name"];
-                            App.fbUser.gender = (string)result["gender"];
-                            //TODO: Add required checks here
-                            App.fbUser.city = ((string)result["location"]["name"]).Split(',')[0].Trim();
-                            App.fbUser.country = ((string)result["location"]["name"]).Split(',')[1].Trim();
-                            App.fbUser.email = (string)result["email"];
-                            App.fbUser.dob = (string)result["birthday"];
-                            //TODO: add current ip
-                            App.fbUser.ip = "0.0.0.0";
-                        }
-                        catch (Exception)
-                        {
-                            //There might be empty keys
-                        }
-
-                        string responseAddUser = await AddUser(App.fbUser);
+                    try
+                    {
+                        // Try to return an item now to determine if the cached credential has expired.
+                        await App.MobileService.GetTable<testEvent>().Take(1).ToListAsync();
+                    }
+                    catch (MobileServiceInvalidOperationException ex)
+                    {
+                        // Remove the credential with the expired token.
+                        vault.Remove(credential);
+                        vault.Remove(fbcredential);
+                        credential = null;
+                        fbcredential = null;
+                        continue;
                     }
                 }
                 else
                 {
-                    App.FacebookId = App.FACEBOOK_DEFAULT_ID;
+                    App.fbSession = await App.FacebookSession.LoginAsync("email, user_birthday");
+                    var client = new FacebookClient(App.fbSession.AccessToken);
+                    var fbToken = JObject.FromObject(new
+                    {
+                        access_token = App.fbSession.AccessToken,
+                    });
+
+                    // Login with the identity provider.
+                    await App.MobileService.LoginAsync(MobileServiceAuthenticationProvider.Facebook, fbToken);
+
+                    if (App.MobileService.CurrentUser != null)
+                    {
+                        // Create and store the user credentials.
+                        credential = new PasswordCredential("Facebook", App.MobileService.CurrentUser.UserId, App.MobileService.CurrentUser.MobileServiceAuthenticationToken);
+                        fbcredential = new PasswordCredential("FacebookAccessToken", App.fbSession.FacebookId, App.fbSession.AccessToken);
+                        vault.Add(credential);
+                        vault.Add(fbcredential);
+
+                        App.FacebookId = App.MobileService.CurrentUser.UserId.Substring(9); //Get facebook id number
+                        App.fbUser = new User();
+                        App.fbUser.fbid = App.FacebookId;
+                        if ((await AppModel.GetUserPresence()) == 0)
+                        {
+                            var fb = new FacebookClient(App.fbSession.AccessToken);
+                            dynamic result = await fb.GetTaskAsync("me", new { fields = new[] { "name, gender, location, email, birthday" } });
+
+                            try
+                            {
+                                App.fbUser.name = (string)result["name"];
+                                App.fbUser.gender = (string)result["gender"];
+                                //TODO: Add required checks here
+                                App.fbUser.city = ((string)result["location"]["name"]).Split(',')[0].Trim();
+                                App.fbUser.country = ((string)result["location"]["name"]).Split(',')[1].Trim();
+                                App.fbUser.email = (string)result["email"];
+                                App.fbUser.dob = (string)result["birthday"];
+                                //TODO: add current ip
+                                App.fbUser.ip = "0.0.0.0";
+                            }
+                            catch (Exception)
+                            {
+                                //There might be empty keys
+                            }
+
+                            string responseAddUser = await AddUser(App.fbUser);
+                        }
+                    }
+                    else
+                    {
+                        App.FacebookId = App.FACEBOOK_DEFAULT_ID;
+                    }
                 }
-            }
-            else
-            {
-                //Already logged in
             }
         }
 
         public void LogoutFromFacebook()
         {
+            PasswordVault vault = new PasswordVault();
+            PasswordCredential credential = null;
+            PasswordCredential fbcredential = null;
+
+            try
+            {
+                // Try to get an existing credential from the vault.
+                credential = vault.FindAllByResource("Facebook").FirstOrDefault();
+                fbcredential = vault.FindAllByResource("FacebookAccessToken").FirstOrDefault();
+                vault.Remove(credential);
+                vault.Remove(fbcredential);
+                credential = null;
+                fbcredential = null;
+            }
+            catch (Exception)
+            {
+                // When there is no matching resource an error occurs, which we ignore.
+            }
+            
             if (App.MobileService.CurrentUser != null)
             {
+                App.FacebookSession.Logout();
                 App.MobileService.Logout();
                 if (App.MobileService.CurrentUser == null)
                 {
                     App.FacebookId = App.FACEBOOK_DEFAULT_ID;
                     App.fbUser = null;
+                    App.fbSession = null;
                 }
             }
             else
@@ -297,6 +402,7 @@ namespace TommyJams.ViewModel
             nItem.VenueCity = eventInfo.VenueCity;
             nItem.VenueCoordinates = eventInfo.VenueCoordinates;
             nItem.VenueName = eventInfo.VenueName;
+            nItem.UserAttending = eventInfo.UserAttending;
             nItem.InviteeFBID = NotificationItem.InviteeFBID;
             nItem.InviteeImage = NotificationItem.InviteeImage;
             nItem.InviteExists = NotificationItem.InviteExists;
@@ -314,7 +420,12 @@ namespace TommyJams.ViewModel
         {
             var venueInfo = await AppModel.GetVenueInfo();
             return venueInfo;
-            
+        }
+
+        public async Task<ObservableCollection<OtherUser>> LoadSocialInfo()
+        {
+            var socialinfo = await AppModel.GetSocialInfo();
+            return socialinfo;
         }
 
         public async Task DoneSelectedFriends()

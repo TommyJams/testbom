@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
@@ -23,7 +23,6 @@ using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
-using System.Windows.Media;
 
 namespace TommyJams.View
 {
@@ -33,11 +32,10 @@ namespace TommyJams.View
         {
             InitializeComponent();
             DataContext = App.ViewModel;
-            LoadData();
+            AuthenticateAsync(true/*initial load*/);
         }
 
-        //TODO: Move this to viewmodel
-        private async Task AuthenticateAsync()
+        private async Task AuthenticateAsync(bool fInitialLoad = false)
         {
             if (App.MobileService.CurrentUser == null) //Login
             {
@@ -51,20 +49,22 @@ namespace TommyJams.View
                         fbUserImage.Source = bm;
 
                         ToggleNotifications();
-                        LoadData();
                     }
                 }
                 catch (InvalidOperationException)
                 {
-                    MessageBox.Show("Sorry, could not authenticate using Facebook!");
+                    if(!fInitialLoad)
+                        MessageBox.Show("Sorry, could not authenticate using Facebook!");
                 }
                 catch (NullReferenceException)
                 {
-                    MessageBox.Show("Sorry, could not load data!");
+                    if (!fInitialLoad)
+                        MessageBox.Show("Sorry, could not load data!");
                 }
                 catch (HttpRequestException e)
                 {
-                    MessageBox.Show("Sorry, could not connect to the internet!");
+                    if (!fInitialLoad)
+                        MessageBox.Show("Sorry, could not connect to the internet!");
                 }
             }
             else //Logout
@@ -76,9 +76,10 @@ namespace TommyJams.View
                     BitmapImage bm = new BitmapImage(new Uri("../Resources/Image/facebook_icon_large.gif", UriKind.Relative));
                     fbUserImage.Source = bm;
 
-                    LoadData();
+                    ToggleNotifications();
                 }
             }
+            LoadData();
         }
 
         public async void LoadData()
@@ -177,6 +178,9 @@ namespace TommyJams.View
             App.ViewModel.NotificationItem.EventImage = data.EventImage;
             App.ViewModel.NotificationItem.VenueName = data.VenueName;
             App.ViewModel.NotificationItem.EventImage = data.EventImage;
+            App.ViewModel.NotificationItem.InviteExists = false;
+            App.ViewModel.NotificationItem.InviteeName = null;
+            App.ViewModel.NotificationItem.InviteeImage = null;
             NavigationService.Navigate(new Uri("/../../View/EventPanoramaPage.xaml", UriKind.RelativeOrAbsolute));
         }
 
@@ -243,32 +247,5 @@ namespace TommyJams.View
             NavigationService.Navigate(new Uri("/View/Settings.xaml", UriKind.Relative));
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            resetDefaultTile();
-        }
-        private void resetDefaultTile()
-        {
-
-            ShellTile myTile = ShellTile.ActiveTiles.First();
-            if (myTile != null)
-            {
-                // Create a new data to update my tile with
-                    FlipTileData myTileData = new FlipTileData
-                    {
-                        Title = "TommyJams",
-                        BackgroundImage = new Uri("Assets/Tiles/FlipCycleTileMedium.png", UriKind.Relative),
-                        BackTitle = "TommyJams",
-                        Count = 0,
-
-                        SmallBackgroundImage = new Uri("Assets/Tiles/FlipCycleTileSmall.png", UriKind.Relative),
-                        WideBackgroundImage = new Uri("Assets/Tiles/FlipCycleTileLarge.png", UriKind.Relative),
-                        BackBackgroundImage = new Uri("", UriKind.Relative),
-                        BackContent = "Description"
-                    };
-                myTile.Update(myTileData);
-            }
-
-        }
     }
 }

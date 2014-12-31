@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Device.Location;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -34,22 +35,28 @@ namespace TommyJams.View
 
     public partial class EventPanoramaPage : PhoneApplicationPage
     {
+        public string appbarTileId = "EventSecondaryTile";
         public EventPanoramaPage()
         {
             InitializeComponent();
+            LoadBasicView();
+            this.DataContext = App.ViewModel;
+        }
 
+        private void LoadBasicView()
+        {
             panel5_date.Text = Textblock_date.Text = App.ViewModel.NotificationItem.EventDate;
-            panel5_price.Text = Textblock_price.Text = App.ViewModel.NotificationItem.EventPrice.ToString();
+            panel5_price.Text = Textblock_price.Text = App.ViewModel.NotificationItem.EventPrice;
             panel5_time.Text = Textblock_time.Text = App.ViewModel.NotificationItem.EventTime;
             panel5_venue.Text = Textblock_venue.Text = App.ViewModel.NotificationItem.VenueName;
-            if(App.ViewModel.NotificationItem.InviteExists)
+            if (App.ViewModel.NotificationItem.InviteExists)
             {
                 panel4InviteeName.Text = Textblock_inviteeName.Text = App.ViewModel.NotificationItem.InviteeName;
-                
+
                 BitmapImage bitmapImage = new BitmapImage(new Uri(App.ViewModel.NotificationItem.InviteeImage, UriKind.Absolute));
                 ImageBrush imageBrush = new ImageBrush();
                 panel4InviteeImage.Source = Textblock_inviteeImage.Source = bitmapImage;
-                
+
                 panel4Invite.Visibility = panel1Invite.Visibility = Visibility.Visible;
             }
 
@@ -62,89 +69,67 @@ namespace TommyJams.View
             }
 
             Panorama.Title = App.ViewModel.NotificationItem.EventName;
-            mainHeader.Header = "@"+App.ViewModel.NotificationItem.VenueName;
-            
-            LoadData();
-            AddButtons();
-
-            this.DataContext = App.ViewModel;
+            mainHeader.Header = "@" + App.ViewModel.NotificationItem.VenueName;
         }
 
         public async void LoadData()
         {
             App.ViewModel.NotificationItem = await App.ViewModel.LoadEventInfo();
+            LoadBasicView();
+
             App.ViewModel.ArtistInfo = await App.ViewModel.LoadArtistInfo();
             App.ViewModel.VenueInfo = await App.ViewModel.LoadVenueInfo();
+            App.ViewModel.SocialInfo = await App.ViewModel.LoadSocialInfo();
 
             ArtistListBox.ItemsSource = App.ViewModel.ArtistInfo;
             VenueGrid.DataContext = App.ViewModel.VenueInfo;
             venueMap.Center = App.ViewModel.VenueInfo.VenueGeoCoordinate;
-            if (App.ViewModel.NotificationItem.EventImage != null)
+
+            int countAttendees = App.ViewModel.SocialInfo.Count();
+            SocialListBox.ItemsSource = App.ViewModel.SocialInfo;
+            if(countAttendees>0)
             {
-                BitmapImage bitmapImage = new BitmapImage(new Uri(App.ViewModel.NotificationItem.EventImage, UriKind.Absolute));
-                ImageBrush imageBrush = new ImageBrush();
-                imageBrush.ImageSource = bitmapImage;
-                Panorama.Background = imageBrush;
+                BitmapImage bitmapImage0 = new BitmapImage(new Uri(App.ViewModel.SocialInfo[0].pictureUri, UriKind.Absolute));
+                panel1SocialImage0.Source = bitmapImage0;
+                panel1SocialImage0.Visibility = Visibility.Visible;
+                countAttendees--;
+                if (countAttendees>0)
+                {
+                    BitmapImage bitmapImage1 = new BitmapImage(new Uri(App.ViewModel.SocialInfo[1].pictureUri, UriKind.Absolute));
+                    panel1SocialImage1.Source = bitmapImage1;
+                    panel1SocialImage1.Visibility = Visibility.Visible;
+                    countAttendees--;
+                    if (countAttendees>0)
+                    {
+                        BitmapImage bitmapImage2 = new BitmapImage(new Uri(App.ViewModel.SocialInfo[2].pictureUri, UriKind.Absolute));
+                        panel1SocialImage2.Source = bitmapImage2;
+                        panel1SocialImage2.Visibility = Visibility.Visible;
+                        countAttendees--;
+                    }
+                }
+                panel1NumberAttending.Text = "+" + countAttendees + " attending";
+                panel1Attending.Visibility = Visibility.Visible;
             }
+            
+            AddButtons();
         }
 
-        void webClient_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (e.Error == null)
+            string paramEventID;
+            if (NavigationContext.QueryString.TryGetValue("eventid", out paramEventID))
             {
+                App.EventID = paramEventID;
+                if (App.MobileService.CurrentUser == null)
                 try
                 {
-                    String result = e.Result;
-                    CivicAddressResolver resolver = new CivicAddressResolver();
-                    List<EventItem> json = JsonConvert.DeserializeObject<List<EventItem>>(result) as List<EventItem>;
-                    StringBuilder productsString = new StringBuilder();
-                    foreach (EventItem aProduct in json)
-                    {
-                    productsString.AppendFormat("{0}", aProduct.EventName);
-                    GeoCoordinate a = new GeoCoordinate();
-                    String[] Location = (aProduct.VenueCoordinates.Split(' '));
-                    a.Latitude = 32.16;
-                    a.Longitude = -117.71;
-                        //a.Latitude = Convert.ToDouble(Location[0]);
-                    //a.Longitude = Convert.ToDouble(Location[1]);
-                    a.Altitude = 0;
-                    a.Course = 0;
-                    a.HorizontalAccuracy = 0;
-                    a.VerticalAccuracy = 0;
-                    a.Speed = 0;
-                    /*var pushpin = MapExtensions.GetChildren(Map).OfType<Pushpin>().First(p => p.Name == "RouteDirectionsPushPin");
-                    pushpin.GeoCoordinate = a;
-                    Map.Center = a;
-                    Map.ZoomLevel = 15;
-                    //map_reference.Text = aProduct.VenueName + " " + aProduct.VenueAddress + " " + aProduct.VenueCity;
-                    
-                    MapOverlay overlay = new MapOverlay
-                    {
-                        GeoCoordinate = Map.Center,
-                        Content = new Ellipse
-                        {
-                            Fill = new SolidColorBrush(Colors.Red),
-                            Width = 40,
-                            Height = 40
-                        }
-                        
-                    };
-                    MapLayer layer = new MapLayer();
-                    layer.Add(overlay);
-
-                    Map.Layers.Add(layer);*/
-                    break;
-                    }
-                    mainHeader.Header = productsString.ToString();
-                    //TextBlock.Text = json;
+                    App.ViewModel.LoginToFacebook();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    mainHeader.Header = "Exception Thrown"; 
                 }
-
-
             }
+            LoadData();
         }
 
         private void Event_Accept(object sender, EventArgs e)
@@ -200,23 +185,30 @@ namespace TommyJams.View
 
         private void AddButtons()
         {
+            //Removing buttons
+            ApplicationBar.Buttons.Clear();
+
             if (Panorama.SelectedIndex != 4)
             {
                 //add bookmark button
                 ApplicationBarIconButton pinevent = new ApplicationBarIconButton();
                 pinevent.Text = "Pin Event";
                 pinevent.IconUri = new Uri("/Resources/Images/pinevent.jpg", UriKind.Relative);
+                pinevent.Click += Pin_Click;
                 ApplicationBar.Buttons.Add(pinevent);
             }
 
             if (App.MobileService.CurrentUser != null && (Panorama.SelectedIndex == -1 || Panorama.SelectedIndex == 0 || Panorama.SelectedIndex == 3))
             {
-                //accept button
-                ApplicationBarIconButton accept = new ApplicationBarIconButton();
-                accept.Text = "Accept";
-                accept.IconUri = new Uri("/Resources/Images/accept.jpg", UriKind.Relative);
-                accept.Click += Event_Accept;
-                ApplicationBar.Buttons.Add(accept);
+                if (App.ViewModel.NotificationItem.UserAttending != "1")
+                {
+                    //accept button
+                    ApplicationBarIconButton accept = new ApplicationBarIconButton();
+                    accept.Text = "Accept";
+                    accept.IconUri = new Uri("/Resources/Images/accept.jpg", UriKind.Relative);
+                    accept.Click += Event_Accept;
+                    ApplicationBar.Buttons.Add(accept);
+                }
 
                 //add invite friend button
                 ApplicationBarIconButton invitefriend = new ApplicationBarIconButton();
@@ -236,8 +228,6 @@ namespace TommyJams.View
 
         private void Panorama_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //Removing buttons
-            ApplicationBar.Buttons.Clear();
             AddButtons();
         }
 
@@ -259,6 +249,28 @@ namespace TommyJams.View
         private void Settings_Click(object sender, EventArgs e)
         {
             NavigationService.Navigate(new Uri("/View/Settings.xaml",UriKind.Relative));
+        }
+
+        private void Pin_Click(object sender, EventArgs e)
+        {
+            StandardTileData NewTileData = new StandardTileData
+            {
+                Title = "Event: " + App.ViewModel.NotificationItem.EventName,
+                Count = 0,
+                BackTitle = DateTime.ParseExact(App.ViewModel.NotificationItem.EventDate, "yyyyMMdd",CultureInfo.InvariantCulture).ToShortDateString(),
+                BackContent = App.ViewModel.NotificationItem.VenueName + ", " + App.ViewModel.NotificationItem.VenueAddress,
+                BackBackgroundImage = new Uri(App.ViewModel.NotificationItem.EventImage, UriKind.Absolute)
+            };
+
+            try
+            {
+                // Create the Tile and pin it to Start. This will cause a navigation to Start and a deactivation of our app.
+                ShellTile.Create(new Uri("/View/EventPanoramaPage.xaml?eventid=" + App.ViewModel.NotificationItem.EventID, UriKind.Relative), NewTileData);
+            }
+            catch(Exception)
+            {
+                MessageBox.Show("Sorry, could not create a repeat tile!");
+            }
         }
     }
 }

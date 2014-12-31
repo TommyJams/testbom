@@ -44,7 +44,7 @@ namespace TommyJams.Model
         {
 
             String defaultUri = "https://testneo4j.azure-mobile.net/api/getEventInfo?";
-            String completeUri = defaultUri + "eventID=" + App.EventID;
+            String completeUri = defaultUri + "fbid=" + App.FacebookId + "&eventID=" + App.EventID;
             HttpClient client = new HttpClient();
             string result = await client.GetStringAsync(completeUri);
 
@@ -140,6 +140,25 @@ namespace TommyJams.Model
             venue.VenueGeoCoordinate = a;
             
             return venue;
+        }
+
+        public async Task<ObservableCollection<OtherUser>> GetSocialInfo()
+        {
+            String defaultUri = "https://testneo4j.azure-mobile.net/api/getSocialInfo?";
+            String completeUri = defaultUri + "fbid=" + App.FacebookId + "&eventID=" + App.EventID;
+
+            HttpClient client = new HttpClient();
+            Task<String> GetResult = client.GetStringAsync(completeUri);
+            string result = await GetResult;
+            
+            ObservableCollection<OtherUser> people = JsonConvert.DeserializeObject<ObservableCollection<OtherUser>>(result) as ObservableCollection<OtherUser>;
+            
+            foreach (OtherUser person in people)
+            {
+                person.pictureUri = "http://graph.facebook.com/" + person.id + "/picture?type=square";
+            }
+
+            return people;
         }
 
         public async Task<ObservableCollection<EventItem>> GetUpcomingEvents()
@@ -329,7 +348,7 @@ namespace TommyJams.Model
                 string postData = "{\"fbid\":\"" + App.FacebookId + "\", \"eventID\":\"" + App.ViewModel.NotificationItem.EventID + "\", \"invites\":[";
                 bool inviteeExists = false;
 
-                foreach(Friend friendItem in App.FBViewModel.SelectedFriends)
+                foreach(OtherUser friendItem in App.FBViewModel.SelectedFriends)
                 {
                     postData += "{\"fbid\":\"" + friendItem.id + "\"},";
                     inviteeExists = true;

@@ -19,15 +19,15 @@ namespace TommyJams.View
             this.DataContext = App.FBViewModel;
         }
 
-        private void DoneIconButton_Click(object sender, EventArgs e)
+        private async void DoneIconButton_Click(object sender, EventArgs e)
         {
             App.FBViewModel.ClearSelectedFriends();
             var selectedFriends = this.friendList.SelectedItems;
-            foreach (Friend friendItem in selectedFriends)
+            foreach (OtherUser friendItem in selectedFriends)
             {
                 App.FBViewModel.AddSelectedFriends(friendItem);
             }
-            App.ViewModel.DoneSelectedFriends();
+            await App.ViewModel.DoneSelectedFriends();
 
             NavigationService.GoBack();
         }

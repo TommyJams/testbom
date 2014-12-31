@@ -14,19 +14,27 @@ using TommyJams;
 
 namespace TommyJams.Model
 {
-    public class Friend
+    public class testEvent
+    {
+        public string id { get; set; }
+        public string name { get; set; }
+    }
+
+    public class OtherUser
     {
         public string id { get; set; }
 
         public string name { get; set; }
+
+        public string friend { get; set; }
 
         public string pictureUri { get; set; }
     }
 
     public class EventItem :INotifyPropertyChanged
     {
-        private int _eventID;
-        public int EventID
+        private string _eventID;
+        public string EventID
         {
             get
             {
@@ -63,7 +71,7 @@ namespace TommyJams.Model
         {
             get
             {
-                return _eventTime.ToString();
+                return _eventTime;
             }
             set
             {
@@ -311,7 +319,23 @@ namespace TommyJams.Model
                 }
             }
         }
- 
+
+        private string _userAttending;
+        public string UserAttending
+        {
+            get
+            {
+                return _userAttending;
+            }
+            set
+            {
+                if (value != _userAttending)
+                {
+                    _userAttending = value;
+                    NotifyPropertyChanged("UserAttending");
+                }
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged(String propertyName)
