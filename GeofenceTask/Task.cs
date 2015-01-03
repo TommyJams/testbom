@@ -7,11 +7,11 @@ using Windows.ApplicationModel.Background;
 using Windows.Devices.Geolocation.Geofencing;
 using Windows.UI.Notifications;
 
-namespace BackgroundTask
+namespace GeofenceTask
 {
-    public sealed class GeofenceBackgroundTask : IBackgroundTask
+    public sealed class Task : IBackgroundTask
     {
-        static string TaskName = "MyLocationTask";
+        static string TaskName = "GeofenceTask";
         public void Run(IBackgroundTaskInstance taskInstance)
         {
             // Get the information of the geofence(s) that have been hit
@@ -28,9 +28,9 @@ namespace BackgroundTask
             txtNodes[1].AppendChild(toastXmlContent.CreateTextNode(report.Geofence.Id));
 
             var toast = new ToastNotification(toastXmlContent);
-            
+
             var toastNotifier = ToastNotificationManager.CreateToastNotifier();
-            
+
             toastNotifier.Show(toast);
         }
         public async static void Register()
@@ -41,7 +41,7 @@ namespace BackgroundTask
                 var builder = new BackgroundTaskBuilder();
 
                 builder.Name = TaskName;
-                builder.TaskEntryPoint = typeof(GeofenceBackgroundTask).FullName;
+                builder.TaskEntryPoint = typeof(Task).FullName;
                 builder.SetTrigger(new LocationTrigger(LocationTriggerType.Geofence));
 
                 builder.Register();
@@ -66,5 +66,6 @@ namespace BackgroundTask
 
             return taskRegistered;
         }
+
     }
 }

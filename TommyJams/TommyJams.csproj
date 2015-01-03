@@ -335,6 +335,16 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GeofenceTask\GeofenceTask.csproj">
+      <Project>{e409682b-7632-4784-af38-78424b7ecf1d}</Project>
+      <Name>GeofenceTask</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ScheduledTask\ScheduledTask.csproj">
+      <Project>{863540c0-76fe-4d0b-b751-e5e41bdb3df2}</Project>
+      <Name>ScheduledTask</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

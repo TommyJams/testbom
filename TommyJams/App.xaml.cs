@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Windows.Media;
 using Windows.Networking.PushNotifications;
 using Windows.Data.Xml.Dom;
+using Windows.ApplicationModel.Background;
 
 namespace TommyJams
 {
@@ -217,7 +218,48 @@ namespace TommyJams
         // This code will not execute when the application is reactivated
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
-            InitNotificationsAsync();
+            //InitNotificationsAsync();
+            Register_ScheduledTask();
+        }
+
+
+        public string taskName = "ScheduledTask";
+        private async void Register_ScheduledTask()
+        {
+            //needs to be async because of the BackgroundExecutionManager
+            try
+            {
+        // calling the BackgroundExecutionManager
+        //this performs the message prompt to the user that allows the permissions entry
+                var backgroundAccessStatus = await BackgroundExecutionManager.RequestAccessAsync();
+ 
+        //checking if we have access to set up our live tile
+        if (backgroundAccessStatus == BackgroundAccessStatus.AllowedMayUseActiveRealTimeConnectivity ||
+                    backgroundAccessStatus == BackgroundAccessStatus.AllowedWithAlwaysOnRealTimeConnectivity)
+                {
+            //unregistering our old task, if there is one                  
+            foreach (var task in BackgroundTaskRegistration.AllTasks)
+                    {
+                        if (task.Value.Name == taskName)
+                        {
+                            task.Value.Unregister(true);
+                        }
+                    }
+            //building up our new task and registering it
+                    BackgroundTaskBuilder taskBuilder = new BackgroundTaskBuilder();
+                    taskBuilder.Name = taskName;
+                    taskBuilder.TaskEntryPoint = typeof(ScheduledTask.ScheduledTaskClass).FullName;
+                    taskBuilder.SetTrigger(new TimeTrigger(60*24, false));
+                    taskBuilder.AddCondition(new SystemCondition(SystemConditionType.InternetAvailable));
+                    var registration = taskBuilder.Register();
+                }
+            }
+        //catching all exceptions that can happen
+            catch (Exception ex)
+            {
+        //async method used, but wil be marked by VS to be executed synchronously
+                Debug.WriteLine("Couldn't register Background ScheduledTask");                
+            }
         }
 
         // Code to execute when the application is activated (brought to foreground)
@@ -376,5 +418,6 @@ namespace TommyJams
                 throw;
             }
         }
+
     }
 }
