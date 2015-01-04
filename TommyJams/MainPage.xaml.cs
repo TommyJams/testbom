@@ -229,32 +229,24 @@ namespace TommyJams.View
 
         private void resetDefaultTile()
         {
-            string tileXmlString = "<tile>"
-            + "<visual version='3'>"
-            + "<binding template='TileSquare71x71Image'>"
-            + "<image id='1' src='assets/SquareTile71x71.png' alt='Gray image'/>"
-            + "</binding>"
-            + "<binding template='TileSquare150x150Image' fallback='TileSquareImage'>"
-            + "<image id='1' src='assets/SquareTile150x150.png' alt='Gray image'/>"
-            + "<Text id='1'></Text>"
-            + "</binding>"
-            +"<binding template='TileWide310x150Image'>"
-            + "<image id='1' src='assets/Tiles/FlipCycleTileLarge.png' alt='Gray image'/>"
-            + "</binding>"
-            + "</visual>"
-            + "</tile>";
+            ShellTile myTile = ShellTile.ActiveTiles.First();
+            if (myTile != null)
+            {
+                // Create a new data to update my tile with
+                FlipTileData myTileData = new FlipTileData
+                {
+                    Title = "TommyJams",
+                    BackgroundImage = new Uri("Assets/Tiles/FlipCycleTileMedium.png", UriKind.Relative),
+                    BackTitle = "TommyJams",
+                    Count = 0,
 
-            // Create a DOM.
-            Windows.Data.Xml.Dom.XmlDocument tileDOM = new Windows.Data.Xml.Dom.XmlDocument();
-
-            // Load the xml string into the DOM.
-            tileDOM.LoadXml(tileXmlString);
-
-            // Create a tile notification.
-            TileNotification tile = new TileNotification(tileDOM);
-            // Send the notification to the application’s tile.
-
-            TileUpdateManager.CreateTileUpdaterForApplication().Update(tile);
+                    SmallBackgroundImage = new Uri("Assets/Tiles/FlipCycleTileSmall.png", UriKind.Relative),
+                    WideBackgroundImage = new Uri("Assets/Tiles/FlipCycleTileLarge.png", UriKind.Relative),
+                    BackBackgroundImage = new Uri("", UriKind.Relative),
+                    BackContent = "Description"
+                };
+                myTile.Update(myTileData);
+            }
         }
 
     }

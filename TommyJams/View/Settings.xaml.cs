@@ -162,18 +162,29 @@ namespace TommyJams.View
             city_list.Visibility = System.Windows.Visibility.Visible;
         }
 
+        /// <summary>
+        /// Push Notification Enabled
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void PushNotification_toggle_Checked(object sender, RoutedEventArgs e)
         {
             settings_extension.PushNotification_setting(true);
-            App.InitNotificationsAsync();
+            App.InitNotifications();
         }
 
+        /// <summary>
+        /// Push Notification Disabled
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void PushNotification_toggle_Unchecked(object sender, RoutedEventArgs e)
         {
             settings_extension.PushNotification_setting(false);
-            if (App.channel != null)
+            var channel = HttpNotificationChannel.Find(App.PushChannel);
+            if (channel != null)
             {
-                App.channel.Close();
+                channel.Close();
             }
         }
 
@@ -199,6 +210,9 @@ namespace TommyJams.View
         }
     }
 
+    /// <summary>
+    /// A library to make any access, modify Apps settings
+    /// </summary>
     abstract class settings_extension
     {
         private static IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings ;

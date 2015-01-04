@@ -123,69 +123,39 @@ namespace TommyJams
 
         public static PushNotificationChannel channel { get; private set; }
 
-        public static async void InitNotificationsAsync()
+        /// <summary>
+        /// Request a channel for push notification Between MPNS and the device
+        /// then register with Mobile Service with the URI from MPNS
+        /// </summary>
+        public static void InitNotifications()
         {
             // Request a push notification channel if Push Notification settings are enabled
-            if (settings_extension.PushNotification_setting_status()== true)
+            if (settings_extension.PushNotification_setting_status() == true)
             {
-                channel = await PushNotificationChannelManager
-                    .CreatePushNotificationChannelForApplicationAsync();
-
-                // Register for notifications using the new channel
-                System.Exception exception = null;
-                try
+                var channel = HttpNotificationChannel.Find(PushChannel);
+                if (channel == null)
                 {
-                    await MobileService.GetPush().RegisterNativeAsync(channel.Uri);
-                    channel.PushNotificationReceived += channel_PushNotificationReceived;
-                }
-                catch (System.Exception ex)
-                {
-                    exception = ex;
-                }
-                if (exception != null)
-                {
-                    Debug.WriteLine(exception.Message);
-                }
-            }
-            else if(channel!=null)
-                {
-                    channel.Close();
-                }
-            
-        }
-
-        static void channel_PushNotificationReceived(PushNotificationChannel sender, PushNotificationReceivedEventArgs args)
-        {
-            if (args.NotificationType == PushNotificationType.Toast)
-            {
-                StringBuilder message = new StringBuilder();
-                string relativeUri = string.Empty;
-
-                message.AppendFormat("Received Toast {0}:\n", DateTime.Now.ToShortTimeString());
-
-                // Parse out the information that was part of the message.
-                XmlDocument toastXML = args.ToastNotification.Content;
-                XmlNodeList toastNodes = toastXML.ChildNodes;
-                foreach(IXmlNode x in toastNodes)
-                {
-                    message.AppendFormat("{0} : {1} : {2}\n",x.NodeName, x.NodeValue, x.InnerText);
+                    channel = new HttpNotificationChannel(PushChannel);
+                    channel.Open();
+                    channel.BindToShellToast();
+                    channel.BindToShellTile();
+                    channel.ShellToastNotificationReceived += CurrentChannel_ShellToastNotificationReceived;
                 }
 
-                XmlNodeList toastText = toastXML.GetElementsByTagName("text");
-                message.AppendFormat("{0}: {1}\n","text", toastText[0].InnerText);
-                message.AppendFormat("{0}: {1}\n", "text", toastText[1].InnerText);
-
-                
-                
-
-                Deployment.Current.Dispatcher.BeginInvoke(() =>
+                channel.ChannelUriUpdated += new EventHandler<NotificationChannelUriEventArgs>(async (o, args) =>
                 {
-                    // Display a dialog of all the fields in the toast.
-                    MessageBox.Show(message.ToString());
+                    //Register to Mobile Service 
+                    await MobileService.GetPush()
+                    .RegisterNativeAsync(args.ChannelUri.ToString());
                 });
             }
         }
 
+        /// <summary>
+        /// Handles the Toast Push Notification when app is in Foreground
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public static void CurrentChannel_ShellToastNotificationReceived(object sender, NotificationEventArgs e)
         {
             StringBuilder message = new StringBuilder();
@@ -214,11 +184,12 @@ namespace TommyJams
                 MessageBox.Show(message.ToString());                
             });
         }
+        
         // Code to execute when the application is launching (eg, from Start)
         // This code will not execute when the application is reactivated
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
-            //InitNotificationsAsync();
+            InitNotifications();
             Register_ScheduledTask();
         }
 
