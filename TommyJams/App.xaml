@@ -4,7 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
-    xmlns:local="clr-namespace:TommyJams.ViewModel">
+    xmlns:local="clr-namespace:TommyJams.ViewModel"
+    xmlns:converter="clr-namespace:TommyJams.Resources">
 
     <!--Application Resources-->
     <Application.Resources>
@@ -19,6 +20,7 @@
                 <TextBlock Text="{Binding}" FontSize="50" />
             </ContentPresenter>
         </DataTemplate>
+        <converter:BooleanToVisibilityConverter x:Key="BoolToValueConverter"/>
         <SolidColorBrush Color="#FFFCBF0F" x:Key="TommyJams_Yellow"/>
         <SolidColorBrush Color="#FFAAAAAA" x:Key="TommyJams_Grey_Text"/>
         <Style x:Key="Clean_Buton" TargetType="Button">

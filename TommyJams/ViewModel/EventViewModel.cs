@@ -289,8 +289,13 @@ namespace TommyJams.ViewModel
         public async Task<VenueInfo> LoadVenueInfo()
         {
             var venueInfo = await AppModel.GetVenueInfo();
-            return venueInfo;
-            
+            return venueInfo;            
+        }
+
+        public async Task<VenueInfo_Foursquare> LoadVenueInfo_Foursquare(String VenueID)
+        {
+            var venueInfo_fs = await AppModel.GetVenueInfo_Foursquare(VenueID);
+            return venueInfo_fs;
         }
         
         public event PropertyChangedEventHandler PropertyChanged;

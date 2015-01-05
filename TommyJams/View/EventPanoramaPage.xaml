@@ -162,22 +162,26 @@
                             </bm:Map>
                         </StackPanel>
                     <!--I need icons for these-->
-                        <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                            <Image Source="../Resources/Image/facebook_icon_large.gif" Height="80" Width="80" Margin="10">
-                                <Image.Clip>
+                        <ProgressBar x:Name="FoursquareInfo_progress" Visibility="{Binding venueInfo_Foursquare.FoursquareInfo_IsLoading, Converter={StaticResource  BoolToValueConverter}, FallbackValue='Collapsed'}" IsIndeterminate="True" Foreground="{StaticResource TommyJams_Yellow}" Margin="0,5"/>
+                        <StackPanel Orientation="Horizontal" Visibility="{Binding venueInfo_Foursquare.FoursquareInfo_Visibility, Converter={StaticResource  BoolToValueConverter}, FallbackValue='Collapsed'}" Margin="0,10,0,0">
+                            <Grid Height="80" Width="80" Margin="10" Background="{StaticResource TommyJams_Yellow}">
+                                <Grid.Clip>
                                     <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
-                                </Image.Clip>
-                            </Image>
-                            <Image Source="../Resources/Image/facebook_icon_large.gif" Height="80" Width="80" Margin="10">
-                                <Image.Clip>
+                                </Grid.Clip>
+                                <TextBlock Text="{Binding venueInfo_Foursquare.VenueZCheckin}" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+                            <Grid Height="80" Width="80" Margin="10" Background="{StaticResource TommyJams_Yellow}">
+                                <Grid.Clip>
                                     <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
-                                </Image.Clip>
-                            </Image>
-                            <Image Source="../Resources/Image/facebook_icon_large.gif" Height="80" Width="80" Margin="10">
-                                <Image.Clip>
+                                </Grid.Clip>
+                                <TextBlock Text="{Binding venueInfo_Foursquare.VenueZRating}" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+                            <Grid Height="80" Width="80" Margin="10" Background="{StaticResource TommyJams_Yellow}">
+                                <Grid.Clip>
                                     <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
-                                </Image.Clip>
-                            </Image>
+                                </Grid.Clip>
+                                <TextBlock Text="{Binding venueInfo_Foursquare.VenueZPrice}" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
                         </StackPanel>
 
                         <Button BorderThickness="0" Padding="0" HorizontalAlignment="Left">

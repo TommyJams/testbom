@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using FourSquare.SharpSquare.Core;
+using FourSquare.SharpSquare.Entities;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -144,6 +146,23 @@ namespace TommyJams.Model
             
             return venue;
         }
+
+        public async Task<VenueInfo_Foursquare> GetVenueInfo_Foursquare(string VenueID)
+        {
+            SharpSquare sharpSquare = new SharpSquare(Constants.Foursquare_ClientID, Constants.Foursquare_ClientSecret);
+            VenueInfo_Foursquare venueInfo_Foursquare = new VenueInfo_Foursquare();
+            Venue venue = await sharpSquare.GetVenue(VenueID);
+            if (venue != null)
+            {
+                venueInfo_Foursquare.VenueZCheckin = venue.stats.checkinsCount;
+                venueInfo_Foursquare.VenueZPrice = venue.price.tier;
+                venueInfo_Foursquare.VenueZRating = venue.rating;
+                venueInfo_Foursquare.FoursquareInfo_Visibility = true;
+            }
+
+            return venueInfo_Foursquare;
+        }
+
 
         public async Task<ObservableCollection<EventItem>> GetUpcomingEvents()
         {

@@ -77,6 +77,7 @@ namespace TommyJams.View
                 imageBrush.ImageSource = bitmapImage;
                 Panorama.Background = imageBrush;
             }
+            App.ViewModel.VenueInfo.VenueID = "40a55d80f964a52020f31ee3";
         }
 
         void webClient_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
