@@ -2,14 +2,14 @@
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest" xmlns:m3="http://schemas.microsoft.com/appx/2014/manifest" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest">
 
   <Identity Name="37576f76-9ac9-4f78-b2d9-cb51446fb524"
-            Publisher="CN=R$"
+            Publisher="CN=Grayscale Soft Labs LLP"
             Version="1.0.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="e4312153-3f4c-49dd-904d-5fbe8f1d6073" PhonePublisherId="3f72d71c-dd80-408e-affb-aa06372f396a"/>
 
   <Properties>
     <DisplayName>TommyJams</DisplayName>
-    <PublisherDisplayName>R$</PublisherDisplayName>
+    <PublisherDisplayName>Grayscale Soft Labs LLP</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
