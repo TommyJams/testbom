@@ -23,6 +23,9 @@ using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
+using System.Windows.Media;
+using System.Diagnostics;
+using Windows.UI.Notifications;
 
 namespace TommyJams.View
 {
@@ -245,6 +248,33 @@ namespace TommyJams.View
         private void Settings_Click(object sender, EventArgs e)
         {
             NavigationService.Navigate(new Uri("/View/Settings.xaml", UriKind.Relative));
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            resetDefaultTile();
+        }
+
+        private void resetDefaultTile()
+        {
+            ShellTile myTile = ShellTile.ActiveTiles.First();
+            if (myTile != null)
+            {
+                // Create a new data to update my tile with
+                FlipTileData myTileData = new FlipTileData
+                {
+                    Title = "TommyJams",
+                    BackgroundImage = new Uri("Assets/Tiles/FlipCycleTileMedium.png", UriKind.Relative),
+                    BackTitle = "TommyJams",
+                    Count = 0,
+
+                    SmallBackgroundImage = new Uri("Assets/Tiles/FlipCycleTileSmall.png", UriKind.Relative),
+                    WideBackgroundImage = new Uri("Assets/Tiles/FlipCycleTileLarge.png", UriKind.Relative),
+                    BackBackgroundImage = new Uri("", UriKind.Relative),
+                    BackContent = "Description"
+                };
+                myTile.Update(myTileData);
+            }
         }
 
     }

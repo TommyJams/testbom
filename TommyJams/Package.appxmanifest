@@ -1,53 +1,47 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest" xmlns:m3="http://schemas.microsoft.com/appx/2014/manifest" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest">
-
-  <Identity Name="37576f76-9ac9-4f78-b2d9-cb51446fb524"
-            Publisher="CN=Grayscale Soft Labs LLP"
-            Version="1.0.0.0" />
-
-  <mp:PhoneIdentity PhoneProductId="e4312153-3f4c-49dd-904d-5fbe8f1d6073" PhonePublisherId="3f72d71c-dd80-408e-affb-aa06372f396a"/>
-
+  <Identity Name="GrayscaleSoftLabsLLP.TommyJams" Publisher="CN=8B6D2CDB-A4C6-46F1-8ED3-F1D047FB232E" Version="1.0.0.0" />
+  <mp:PhoneIdentity PhoneProductId="e4312153-3f4c-49dd-904d-5fbe8f1d6073" PhonePublisherId="3f72d71c-dd80-408e-affb-aa06372f396a" />
   <Properties>
     <DisplayName>TommyJams</DisplayName>
-    <PublisherDisplayName>Grayscale Soft Labs LLP</PublisherDisplayName>
-    <Logo>Assets\StoreLogo.png</Logo>
+    <PublisherDisplayName>TommyJams</PublisherDisplayName>
+    <Logo>Assets\ApplicationIcon.png</Logo>
   </Properties>
-
   <Prerequisites>
     <OSMinVersion>6.3.1</OSMinVersion>
     <OSMaxVersionTested>6.3.1</OSMaxVersionTested>
   </Prerequisites>
-
   <Resources>
-    <Resource Language="x-generate"/>
+    <Resource Language="x-generate" />
   </Resources>
-
   <Applications>
-    <Application Id="xe4312153y3f4cy49ddy904dy5fbe8f1d6073x"
-        Executable="AGHost.exe"
-        EntryPoint="MainPage.xaml">
-      <m3:VisualElements
-          DisplayName="TommyJams"
-          Square150x150Logo="Assets\SquareTile150x150.png"
-          Square44x44Logo="Assets\Logo.png"
-          Description="TommyJams"
-          ForegroundText="light"
-          BackgroundColor="#464646">
-        <m3:DefaultTile Square71x71Logo="Assets\SquareTile71x71.png"/>
+    <Application Id="xe4312153y3f4cy49ddy904dy5fbe8f1d6073x" Executable="AGHost.exe" EntryPoint="MainPage.xaml">
+      <m3:VisualElements DisplayName="TommyJams" Square150x150Logo="Assets\SquareTile150x150.png" Square44x44Logo="Assets\Logo.png" Description="TommyJams" ForegroundText="light" BackgroundColor="transparent" ToastCapable="true">
+        <m3:DefaultTile ShortName="TommyJams" Square71x71Logo="Assets\SquareTile71x71.png" Wide310x150Logo="Assets\Tiles\FlipCycleTileLarge.png" Square310x310Logo="Assets\Tiles\FlipCycleTileMedium.png">
+        </m3:DefaultTile>
         <m3:SplashScreen Image="SplashScreenImage.jpg" />
-        <m3:ApplicationView MinWidth="width320"/> <!--Used in XAML Designer. DO NOT REMOVE-->
+        <m3:ApplicationView MinWidth="width320" />
+        <!--Used in XAML Designer. DO NOT REMOVE-->
       </m3:VisualElements>
       <Extensions>
         <Extension Category="windows.backgroundTasks" EntryPoint="AgHost.BackgroundTask">
           <BackgroundTasks>
-          <Task Type="systemEvent" />
+            <Task Type="systemEvent" />
+          </BackgroundTasks>
+        </Extension>
+        <Extension Category="windows.backgroundTasks" EntryPoint="ScheduledTask.ScheduledTaskClass">
+          <BackgroundTasks>
+            <Task Type="timer" />
+          </BackgroundTasks>
+        </Extension>
+        <Extension Category="windows.backgroundTasks" EntryPoint="GeofenceTask.Task">
+          <BackgroundTasks>
+            <m2:Task Type="location" />
           </BackgroundTasks>
         </Extension>
       </Extensions>
     </Application>
   </Applications>
-  <Capabilities>
-  </Capabilities>
   <Extensions>
     <Extension Category="windows.activatableClass.inProcessServer">
       <InProcessServer>
@@ -56,4 +50,8 @@
       </InProcessServer>
     </Extension>
   </Extensions>
+  <Capabilities>
+    <Capability Name="internetClientServer" />
+    <DeviceCapability Name="location" />
+  </Capabilities>
 </Package>

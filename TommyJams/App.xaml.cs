@@ -19,6 +19,9 @@ using Microsoft.Phone.Notification;
 using Microsoft.WindowsAzure.Messaging;
 using System.Collections.Generic;
 using System.Windows.Media;
+using Windows.Networking.PushNotifications;
+using Windows.Data.Xml.Dom;
+using Windows.ApplicationModel.Background;
 
 namespace TommyJams
 {
@@ -129,11 +132,16 @@ namespace TommyJams
             "LxqAhRVmuUESACkYahJxCgfjOomzEP99"
             );
 
-        public static HttpNotificationChannel CurrentChannel { get; private set; }
+        public static PushNotificationChannel channel { get; private set; }
 
-        public static void AcquirePushChannel()
+        /// <summary>
+        /// Request a channel for push notification Between MPNS and the device
+        /// then register with Mobile Service with the URI from MPNS
+        /// </summary>
+        public static void InitNotifications()
         {
-            if (settings_extension.PushNotification_setting_status())
+            // Request a push notification channel if Push Notification settings are enabled
+            if (settings_extension.PushNotification_setting_status() == true)
             {
                 var channel = HttpNotificationChannel.Find(PushChannel);
                 if (channel == null)
@@ -147,10 +155,6 @@ namespace TommyJams
 
                 channel.ChannelUriUpdated += new EventHandler<NotificationChannelUriEventArgs>(async (o, args) =>
                 {
-                    //Register to Nitification Hub
-                    //var hub = new NotificationHub(NotificationHubPath, ConnectionString);
-                    //await hub.RegisterNativeAsync(args.ChannelUri.ToString());
-
                     //Register to Mobile Service 
                     await MobileService.GetPush()
                     .RegisterNativeAsync(args.ChannelUri.ToString());
@@ -158,6 +162,11 @@ namespace TommyJams
             }
         }
 
+        /// <summary>
+        /// Handles the Toast Push Notification when app is in Foreground
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public static void CurrentChannel_ShellToastNotificationReceived(object sender, NotificationEventArgs e)
         {
             StringBuilder message = new StringBuilder();
@@ -186,11 +195,53 @@ namespace TommyJams
                 MessageBox.Show(message.ToString());                
             });
         }
+        
         // Code to execute when the application is launching (eg, from Start)
         // This code will not execute when the application is reactivated
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
-            AcquirePushChannel();
+            InitNotifications();
+            Register_ScheduledTask();
+        }
+
+
+        public string taskName = "ScheduledTask";
+        private async void Register_ScheduledTask()
+        {
+            //needs to be async because of the BackgroundExecutionManager
+            try
+            {
+        // calling the BackgroundExecutionManager
+        //this performs the message prompt to the user that allows the permissions entry
+                var backgroundAccessStatus = await BackgroundExecutionManager.RequestAccessAsync();
+ 
+        //checking if we have access to set up our live tile
+        if (backgroundAccessStatus == BackgroundAccessStatus.AllowedMayUseActiveRealTimeConnectivity ||
+                    backgroundAccessStatus == BackgroundAccessStatus.AllowedWithAlwaysOnRealTimeConnectivity)
+                {
+            //unregistering our old task, if there is one                  
+            foreach (var task in BackgroundTaskRegistration.AllTasks)
+                    {
+                        if (task.Value.Name == taskName)
+                        {
+                            task.Value.Unregister(true);
+                        }
+                    }
+            //building up our new task and registering it
+                    BackgroundTaskBuilder taskBuilder = new BackgroundTaskBuilder();
+                    taskBuilder.Name = taskName;
+                    taskBuilder.TaskEntryPoint = typeof(ScheduledTask.ScheduledTaskClass).FullName;
+                    taskBuilder.SetTrigger(new TimeTrigger(60*24, false));
+                    taskBuilder.AddCondition(new SystemCondition(SystemConditionType.InternetAvailable));
+                    var registration = taskBuilder.Register();
+                }
+            }
+        //catching all exceptions that can happen
+            catch (Exception ex)
+            {
+        //async method used, but wil be marked by VS to be executed synchronously
+                Debug.WriteLine("Couldn't register Background ScheduledTask");                
+            }
         }
 
         // Code to execute when the application is activated (brought to foreground)
@@ -349,5 +400,6 @@ namespace TommyJams
                 throw;
             }
         }
+
     }
 }

@@ -110,8 +110,9 @@ namespace TommyJams.View
                 panel1NumberAttending.Text = "+" + countAttendees + " attending";
                 panel1Attending.Visibility = Visibility.Visible;
             }
-            
+
             AddButtons();
+            App.ViewModel.VenueInfo.VenueID = "40a55d80f964a52020f31ee3";
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
