@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Windows;
@@ -23,7 +24,6 @@ using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
-using System.Windows.Media;
 using System.Diagnostics;
 using Windows.UI.Notifications;
 
