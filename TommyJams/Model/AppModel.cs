@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Device.Location;
 using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -308,7 +309,15 @@ namespace TommyJams.Model
             HttpClient client = new HttpClient();
             string result = await client.GetStringAsync(completeUri);
             var jResult = JsonConvert.DeserializeObject<List<User>>(result);
-            User u = jResult[0];
+            User u;
+            try
+            {
+                u = jResult[0];
+            }
+            catch (ArgumentOutOfRangeException )
+            {
+                return 0;
+            }
 
             return (u.fbid != null) ? 1 : 0;
         }
@@ -377,10 +386,19 @@ namespace TommyJams.Model
                 postData += "]}";
 
                 HttpClient client = new HttpClient();
-                HttpResponseMessage response = await client.PostAsync(defaultUri, new StringContent(postData, Encoding.UTF8, "application/json"));
+                HttpResponseMessage response = null;
+                response = await client.PostAsync(defaultUri, new StringContent(postData, Encoding.UTF8, "application/json"));
+                try
+                {
+                    response.EnsureSuccessStatusCode();
+                }
+                catch (HttpRequestException ex)
+                {
+                    return null;
+                }
+
                 string content = await response.Content.ReadAsStringAsync();
 
-                response.EnsureSuccessStatusCode();
 
                 return content;
             }

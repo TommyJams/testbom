@@ -31,6 +31,7 @@ namespace TommyJams.View
 {
     public partial class MainPage : PhoneApplicationPage
     {
+        Uri facebookpic = new Uri("../Resources/Image/facebook_icon_large.gif", UriKind.Relative);
         public MainPage()
         {
             InitializeComponent();
@@ -48,8 +49,8 @@ namespace TommyJams.View
 
                     if (App.MobileService.CurrentUser != null)
                     {
-                        BitmapImage bm = new BitmapImage(new Uri("http://graph.facebook.com/" + App.FacebookId + "/picture?type=square", UriKind.Absolute));
-                        fbUserImage.Source = bm;
+                        facebookpic = new Uri("http://graph.facebook.com/" + App.FacebookId + "/picture?type=large", UriKind.Absolute);
+                        //fbUserImage.Source = bm;
 
                         ToggleNotifications();
                     }
@@ -76,8 +77,8 @@ namespace TommyJams.View
 
                 if (App.MobileService.CurrentUser == null)
                 {
-                    BitmapImage bm = new BitmapImage(new Uri("../Resources/Image/facebook_icon_large.gif", UriKind.Relative));
-                    fbUserImage.Source = bm;
+                    facebookpic = new Uri("../Resources/Image/facebook_icon_large.gif", UriKind.Relative);
+                //    fbUserImage.Source = bm;
 
                     ToggleNotifications();
                 }
@@ -106,7 +107,7 @@ namespace TommyJams.View
             {
                 MessageBox.Show("Sorry, could not connect to the internet!");
             }
-           
+            fbUserImage.Source = new BitmapImage(facebookpic);
             //ProgressBar.IsIndeterminate = false;
             ProgressBar.Visibility = Visibility.Collapsed;
         }
@@ -140,11 +141,16 @@ namespace TommyJams.View
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            
             HyperlinkButton selector = sender as HyperlinkButton;
             EventItem data = selector.DataContext as EventItem;
             //AudioPlayer.Source = new Uri(data.SongLink,UriKind.Relative);
             try
             {
+                if(data.EventSong.StartsWith("www."))
+                {
+                    data.EventSong= data.EventSong.Insert(0, "http://");
+                }
                 WebBrowserTask webBrowserTask = new WebBrowserTask();
                 webBrowserTask.Uri = new Uri(data.EventSong, UriKind.Absolute);
                 webBrowserTask.Show();
@@ -166,44 +172,42 @@ namespace TommyJams.View
         {
             LoadData();
         }
-
-
-        private void On_Tap_Event(object sender, System.Windows.Input.GestureEventArgs e)
+        private void MainListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            StackPanel selected = sender as StackPanel;
-            EventItem data = selected.DataContext as EventItem;
-            App.EventID = data.EventID;
-            App.ViewModel.NotificationItem.EventName = data.EventName;
-            App.ViewModel.NotificationItem.EventDate = data.EventDate;
-            App.ViewModel.NotificationItem.EventTime = data.EventTime;
-            App.ViewModel.NotificationItem.EventPrice = data.EventPrice;
-            App.ViewModel.NotificationItem.EventDistance = data.EventDistance;
-            App.ViewModel.NotificationItem.EventImage = data.EventImage;
-            App.ViewModel.NotificationItem.VenueName = data.VenueName;
-            App.ViewModel.NotificationItem.EventImage = data.EventImage;
-            App.ViewModel.NotificationItem.InviteExists = false;
-            App.ViewModel.NotificationItem.InviteeName = null;
-            App.ViewModel.NotificationItem.InviteeImage = null;
-            NavigationService.Navigate(new Uri("/../../View/EventPanoramaPage.xaml", UriKind.RelativeOrAbsolute));
-        }
+            if ((sender as ListBox).SelectedIndex != -1)
+            {
+                if ((sender as ListBox).SelectedItem.GetType() == typeof(EventItem))
+                {
+                    EventItem selected = (sender as ListBox).SelectedItem as EventItem;
+                    App.EventID = selected.EventID;
+                    App.ViewModel.NotificationItem.EventName = selected.EventName;
+                    App.ViewModel.NotificationItem.EventDate = selected.EventDate;
+                    App.ViewModel.NotificationItem.EventTime = selected.EventTime;
+                    App.ViewModel.NotificationItem.EventPrice = selected.EventPrice;
+                    App.ViewModel.NotificationItem.EventDistance = selected.EventDistance;
+                    App.ViewModel.NotificationItem.EventImage = selected.EventImage;
+                    App.ViewModel.NotificationItem.VenueName = selected.VenueName;
+                    App.ViewModel.NotificationItem.EventImage = selected.EventImage;
+                }
+                else
+                {
+                    NotificationItem selected = (sender as ListBox).SelectedItem as NotificationItem;
 
-        private void On_Tap_Invite(object sender, System.Windows.Input.GestureEventArgs e)
-        {
-            StackPanel selected = sender as StackPanel;
-            NotificationItem data = selected.DataContext as NotificationItem;
-            App.EventID = data.EventID;
-            App.ViewModel.NotificationItem.EventName = data.EventName;
-            App.ViewModel.NotificationItem.EventDate = data.EventDate;
-            App.ViewModel.NotificationItem.EventTime = data.EventTime;
-            App.ViewModel.NotificationItem.EventPrice = data.EventPrice;
-            App.ViewModel.NotificationItem.EventDistance = data.EventDistance;
-            App.ViewModel.NotificationItem.EventImage = data.EventImage;
-            App.ViewModel.NotificationItem.VenueName = data.VenueName;
-            App.ViewModel.NotificationItem.EventImage = data.EventImage;
-            App.ViewModel.NotificationItem.InviteExists = data.InviteExists;
-            App.ViewModel.NotificationItem.InviteeName = data.InviteeName;
-            App.ViewModel.NotificationItem.InviteeImage = data.InviteeImage;
-            NavigationService.Navigate(new Uri("/../../View/EventPanoramaPage.xaml", UriKind.RelativeOrAbsolute));
+                    App.EventID = selected.EventID;
+                    App.ViewModel.NotificationItem.EventName = selected.EventName;
+                    App.ViewModel.NotificationItem.EventDate = selected.EventDate;
+                    App.ViewModel.NotificationItem.EventTime = selected.EventTime;
+                    App.ViewModel.NotificationItem.EventPrice = selected.EventPrice;
+                    App.ViewModel.NotificationItem.EventDistance = selected.EventDistance;
+                    App.ViewModel.NotificationItem.EventImage = selected.EventImage;
+                    App.ViewModel.NotificationItem.VenueName = selected.VenueName;
+                    App.ViewModel.NotificationItem.EventImage = selected.EventImage;
+                    App.ViewModel.NotificationItem.InviteExists = selected.InviteExists;
+                    App.ViewModel.NotificationItem.InviteeName = selected.InviteeName;
+                    App.ViewModel.NotificationItem.InviteeImage = selected.InviteeImage;
+                }
+                NavigationService.Navigate(new Uri("/../../View/EventPanoramaPage.xaml", UriKind.RelativeOrAbsolute));
+            }
         }
 
         private void Panorama_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -252,6 +256,14 @@ namespace TommyJams.View
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            if(e.NavigationMode == NavigationMode.Back)
+            {
+                MainListBox2.SelectedIndex = -1;
+                MainListBox.SelectedIndex = -1;
+                upcomingEventsListBox.SelectedIndex = -1;
+                invitationListBox.SelectedIndex = -1;
+                LoadData();
+            }
             resetDefaultTile();
         }
 
@@ -276,6 +288,8 @@ namespace TommyJams.View
                 myTile.Update(myTileData);
             }
         }
+
+        
 
     }
 }

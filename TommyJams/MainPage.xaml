@@ -28,7 +28,8 @@
                         <src:EventViewModel  x:Key="Priority1Items"/>
                     </Grid.Resources>
                     <ProgressBar x:Name="ProgressBar" IsIndeterminate="True" Visibility="Visible" Height="300" Width="420"/>
-                    <ListBox x:Name="MainListBox" ItemsSource="{Binding Priority1Items, Mode=TwoWay}">
+                    <ListBox x:Name="MainListBox" ItemsSource="{Binding Priority1Items, Mode=TwoWay}"
+                             SelectionChanged="MainListBox_SelectionChanged">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
 
@@ -36,12 +37,11 @@
                                                 Height="250"
                                                 VerticalAlignment="Center"
                                                 HorizontalAlignment="Center" Width="397"
-                                                Tap="On_Tap_Event"
                                                 Margin="0,0,0,20"
                                                 >
                                     <Image Source="{Binding EventImage}" Height="150"/>
 
-                                    <HyperlinkButton BorderThickness="0" Tap="Button_Click" Margin="0,-125,0,0" Height="100" Width="100">
+                                    <HyperlinkButton BorderThickness="0" Click="Button_Click" Margin="0,-125,0,0" Height="100" Width="100">
                                         <HyperlinkButton.Background>
                                             <ImageBrush ImageSource="../Resources/Image/play.gif" Opacity="0.5"/>
                                         </HyperlinkButton.Background>
@@ -71,7 +71,8 @@
             <!--Panorama Screen Two-->
             <phone:PanoramaItem Header=" "  HeaderTemplate="{StaticResource SmallPanoramaPageTitle}">
                 <Grid x:Name="ContentPanel1" Grid.Row="1" Margin="0,-20,0,0">
-                    <ListBox x:Name="MainListBox2" ItemsSource="{Binding Priority2Items}">
+                    <ListBox x:Name="MainListBox2" ItemsSource="{Binding Priority2Items}"
+                             SelectionChanged="MainListBox_SelectionChanged">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
 
@@ -79,7 +80,6 @@
                                                 Height="145"
                                                 VerticalAlignment="Center"
                                                 HorizontalAlignment="Center"
-                                                Tap="On_Tap_Event"
                                                 >
                                     <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
                                         <HyperlinkButton BorderThickness="0" Click="Button_Click" Width="100" Height="100">
@@ -116,12 +116,15 @@
                     <Grid.Resources>
                         <src:EventViewModel  x:Key="NotificationItems"/>
                     </Grid.Resources>
+                    <ScrollViewer>
                     <StackPanel Orientation="Vertical">
                     <TextBlock Text="upcoming events" TextWrapping="Wrap" FontSize="30" Margin="10"/>
-                    <ListBox x:Name="upcomingEventsListBox" ItemsSource="{Binding UpcomingEvents, Mode=TwoWay}">
+                    <ListBox x:Name="upcomingEventsListBox" ItemsSource="{Binding UpcomingEvents, Mode=TwoWay}"
+                             ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                             SelectionChanged="MainListBox_SelectionChanged">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                    <StackPanel Orientation="Horizontal" Tap="On_Tap_Event" Margin="20,20,0,0">
+                                    <StackPanel Orientation="Horizontal" Margin="20,20,0,0">
                                         <Rectangle Fill="#ffcc00" Width="5"/>
                                         <StackPanel Orientation="Vertical" Margin="10,0,0,0">
                                             <TextBlock Text="{Binding EventGenre}" TextWrapping="Wrap" FontSize="15"/>
@@ -140,10 +143,12 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
                     <TextBlock Text="invitations" TextWrapping="Wrap" FontSize="30" Margin="10"/>
-                    <ListBox x:Name="invitationListBox" ItemsSource="{Binding NotificationItems, Mode=TwoWay}">
+                    <ListBox x:Name="invitationListBox" ItemsSource="{Binding NotificationItems, Mode=TwoWay}"
+                             ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                             SelectionChanged="MainListBox_SelectionChanged">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                    <StackPanel Orientation="Horizontal" Tap="On_Tap_Invite" Margin="20,20,0,0">
+                                    <StackPanel Orientation="Horizontal" Margin="20,20,0,0">
                                     <Rectangle Fill="#ffcc00" Width="5"/>
                                         <StackPanel Orientation="Vertical" Margin="10,0,0,0">
                                             <TextBlock Text="{Binding EventGenre}" TextWrapping="Wrap" FontSize="15"/>
@@ -173,7 +178,8 @@
                                 </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-                    </StackPanel>
+                        </StackPanel>
+                    </ScrollViewer>
                 </Grid>
             </phone:PanoramaItem>
 
