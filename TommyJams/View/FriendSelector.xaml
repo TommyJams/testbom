@@ -16,18 +16,18 @@
     <phone:PhoneApplicationPage.Resources>
         <DataTemplate x:Key="FriendTemplate">
             <StackPanel Orientation="Horizontal">
-                <Image HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="50" Source="{Binding pictureUri}">
+                <Image Height="80" Width="80" Source="{Binding pictureUri}" VerticalAlignment="Center" Margin="0,10,0,0">
                     <Image.Clip>
-                        <EllipseGeometry Center="25,25" RadiusX="25" RadiusY="25" />
+                        <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
                     </Image.Clip>
                 </Image>
-                <TextBlock Text="{Binding name}" VerticalAlignment="Center" Margin="10,0,0,0" FontSize="24"/>
+                <TextBlock Text="{Binding name}" FontSize="30" VerticalAlignment="Center" Margin="10"/>
             </StackPanel>
         </DataTemplate>
     </phone:PhoneApplicationPage.Resources>
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
-            <shell:ApplicationBarIconButton IconUri="ApplicationBar.Check.png" Text="Done" Click="DoneIconButton_Click"/>
+            <shell:ApplicationBarIconButton IconUri="/TommyJams;component/Resources/Image/bar_invite_done.png" Text="Done" Click="DoneIconButton_Click"/>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
     <!--LayoutRoot is the root grid where all page content is placed-->
@@ -40,11 +40,11 @@
 
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="invite friends" Margin="9,-7,0,0" Style="{StaticResource PanoramaItemHeaderTextStyle}"/>
+            <TextBlock Text="invite friends" Style="{StaticResource PanoramaItemHeaderTextStyle}"/>
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
-        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="10,0,10,0">
             <ListBox x:Name="friendList" ItemsSource="{Binding Friends}" ItemTemplate="{StaticResource FriendTemplate}" SelectionMode="Multiple" />
         </Grid>
     </Grid>

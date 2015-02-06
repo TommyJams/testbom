@@ -196,7 +196,7 @@ namespace TommyJams.View
                 //add bookmark button
                 ApplicationBarIconButton pinevent = new ApplicationBarIconButton();
                 pinevent.Text = "Pin Event";
-                pinevent.IconUri = new Uri("/Resources/Images/pinevent.jpg", UriKind.Relative);
+                pinevent.IconUri = new Uri("/Resources/Image/bar_events_pin.png", UriKind.Relative);
                 pinevent.Click += Pin_Click;
                 ApplicationBar.Buttons.Add(pinevent);
             }
@@ -207,8 +207,8 @@ namespace TommyJams.View
                 {
                     //accept button
                     ApplicationBarIconButton accept = new ApplicationBarIconButton();
-                    accept.Text = "Accept";
-                    accept.IconUri = new Uri("/Resources/Images/accept.jpg", UriKind.Relative);
+                    accept.Text = "Join";
+                    accept.IconUri = new Uri("/Resources/Image/bar_events_join.png", UriKind.Relative);
                     accept.Click += Event_Accept;
                     ApplicationBar.Buttons.Add(accept);
                 }
@@ -216,7 +216,7 @@ namespace TommyJams.View
                 //add invite friend button
                 ApplicationBarIconButton invitefriend = new ApplicationBarIconButton();
                 invitefriend.Text = "Invite Friends";
-                invitefriend.IconUri = new Uri("/Resources/Images/invitefriends.jpg", UriKind.Relative);
+                invitefriend.IconUri = new Uri("/Resources/Image/bar_events_invite.png", UriKind.Relative);
                 invitefriend.Click += Invite_Friends;
                 ApplicationBar.Buttons.Add(invitefriend);
             }
@@ -224,7 +224,7 @@ namespace TommyJams.View
             {
                 ApplicationBarIconButton proceed = new ApplicationBarIconButton();
                 proceed.Text = "Proceed";
-                proceed.IconUri = new Uri("/Resource/Images/proceed.jpg", UriKind.Relative);
+                proceed.IconUri = new Uri("/Resources/Image/bar_events_proceed.png", UriKind.Relative);
                 ApplicationBar.Buttons.Add(proceed);
             }
         }

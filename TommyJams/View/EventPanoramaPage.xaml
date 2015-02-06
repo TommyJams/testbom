@@ -31,7 +31,7 @@
                     <StackPanel Orientation="Vertical" Grid.Row="1">
 
                         <StackPanel x:Name="panel1Invite" Orientation="Horizontal" Visibility="Collapsed">
-                            <Image x:Name="Textblock_inviteeImage" Height="80" Width="80" Source="../Resources/Image/play.gif"  VerticalAlignment="Center" Margin="10,0,0,0">
+                            <Image x:Name="Textblock_inviteeImage" Height="80" Width="80" Source="../Resources/Image/icon_tj_white.png"  VerticalAlignment="Center" Margin="10,0,0,0">
                                 <Image.Clip>
                                     <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
                                 </Image.Clip>
@@ -43,12 +43,12 @@
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Margin="40,0,0,0">
-                            <Image Height="50" Width="50" Source="../Resources/Image/play.gif" VerticalAlignment="Center"/>
+                            <Image Height="50" Width="50" Source="../Resources/Image/icon_events_time.png" VerticalAlignment="Center"/>
                             <StackPanel Orientation="Vertical" Margin="10">
                                 <TextBlock x:Name="Textblock_time" Text="Time" FontSize="30" />
                                 <TextBlock x:Name="Textblock_date" Text="Date" Foreground="#aaaaaa"/>
                             </StackPanel>
-                            <Image Height="50" Width="50" Source="../Resources/Image/play.gif"  VerticalAlignment="Center" Margin="20,0,0,0"/>
+                            <Image Height="50" Width="50" Source="../Resources/Image/icon_events_price.png"  VerticalAlignment="Center" Margin="20,0,0,0"/>
                             <StackPanel Orientation="Vertical" Margin="10">
                                 <TextBlock x:Name="Textblock_price" Text="Price" FontSize="30" />
                                 <TextBlock x:Name="Textblock_availability" Text="Available" Foreground="#aaaaaa"/>
@@ -56,7 +56,7 @@
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Margin="40,0,0,0">
-                            <Image Height="50" Width="50" Source="../Resources/Image/play.gif" VerticalAlignment="Center"/>
+                            <Image Height="50" Width="50" Source="../Resources/Image/icon_events_venue.png" VerticalAlignment="Center"/>
                             <StackPanel Orientation="Vertical" Margin="10">
                                 <TextBlock x:Name="Textblock_venue" FontSize="30" Text="Venue"/>
                                 <StackPanel Orientation="Horizontal">
@@ -67,17 +67,17 @@
                         </StackPanel>
 
                         <StackPanel x:Name="panel1Attending" Orientation="Horizontal" Margin="10,0,0,0" Visibility="Collapsed">
-                            <Image x:Name="panel1SocialImage0" Source="../Resources/Image/play.gif" Height="80" Width="80" Margin="0,10,0,10" Visibility="Collapsed">
+                            <Image x:Name="panel1SocialImage0" Source="../Resources/Image/icon_tj_white.png" Height="80" Width="80" Margin="0,10,0,10" Visibility="Collapsed">
                                 <Image.Clip>
                                     <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
                                 </Image.Clip>
                             </Image>
-                            <Image x:Name="panel1SocialImage1" Source="../Resources/Image/play.gif" Height="80" Width="80" Margin="10,10,0,10" Visibility="Collapsed">
+                            <Image x:Name="panel1SocialImage1" Source="../Resources/Image/icon_tj_white.png" Height="80" Width="80" Margin="10,10,0,10" Visibility="Collapsed">
                                 <Image.Clip>
                                     <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
                                 </Image.Clip>
                             </Image>
-                            <Image x:Name="panel1SocialImage2" Source="../Resources/Image/play.gif" Height="80" Width="80" Margin="10,10,0,10" Visibility="Collapsed">
+                            <Image x:Name="panel1SocialImage2" Source="../Resources/Image/icon_tj_white.png" Height="80" Width="80" Margin="10,10,0,10" Visibility="Collapsed">
                                 <Image.Clip>
                                     <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
                                 </Image.Clip>
@@ -100,12 +100,12 @@
                                     <TextBlock x:Name ="artistName" Width="400" FontSize="30" TextWrapping="Wrap" Text="{Binding ArtistName}"/>
                                     <TextBlock x:Name ="artistDescription" Width="400" Margin="10,0,0,0" TextWrapping="Wrap" Text="{Binding ArtistDescription}"/>
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="../Resources/Image/facebook_icon_large.gif" Height="80" Width="80" Margin="10" Tag="{Binding ArtistFacebook}" Tap="icon_tap">
+                                        <Image Source="../Resources/Image/icon_events_fb.png" Height="80" Width="80" Margin="10,10,0,10" Tag="{Binding ArtistFacebook}" Tap="icon_tap">
                                             <Image.Clip>
                                                 <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
                                             </Image.Clip>
                                         </Image>
-                                        <Image Source="../Resources/Image/soundcloud.png" Height="80" Width="80" Margin="10" Tag="{Binding ArtistSocial}" Tap="icon_tap">
+                                        <Image Source="../Resources/Image/icon_events_sc.png" Height="80" Width="80" Margin="10,10,0,10" Tag="{Binding ArtistSocial}" Tap="icon_tap">
                                             <Image.Clip>
                                                 <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
                                             </Image.Clip>
@@ -134,7 +134,7 @@
                                 </toolkit:MapExtensions.Children>
                             </bm:Map>
                         </StackPanel>
-                        <!--TODO: I need icons for these-->
+                        
                         <ProgressBar x:Name="FoursquareInfo_progress" Visibility="{Binding venueInfo_Foursquare.FoursquareInfo_IsLoading, Converter={StaticResource  BoolToValueConverter}, FallbackValue='Collapsed'}" IsIndeterminate="True" Foreground="{StaticResource TommyJams_Yellow}" Margin="0,5"/>
                         <StackPanel Orientation="Horizontal" Visibility="{Binding venueInfo_Foursquare.FoursquareInfo_Visibility, Converter={StaticResource  BoolToValueConverter}, FallbackValue='Collapsed'}" Margin="0,10,0,0">
                             
@@ -142,35 +142,38 @@
                                 <Grid.Clip>
                                     <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
                                 </Grid.Clip>
-                                <TextBlock Text="{Binding venueInfo_Foursquare.VenueZRating}" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <Image Source="../Resources/Image/icon_events_fsrate.png" Height="80" Width="80" />
+                                <TextBlock Text="{Binding venueInfo_Foursquare.VenueZRating}" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,5"/>
                             </Grid>
                             <Grid Height="80" Width="80" Margin="10" Background="{StaticResource TommyJams_Yellow}">
                                 <Grid.Clip>
                                     <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
                                 </Grid.Clip>
-                                <TextBlock Text="{Binding venueInfo_Foursquare.VenueZPrice}" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <Image Source="../Resources/Image/icon_events_fsprice.png" Height="80" Width="80" />
+                                <TextBlock Text="{Binding venueInfo_Foursquare.VenueZPrice}" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,5"/>
                             </Grid>
                             <Grid Height="80" Width="80" Margin="10" Background="{StaticResource TommyJams_Yellow}">
                                 <Grid.Clip>
                                     <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
                                 </Grid.Clip>
-                                <TextBlock Text="{Binding venueInfo_Foursquare.VenueZCheckin}" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <Image Source="../Resources/Image/icon_events_fscheckin.png" Height="80" Width="80" />
+                                <TextBlock Text="{Binding venueInfo_Foursquare.VenueZCheckin}" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,5"/>
                             </Grid>
                             
                         </StackPanel>
                         <TextBlock x:Name ="venueDescription" Margin="10,0,0,0" TextWrapping="Wrap" Text="{Binding venueInfo_Foursquare.VenueZDesc}"/>
                         <StackPanel Orientation="Horizontal" Margin="10,20,0,0">
-                            <Image Source="../Resources/Image/facebook_icon_large.gif" Height="80" Width="80" Tag="{Binding VenueFacebook}" Tap="icon_tap">
+                            <Image Source="../Resources/Image/icon_events_fb.png" Height="80" Width="80" Tag="{Binding VenueFacebook}" Tap="icon_tap">
                                 <Image.Clip>
                                     <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
                                 </Image.Clip>
                             </Image>
-                            <Image Source="../Resources/Image/foursquare.png" Margin="10,0,0,0" Height="80" Width="80" Tag="{Binding venueInfo_Foursquare.VenueZLink}" Tap="icon_tap">
+                            <Image Source="../Resources/Image/icon_events_fs.png" Margin="10,0,0,0" Height="80" Width="80" Tag="{Binding venueInfo_Foursquare.VenueZLink}" Tap="icon_tap">
                                 <Image.Clip>
                                     <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
                                 </Image.Clip>
                             </Image>
-                            <Image Source="../Resources/Image/zomato.png" Margin="10,0,0,0" Height="80" Width="80" Tag="{Binding venueInfo_Foursquare.VenueZomato}" Tap="icon_tap">
+                            <Image Source="../Resources/Image/icon_events_zo.png" Margin="10,0,0,0" Height="80" Width="80" Tag="{Binding venueInfo_Foursquare.VenueZomato}" Tap="icon_tap">
                                 <Image.Clip>
                                     <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
                                 </Image.Clip>
@@ -190,10 +193,10 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <StackPanel x:Name="panel4Invite" Orientation="Horizontal" Grid.Row="0" Visibility="Collapsed">
-                        <Image x:Name="panel4InviteeImage" Height="80" Width="80" Source="../Resources/Image/play.gif"  VerticalAlignment="Center" Margin="10,0,0,0">
+                        <Image x:Name="panel4InviteeImage" Height="80" Width="80" VerticalAlignment="Center" Margin="10,0,0,0">
                             <Image.Clip>
                                 <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
                             </Image.Clip>
@@ -225,7 +228,7 @@
             <phone:PanoramaItem  x:Name="ticketsHeader" Header="tickets" HeaderTemplate="{StaticResource SmallPanoramaPageTitle}">
                 <StackPanel Orientation="Vertical">
                     <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
-                        <Image Height="50" Width="50" Source="../Resources/Image/play.gif" VerticalAlignment="Center"/>
+                        <Image Height="50" Width="50" Source="../Resources/Image/icon_events_venue.png" VerticalAlignment="Center"/>
                         <StackPanel Orientation="Vertical" Margin="10">
                             <TextBlock x:Name="panel5_venue" FontSize="30" Text="Venue"/>
                             <TextBlock x:Name="panel5_address" Text="Location" Foreground="#aaaaaa"/>
@@ -233,7 +236,7 @@
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
-                        <Image Height="50" Width="50" Source="../Resources/Image/play.gif" VerticalAlignment="Center"/>
+                        <Image Height="50" Width="50" Source="../Resources/Image/icon_events_time.png" VerticalAlignment="Center"/>
                         <StackPanel Orientation="Vertical" Margin="10">
                             <TextBlock x:Name="panel5_time" FontSize="30" Text="Time"/>
                             <TextBlock x:Name="panel5_date" Text="Date" Foreground="#aaaaaa"/>
@@ -241,7 +244,7 @@
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
-                        <Image Height="50" Width="50" Source="../Resources/Image/play.gif" VerticalAlignment="Center"/>
+                        <Image Height="50" Width="50" Source="../Resources/Image/icon_events_price.png" VerticalAlignment="Center"/>
                         <StackPanel Orientation="Vertical" Margin="10">
                             <TextBlock x:Name="panel5_price" FontSize="30" Text="Price"/>
                             <TextBlock x:Name="panel5_availability" Text="Available" Foreground="#aaaaaa"/>

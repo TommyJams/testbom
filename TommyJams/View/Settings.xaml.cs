@@ -90,13 +90,19 @@ namespace TommyJams.View
             };
 
             fb.GetTaskAsync("me");*/
-            if (App.FacebookId != null)
+            if (App.FacebookId != App.FACEBOOK_DEFAULT_ID)
             {
                 BitmapImage bm = new BitmapImage(new Uri("http://graph.facebook.com/" + App.FacebookId + "/picture?type=square", UriKind.Absolute));
                 this.MyImage.Source = bm;
-
-                /*HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://graph.facebook.com/" + App.FacebookId + "?fields=name");
-                request.GetResponseAsync();*/
+                user_profile_text.Visibility = Visibility.Visible;
+                user_profile.Visibility = Visibility.Visible;
+                user_profile_logout.Visibility = Visibility.Visible;
+            }
+            else 
+            {
+                user_profile_text.Visibility = Visibility.Collapsed;
+                user_profile.Visibility = Visibility.Collapsed;
+                user_profile_logout.Visibility = Visibility.Collapsed;
             }
         }
 

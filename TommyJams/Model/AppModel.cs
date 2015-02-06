@@ -182,7 +182,14 @@ namespace TommyJams.Model
             if (venue != null)
             {
                 venueInfo_Foursquare.VenueZCheckin = Math.Round((double)venue.stats.checkinsCount/1000,1) + "k";
-                venueInfo_Foursquare.VenueZPrice = venue.price.tier;
+                
+                if(venue.price.tier == "1")
+                    venueInfo_Foursquare.VenueZPrice = "min";
+                if (venue.price.tier == "2" || venue.price.tier == "3")
+                    venueInfo_Foursquare.VenueZPrice = "avg";
+                if (venue.price.tier == "4")
+                    venueInfo_Foursquare.VenueZPrice = "max";
+
                 venueInfo_Foursquare.VenueZRating = venue.rating;
                 venueInfo_Foursquare.FoursquareInfo_Visibility = true;
                 venueInfo_Foursquare.VenueZLink = venue.canonicalUrl;
