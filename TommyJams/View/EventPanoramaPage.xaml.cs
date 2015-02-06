@@ -46,9 +46,11 @@ namespace TommyJams.View
         private void LoadBasicView()
         {
             panel5_date.Text = Textblock_date.Text = App.ViewModel.NotificationItem.EventDate;
-            panel5_price.Text = Textblock_price.Text = App.ViewModel.NotificationItem.EventPrice;
+            panel5_total.Text = panel5_price.Text = Textblock_price.Text = App.ViewModel.NotificationItem.EventPrice;
             panel5_time.Text = Textblock_time.Text = App.ViewModel.NotificationItem.EventTime;
-            panel5_venue.Text = Textblock_venue.Text = App.ViewModel.NotificationItem.VenueName;
+            panel3_venue.Text = panel5_venue.Text = Textblock_venue.Text = App.ViewModel.NotificationItem.VenueName;
+            panel3_address.Text = panel5_address.Text = App.ViewModel.NotificationItem.VenueAddress;
+            Textblock_distance.Text = App.ViewModel.NotificationItem.EventDistance;
             if (App.ViewModel.NotificationItem.InviteExists)
             {
                 panel4InviteeName.Text = Textblock_inviteeName.Text = App.ViewModel.NotificationItem.InviteeName;
@@ -65,6 +67,7 @@ namespace TommyJams.View
                 BitmapImage bitmapImage = new BitmapImage(new Uri(App.ViewModel.NotificationItem.EventImage, UriKind.Absolute));
                 ImageBrush imageBrush = new ImageBrush();
                 imageBrush.ImageSource = bitmapImage;
+                imageBrush.Opacity = 0.5;
                 Panorama.Background = imageBrush;
             }
 
@@ -75,7 +78,7 @@ namespace TommyJams.View
         public async void LoadData()
         {
             App.ViewModel.NotificationItem = await App.ViewModel.LoadEventInfo();
-            LoadBasicView();
+            //LoadBasicView();
 
             App.ViewModel.ArtistInfo = await App.ViewModel.LoadArtistInfo();
             App.ViewModel.VenueInfo = await App.ViewModel.LoadVenueInfo();
@@ -112,7 +115,6 @@ namespace TommyJams.View
             }
 
             AddButtons();
-            App.ViewModel.VenueInfo.VenueID = "40a55d80f964a52020f31ee3";
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -247,9 +249,27 @@ namespace TommyJams.View
             mapsDirectionsTask.Show();
         }
 
+        private void icon_tap(object sender, RoutedEventArgs e)
+        {
+            var realSender = (Image)sender;
+            WebBrowserTask wbt = new WebBrowserTask();
+            wbt.Uri = new Uri("https://" + realSender.Tag.ToString(), UriKind.Absolute);
+            wbt.Show(); 
+        }
+
         private void Settings_Click(object sender, EventArgs e)
         {
             NavigationService.Navigate(new Uri("/View/Settings.xaml",UriKind.Relative));
+        }
+
+        private void Price_SelectionChanged(object sender, EventArgs e)
+        {
+            if (panel5_total != null)
+            {
+                var picker = sender as ListPicker;
+                int totalPrice = (picker.SelectedIndex + 1) * Convert.ToInt32(App.ViewModel.NotificationItem.EventPrice.Substring(1, App.ViewModel.NotificationItem.EventPrice.Length - 1));
+                panel5_total.Text = App.ViewModel.NotificationItem.EventPrice[0] + totalPrice.ToString();
+            }
         }
 
         private void Pin_Click(object sender, EventArgs e)

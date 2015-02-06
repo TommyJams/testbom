@@ -68,7 +68,7 @@ namespace TommyJams.View
 
         private void LoadUserInfo()
         {
-            var fb = new FacebookClient(App.AccessToken);
+            /*var fb = new FacebookClient(App.AccessToken);
 
             fb.GetCompleted += (o, e) =>
             {
@@ -89,7 +89,15 @@ namespace TommyJams.View
                 });
             };
 
-            fb.GetTaskAsync("me");
+            fb.GetTaskAsync("me");*/
+            if (App.FacebookId != null)
+            {
+                BitmapImage bm = new BitmapImage(new Uri("http://graph.facebook.com/" + App.FacebookId + "/picture?type=square", UriKind.Absolute));
+                this.MyImage.Source = bm;
+
+                /*HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://graph.facebook.com/" + App.FacebookId + "?fields=name");
+                request.GetResponseAsync();*/
+            }
         }
 
         private void RateApp_Click(object sender, RoutedEventArgs e)
@@ -200,7 +208,7 @@ namespace TommyJams.View
 
         private void Logout_Click(object sender, RoutedEventArgs e)
         {
-            App.MobileService.Logout();
+            App.ViewModel.LogoutFromFacebook();
             LoadUserInfo();
         }
 

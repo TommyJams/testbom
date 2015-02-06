@@ -46,13 +46,8 @@ namespace TommyJams.View
                 {
                     await App.ViewModel.LoginToFacebook();
 
-                    if (App.MobileService.CurrentUser != null)
-                    {
-                        BitmapImage bm = new BitmapImage(new Uri("http://graph.facebook.com/" + App.FacebookId + "/picture?type=square", UriKind.Absolute));
-                        fbUserImage.Source = bm;
-
-                        ToggleNotifications();
-                    }
+                    ToggleConnect();
+                    ToggleNotifications();
                 }
                 catch (InvalidOperationException)
                 {
@@ -70,18 +65,7 @@ namespace TommyJams.View
                         MessageBox.Show("Sorry, could not connect to the internet!");
                 }
             }
-            else //Logout
-            {
-                App.ViewModel.LogoutFromFacebook();
 
-                if (App.MobileService.CurrentUser == null)
-                {
-                    BitmapImage bm = new BitmapImage(new Uri("../Resources/Image/facebook_icon_large.gif", UriKind.Relative));
-                    fbUserImage.Source = bm;
-
-                    ToggleNotifications();
-                }
-            }
             LoadData();
         }
 
@@ -109,6 +93,18 @@ namespace TommyJams.View
            
             //ProgressBar.IsIndeterminate = false;
             ProgressBar.Visibility = Visibility.Collapsed;
+        }
+
+        public void ToggleConnect()
+        {
+            if (App.MobileService.CurrentUser == null)
+            {
+                panelConnect.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                panelConnect.Visibility = Visibility.Collapsed;
+            }
         }
 
         public void ToggleNotifications()
@@ -252,6 +248,8 @@ namespace TommyJams.View
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            ToggleConnect();
+            ToggleNotifications();
             resetDefaultTile();
         }
 

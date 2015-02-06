@@ -12,9 +12,11 @@ using System.Text;
 using System.Threading.Tasks;
 using TommyJams;
 using TommyJams.Model;
+using Windows.Devices.Geolocation;
 
 namespace TommyJams.Model
 {
+    
     public class AppModel
     {
 
@@ -51,6 +53,7 @@ namespace TommyJams.Model
             string result = await client.GetStringAsync(completeUri);
 
             List<EventItem> eventInfo = JsonConvert.DeserializeObject<List<EventItem>>(result) as List<EventItem>;
+            eventInfo[0].EventPrice = "₹" + eventInfo[0].EventPrice;
             return eventInfo[0];
         }
 
@@ -76,6 +79,7 @@ namespace TommyJams.Model
                 genreString.Clear();
                 DateTime eventDate = DateTime.ParseExact(aProduct.EventDate, "yyyyMMdd", CultureInfo.InvariantCulture);
                 DateTime currentDate = DateTime.Now;
+                
                 if ((eventDate.Day == currentDate.Day) && (eventDate.Month == currentDate.Month))
                 {
                     DateTime eventTime = DateTime.ParseExact(aProduct.EventTime, "HHmm", CultureInfo.InvariantCulture);
@@ -91,16 +95,23 @@ namespace TommyJams.Model
                     aProduct.EventStartingTime = "on " + eventDate.Day + "/" + eventDate.Month;
                 }
 
+                aProduct.EventDate = eventDate.ToString("ddd") + ", " + eventDate.Day + " " + eventDate.ToString("MMM");
+                aProduct.EventTime = eventDate.ToString("hh:mm tt");
+
                 String[] location = aProduct.VenueCoordinates.Split(' ');
 
                 Double latitude = Convert.ToDouble(location[0]);
                 Double longitude = Convert.ToDouble(location[1]);
                 var eventGeo = new GeoCoordinate(latitude, longitude);
-                //Stub for replacing myGeoCordinate from App
-                var myGeo = new GeoCoordinate(72.2, 84.3);
+
+                Geolocator myGeolocator = new Geolocator();
+                Geoposition myGeoposition = await myGeolocator.GetGeopositionAsync();
+                Geocoordinate myGeocoordinate = myGeoposition.Coordinate;
+                var myGeo = new GeoCoordinate(myGeocoordinate.Latitude, myGeocoordinate.Longitude);
                 double x = eventGeo.GetDistanceTo(myGeo);
-                aProduct.EventDistance = "• " + ((int)(x / 1000)).ToString() + " Kms";
-                aProduct.EventPrice = "₹ " + aProduct.EventPrice;
+
+                aProduct.EventDistance = ((int)(x / 1000)).ToString() + " Kms";
+                aProduct.EventPrice = "₹" + aProduct.EventPrice;
                 aProduct.EventHotness = "• Hotness Level :" + aProduct.EventHotness;
             }
 
@@ -170,10 +181,17 @@ namespace TommyJams.Model
             Venue venue = await sharpSquare.GetVenue(VenueID);
             if (venue != null)
             {
-                venueInfo_Foursquare.VenueZCheckin = venue.stats.checkinsCount;
+                venueInfo_Foursquare.VenueZCheckin = Math.Round((double)venue.stats.checkinsCount/1000,1) + "k";
                 venueInfo_Foursquare.VenueZPrice = venue.price.tier;
                 venueInfo_Foursquare.VenueZRating = venue.rating;
                 venueInfo_Foursquare.FoursquareInfo_Visibility = true;
+                venueInfo_Foursquare.VenueZLink = venue.canonicalUrl;
+                foreach (Category tempC in venue.categories)
+                    venueInfo_Foursquare.VenueZDesc += "#" + tempC.name + " ";
+                if(venue.description != null)
+                {
+                    venueInfo_Foursquare.VenueZDesc += "\n" + venue.description;
+                }
             }
 
             return venueInfo_Foursquare;
@@ -204,7 +222,7 @@ namespace TommyJams.Model
 
                 DateTime eventDate = DateTime.ParseExact(aProduct.EventDate, "yyyyMMdd", CultureInfo.InvariantCulture);
                 aProduct.EventDate = " • " + eventDate.ToShortDateString();
-                aProduct.EventPrice = " • ₹" + aProduct.EventPrice;
+                aProduct.EventPrice = "₹" + aProduct.EventPrice;
             }
 
             return upcomingEventsList;
@@ -235,7 +253,7 @@ namespace TommyJams.Model
 
                 DateTime eventDate = DateTime.ParseExact(aProduct.EventDate, "yyyyMMdd", CultureInfo.InvariantCulture);
                 aProduct.EventDate = " • " + eventDate.ToShortDateString();
-                aProduct.EventPrice = " • ₹" + aProduct.EventPrice;
+                aProduct.EventPrice = "₹" + aProduct.EventPrice;
 
                 if (aProduct.InviteeFBID.Length > 0)
                 {
@@ -284,16 +302,23 @@ namespace TommyJams.Model
                     aProduct.EventStartingTime = "on " + eventDate.Day + "/" + eventDate.Month;
                 }
 
+                aProduct.EventDate = eventDate.ToString("ddd") + ", " + eventDate.Day + " " + eventDate.ToString("MMM");
+                aProduct.EventTime = eventDate.ToString("hh:mm tt");
+
                 String[] location = aProduct.VenueCoordinates.Split(' ');
 
                 Double latitude = Convert.ToDouble(location[0]);
                 Double longitude = Convert.ToDouble(location[1]);
                 var eventGeo = new GeoCoordinate(latitude, longitude);
-                var myGeo = new GeoCoordinate(72.2, 84.3);
+                
+                Geolocator myGeolocator = new Geolocator();
+                Geoposition myGeoposition = await myGeolocator.GetGeopositionAsync();
+                Geocoordinate myGeocoordinate = myGeoposition.Coordinate;
+                var myGeo = new GeoCoordinate(myGeocoordinate.Latitude, myGeocoordinate.Longitude);
                 double x = eventGeo.GetDistanceTo(myGeo);
                 
-                aProduct.EventDistance = " • " + ((int)(x / 1000)).ToString() + "Km";
-                aProduct.EventPrice = " ₹" + aProduct.EventPrice;
+                aProduct.EventDistance = ((int)(x / 1000)).ToString() + "Km";
+                aProduct.EventPrice = "₹" + aProduct.EventPrice;
                 aProduct.EventHotness = " • " + aProduct.EventHotness;
             }
             return primaryEvents;
