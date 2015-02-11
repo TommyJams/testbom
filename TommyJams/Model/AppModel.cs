@@ -54,7 +54,7 @@ namespace TommyJams.Model
             string result = await client.GetStringAsync(completeUri);
 
             List<EventItem> eventInfo = JsonConvert.DeserializeObject<List<EventItem>>(result) as List<EventItem>;
-            eventInfo[0].EventPrice = "₹" + eventInfo[0].EventPrice;
+            eventInfo[0].EventPrice = "₹ " + eventInfo[0].EventPrice;
             return eventInfo[0];
         }
 
@@ -112,8 +112,8 @@ namespace TommyJams.Model
                 double x = eventGeo.GetDistanceTo(myGeo);
 
                 aProduct.EventDistance = ((int)(x / 1000)).ToString() + " Kms";
-                aProduct.EventPrice = "₹" + aProduct.EventPrice;
-                aProduct.EventHotness = "• Hotness Level :" + aProduct.EventHotness;
+                aProduct.EventPrice = "₹ " + aProduct.EventPrice;
+                aProduct.EventHotness = "Hotness Level :" + aProduct.EventHotness;
             }
 
             return secondaryEvents;
@@ -229,8 +229,8 @@ namespace TommyJams.Model
                 aProduct.EventTime = eventTime.ToShortTimeString();
 
                 DateTime eventDate = DateTime.ParseExact(aProduct.EventDate, "yyyyMMdd", CultureInfo.InvariantCulture);
-                aProduct.EventDate = " • " + eventDate.ToShortDateString();
-                aProduct.EventPrice = "₹" + aProduct.EventPrice;
+                aProduct.EventDate =  eventDate.ToShortDateString();
+                aProduct.EventPrice = "₹ " + aProduct.EventPrice;
             }
 
             return upcomingEventsList;
@@ -260,8 +260,8 @@ namespace TommyJams.Model
                 aProduct.EventTime = eventTime.ToShortTimeString();
 
                 DateTime eventDate = DateTime.ParseExact(aProduct.EventDate, "yyyyMMdd", CultureInfo.InvariantCulture);
-                aProduct.EventDate = " • " + eventDate.ToShortDateString();
-                aProduct.EventPrice = "₹" + aProduct.EventPrice;
+                aProduct.EventDate =  eventDate.ToShortDateString();
+                aProduct.EventPrice = "₹ " + aProduct.EventPrice;
 
                 if (aProduct.InviteeFBID.Length > 0)
                 {
@@ -325,9 +325,9 @@ namespace TommyJams.Model
                 var myGeo = new GeoCoordinate(myGeocoordinate.Latitude, myGeocoordinate.Longitude);
                 double x = eventGeo.GetDistanceTo(myGeo);
                 
-                aProduct.EventDistance = ((int)(x / 1000)).ToString() + "Km";
-                aProduct.EventPrice = "₹" + aProduct.EventPrice;
-                aProduct.EventHotness = " • " + aProduct.EventHotness;
+                aProduct.EventDistance = ((int)(x / 1000)).ToString() + " Km";
+                aProduct.EventPrice = "₹ " + aProduct.EventPrice;
+                aProduct.EventHotness =  aProduct.EventHotness;
             }
             return primaryEvents;
 

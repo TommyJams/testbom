@@ -31,7 +31,7 @@ namespace TommyJams.View
 {
     public partial class MainPage : PhoneApplicationPage
     {
-        Uri facebookpic = new Uri("../Resources/Image/facebook_icon_large.gif", UriKind.Relative);
+        Uri facebookpic = new Uri("../Resources/Image/facebook-icon.jpg", UriKind.Relative);
         public MainPage()
         {
             InitializeComponent();
@@ -120,25 +120,12 @@ namespace TommyJams.View
             }
         }
 
-        /*
-        private void MainLongListSelector1_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            LongListSelector selector = sender as LongListSelector;
-            if (selector == null)
-                return;
-            EventItem data = selector.SelectedItem as EventItem;
-
-            if (data == null)
-                return;
-
-            AudioPlayer.Source = new Uri(data.SongLink,UriKind.RelativeOrAbsolute);
-            selector.SelectedItem = null;
-        }*/
+        
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             
-            HyperlinkButton selector = sender as HyperlinkButton;
+            Button selector = sender as Button;
             EventItem data = selector.DataContext as EventItem;
             //AudioPlayer.Source = new Uri(data.SongLink,UriKind.Relative);
             try
@@ -208,13 +195,20 @@ namespace TommyJams.View
 
         private void Panorama_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (Panorama.SelectedIndex == 2)
+            if (Panorama.SelectedIndex == 3)
             {
-                ApplicationBar.IsVisible = false;
+                Task.Run(() => {
+                    Thread.Sleep(200);
+                    Dispatcher.BeginInvoke(()=>ApplicationBar.Mode = ApplicationBarMode.Minimized);                    
+                });                
             }
             else
             {
-                ApplicationBar.IsVisible = true;
+                Task.Run(() =>
+                {
+                    Thread.Sleep(200);
+                    Dispatcher.BeginInvoke(() => ApplicationBar.Mode = ApplicationBarMode.Default);
+                }); 
             }
 
         }
