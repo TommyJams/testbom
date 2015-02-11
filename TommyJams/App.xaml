@@ -28,7 +28,7 @@
         	<Setter Property="BorderBrush" Value="{StaticResource PhoneForegroundBrush}"/>
         	<Setter Property="Foreground" Value="{StaticResource PhoneForegroundBrush}"/>
         	<Setter Property="BorderThickness" Value="{StaticResource PhoneBorderThickness}"/>
-        	<Setter Property="FontFamily" Value="{StaticResource PhoneFontFamilySemiBold}"/>
+        	<Setter Property="FontFamily" Value="{StaticResource PhoneFontFamilyNormal}"/>
         	<Setter Property="FontSize" Value="{StaticResource PhoneFontSizeMedium}"/>
         	<Setter Property="Padding" Value="10,5,10,6"/>
         	<Setter Property="Template">

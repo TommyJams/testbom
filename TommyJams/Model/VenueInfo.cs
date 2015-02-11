@@ -251,8 +251,8 @@ namespace TommyJams.Model
             }
         }
 
-        private long _venueZCheckin;
-        public long VenueZCheckin
+        private string _venueZCheckin;
+        public string VenueZCheckin
         {
             get
             {
@@ -298,6 +298,40 @@ namespace TommyJams.Model
                 {
                     _venueZPrice = value;
                     NotifyPropertyChanged("VenueZPrice");
+                }
+            }
+        }
+
+        private string _venueZLink;
+        public string VenueZLink
+        {
+            get
+            {
+                return _venueZLink;
+            }
+            set
+            {
+                if (value != _venueZLink)
+                {
+                    _venueZLink = value;
+                    NotifyPropertyChanged("VenueZLink");
+                }
+            }
+        }
+
+        private string _venueZDesc;
+        public string VenueZDesc
+        {
+            get
+            {
+                return _venueZDesc;
+            }
+            set
+            {
+                if (value != _venueZDesc)
+                {
+                    _venueZDesc = value;
+                    NotifyPropertyChanged("VenueZDesc");
                 }
             }
         }

@@ -184,7 +184,7 @@
             </phone:PanoramaItem>
 
             <!--Panorama Screen Four-->
-            <phone:PanoramaItem Header="connect"  HeaderTemplate="{StaticResource SmallPanoramaPageTitle}">
+            <phone:PanoramaItem x:Name="panelConnect" Header="connect"  HeaderTemplate="{StaticResource SmallPanoramaPageTitle}">
                 <Grid Margin="0,-20,0,0">
                     <Button HorizontalAlignment="Left" Height="203" VerticalAlignment="Top" Width="208" Click="FacebookLogin_Click">
                         <Image x:Name="fbUserImage" Source ="../Resources/Image/facebook_icon_large.gif" Height="174" Width="174"/>

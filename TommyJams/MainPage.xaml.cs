@@ -47,14 +47,9 @@ namespace TommyJams.View
                 {
                     await App.ViewModel.LoginToFacebook();
 
-                    if (App.MobileService.CurrentUser != null)
-                    {
-                        facebookpic = new Uri("http://graph.facebook.com/" + App.FacebookId + "/picture?type=large", UriKind.Absolute);
-                        //fbUserImage.Source = bm;
-
+                    ToggleConnect();
                         ToggleNotifications();
                     }
-                }
                 catch (InvalidOperationException)
                 {
                     if(!fInitialLoad)
@@ -71,18 +66,7 @@ namespace TommyJams.View
                         MessageBox.Show("Sorry, could not connect to the internet!");
                 }
             }
-            else //Logout
-            {
-                App.ViewModel.LogoutFromFacebook();
 
-                if (App.MobileService.CurrentUser == null)
-                {
-                    facebookpic = new Uri("../Resources/Image/facebook_icon_large.gif", UriKind.Relative);
-                //    fbUserImage.Source = bm;
-
-                    ToggleNotifications();
-                }
-            }
             LoadData();
         }
 
@@ -110,6 +94,18 @@ namespace TommyJams.View
             fbUserImage.Source = new BitmapImage(facebookpic);
             //ProgressBar.IsIndeterminate = false;
             ProgressBar.Visibility = Visibility.Collapsed;
+        }
+
+        public void ToggleConnect()
+        {
+            if (App.MobileService.CurrentUser == null)
+            {
+                panelConnect.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                panelConnect.Visibility = Visibility.Collapsed;
+            }
         }
 
         public void ToggleNotifications()
@@ -188,7 +184,7 @@ namespace TommyJams.View
                     App.ViewModel.NotificationItem.EventImage = selected.EventImage;
                     App.ViewModel.NotificationItem.VenueName = selected.VenueName;
                     App.ViewModel.NotificationItem.EventImage = selected.EventImage;
-                }
+        }
                 else
                 {
                     NotificationItem selected = (sender as ListBox).SelectedItem as NotificationItem;
@@ -206,8 +202,8 @@ namespace TommyJams.View
                     App.ViewModel.NotificationItem.InviteeName = selected.InviteeName;
                     App.ViewModel.NotificationItem.InviteeImage = selected.InviteeImage;
                 }
-                NavigationService.Navigate(new Uri("/../../View/EventPanoramaPage.xaml", UriKind.RelativeOrAbsolute));
-            }
+            NavigationService.Navigate(new Uri("/../../View/EventPanoramaPage.xaml", UriKind.RelativeOrAbsolute));
+        }
         }
 
         private void Panorama_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -262,8 +258,10 @@ namespace TommyJams.View
                 MainListBox.SelectedIndex = -1;
                 upcomingEventsListBox.SelectedIndex = -1;
                 invitationListBox.SelectedIndex = -1;
-                LoadData();
+                //LoadData();
             }
+            ToggleConnect();
+            ToggleNotifications();
             resetDefaultTile();
         }
 

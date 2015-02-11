@@ -162,9 +162,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ViewModel\ModelSampleData.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="View\About.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -239,23 +236,23 @@
     <Content Include="Assets\WideLogo.png" />
     <Content Include="parvaaz2.png" />
     <Content Include="README_FIRST.txt" />
-    <Resource Include="Resources\Image\facebook_icon_large.gif">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Content Include="Resources\Image\foursquare.png" />
-    <Content Include="Resources\Image\parvaaz2.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Resource Include="Resources\Image\play.gif">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Content Include="Resources\Image\reverbnation.png" />
-    <Content Include="Resources\Image\settings.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Image\soundcloud.png" />
-    <Content Include="Resources\Image\testicon.jpg.jpeg" />
-    <Content Include="Resources\Image\zomato.png" />
+    <Content Include="Resources\Image\bar_events_invite.png" />
+    <Content Include="Resources\Image\bar_events_join.png" />
+    <Content Include="Resources\Image\bar_events_pin.png" />
+    <Content Include="Resources\Image\bar_events_proceed.png" />
+    <Content Include="Resources\Image\bar_invite_done.png" />
+    <Content Include="Resources\Image\icon_events_fb.png" />
+    <Content Include="Resources\Image\icon_events_fs.png" />
+    <Content Include="Resources\Image\icon_events_fscheckin.png" />
+    <Content Include="Resources\Image\icon_events_fsprice.png" />
+    <Content Include="Resources\Image\icon_events_fsrate.png" />
+    <Content Include="Resources\Image\icon_events_price.png" />
+    <Content Include="Resources\Image\icon_events_sc.png" />
+    <Content Include="Resources\Image\icon_events_time.png" />
+    <Content Include="Resources\Image\icon_events_venue.png" />
+    <Content Include="Resources\Image\icon_events_zo.png" />
+    <Content Include="Resources\Image\icon_settings_fb.png" />
+    <Content Include="Resources\Image\icon_tj_white.png" />
     <Content Include="Resources\Songs\Babel.mp3" />
     <Content Include="Resources\Songs\I Will Wait.mp3" />
     <Content Include="SplashScreenImage.jpg" />
