@@ -12,16 +12,16 @@
         <local:EventViewModel x:Key="ViewModel" />
         <DataTemplate x:Key="SmallPanoramaTitle">
             <ContentPresenter>
-                <TextBlock Text="{Binding}" FontSize="80" Margin="0,10,0,0" />
+                <Image Margin="0,30,0,0" Height="150" Source="/assets/tommyjams-logo.png" />
             </ContentPresenter>
         </DataTemplate>
         <DataTemplate x:Key="SmallPanoramaPageTitle">
             <ContentPresenter>
-                <TextBlock Text="{Binding}" FontSize="50" />
+                <TextBlock Text="{Binding}" Foreground="{StaticResource TommyJams_Yellow}" FontSize="35" FontFamily="Segoe WP" />
             </ContentPresenter>
         </DataTemplate>
         <converter:BooleanToVisibilityConverter x:Key="BoolToValueConverter"/>
-        <SolidColorBrush Color="#FFFCBF0F" x:Key="TommyJams_Yellow"/>
+        <SolidColorBrush Color="#FFffcc00" x:Key="TommyJams_Yellow"/>
         <SolidColorBrush Color="#FFAAAAAA" x:Key="TommyJams_Grey_Text"/>
         <Style x:Key="Clean_Buton" TargetType="Button">
         	<Setter Property="Background" Value="Transparent"/>

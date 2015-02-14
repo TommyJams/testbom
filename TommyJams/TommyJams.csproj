@@ -233,13 +233,16 @@
     <Content Include="Assets\Tiles\IconicTileSmall.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\TommyJams-Logo.png" />
     <Content Include="Assets\WideLogo.png" />
     <Content Include="README_FIRST.txt" />
+    <Content Include="Resources\Image\Background.jpg" />
     <Content Include="Resources\Image\bar_events_invite.png" />
     <Content Include="Resources\Image\bar_events_join.png" />
     <Content Include="Resources\Image\bar_events_pin.png" />
     <Content Include="Resources\Image\bar_events_proceed.png" />
     <Content Include="Resources\Image\bar_invite_done.png" />
+    <Content Include="Resources\Image\facebook-icon.jpg" />
     <Content Include="Resources\Image\icon_events_fb.png" />
     <Content Include="Resources\Image\icon_events_fs.png" />
     <Content Include="Resources\Image\icon_events_fscheckin.png" />
@@ -252,6 +255,9 @@
     <Content Include="Resources\Image\icon_events_zo.png" />
     <Content Include="Resources\Image\icon_settings_fb.png" />
     <Content Include="Resources\Image\icon_tj_white.png" />
+    <Content Include="Resources\Image\play.png" />
+    <Content Include="Resources\Image\refresh.png" />
+    <Content Include="Resources\Image\shuffel.png" />
     <Content Include="Resources\Songs\Babel.mp3" />
     <Content Include="Resources\Songs\I Will Wait.mp3" />
     <Content Include="SplashScreenImage.jpg" />
