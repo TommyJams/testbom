@@ -194,8 +194,14 @@
 
                                             <StackPanel Orientation="Horizontal">
                                                 <TextBlock Text="{Binding EventTime}" TextWrapping="Wrap" FontSize="15"/>
-                                                <TextBlock Text="{Binding EventDate}" TextWrapping="Wrap" FontSize="15"/>
-                                                <TextBlock Text="{Binding EventPrice}" TextWrapping="Wrap" FontSize="15"/>
+                                                    <TextBlock TextWrapping="Wrap" FontSize="15">                                                        
+                                                        <Run Text=" • "/>
+                                                        <Run Text="{Binding EventDate}"/>
+                                                    </TextBlock>
+                                                    <TextBlock TextWrapping="Wrap" FontSize="15">
+                                                        <Run Text=" • "/>
+                                                        <Run Text="{Binding EventPrice}"/>
+                                                    </TextBlock>
                                             </StackPanel>
                                         </StackPanel>
                                 </StackPanel>
