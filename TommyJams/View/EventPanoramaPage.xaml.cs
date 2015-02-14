@@ -138,7 +138,7 @@ namespace TommyJams.View
         private void Event_Accept(object sender, EventArgs e)
         {
             this.JoinEvent();
-
+            LoadData();
         }
 
         private void Invite_Friends(object sender, EventArgs e)

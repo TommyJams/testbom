@@ -27,7 +27,16 @@ namespace TommyJams.View
             {
                 App.FBViewModel.AddSelectedFriends(friendItem);
             }
-            await App.ViewModel.DoneSelectedFriends();
+            
+            try
+            {
+                await App.ViewModel.DoneSelectedFriends();
+            }
+            catch(Exception)
+            {
+                MessageBox.Show("Hmmmm. Seems that your friend is not on our awesome application yet. We'll send them a link to your invite. Enjoy the show!");
+            }
+            
 
             NavigationService.GoBack();
         }

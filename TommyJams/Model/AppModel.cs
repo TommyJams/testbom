@@ -182,13 +182,16 @@ namespace TommyJams.Model
             if (venue != null)
             {
                 venueInfo_Foursquare.VenueZCheckin = Math.Round((double)venue.stats.checkinsCount/1000,1) + "k";
-                
-                if(venue.price.tier == "1")
-                    venueInfo_Foursquare.VenueZPrice = "min";
-                if (venue.price.tier == "2" || venue.price.tier == "3")
-                    venueInfo_Foursquare.VenueZPrice = "avg";
-                if (venue.price.tier == "4")
-                    venueInfo_Foursquare.VenueZPrice = "max";
+
+                if (venue.price != null)
+                {
+                    if (venue.price.tier == "1")
+                        venueInfo_Foursquare.VenueZPrice = "min";
+                    if (venue.price.tier == "2" || venue.price.tier == "3")
+                        venueInfo_Foursquare.VenueZPrice = "avg";
+                    if (venue.price.tier == "4")
+                        venueInfo_Foursquare.VenueZPrice = "max";
+                }
 
                 venueInfo_Foursquare.VenueZRating = venue.rating;
                 venueInfo_Foursquare.FoursquareInfo_Visibility = true;
@@ -340,9 +343,14 @@ namespace TommyJams.Model
             HttpClient client = new HttpClient();
             string result = await client.GetStringAsync(completeUri);
             var jResult = JsonConvert.DeserializeObject<List<User>>(result);
-            User u = jResult[0];
-
-            return (u.fbid != null) ? 1 : 0;
+           
+            if (jResult.Count != 0)
+            {
+                User u = jResult[0];
+                return (u.fbid != null) ? 1 : 0;
+            }
+            else
+                return 0;
         }
 
         public async Task<string> PushAddUser(User u)

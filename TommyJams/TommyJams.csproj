@@ -234,7 +234,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\WideLogo.png" />
-    <Content Include="parvaaz2.png" />
     <Content Include="README_FIRST.txt" />
     <Content Include="Resources\Image\bar_events_invite.png" />
     <Content Include="Resources\Image\bar_events_join.png" />
