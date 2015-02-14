@@ -70,7 +70,7 @@
                     <Grid.Resources>
                         <src:EventViewModel  x:Key="Priority1Items"/>
                     </Grid.Resources>
-                    <ProgressBar x:Name="ProgressBar" IsIndeterminate="True" Visibility="Visible" Height="300" Width="420"/>
+                    <ProgressBar x:Name="ProgressBar" IsIndeterminate="True" Visibility="Visible" Height="300" Width="420" Foreground="{StaticResource TommyJams_Yellow}"/>
                     <ListBox x:Name="MainListBox" ItemsSource="{Binding Priority1Items, Mode=TwoWay}"
                              SelectionChanged="MainListBox_SelectionChanged" ItemContainerStyle="{StaticResource ListBoxItemStyle1}">
                         <ListBox.ItemTemplate>
@@ -177,7 +177,7 @@
                     </Grid.Resources>
                     <ScrollViewer>
                     <StackPanel Orientation="Vertical">
-                    <TextBlock Text="upcoming events" TextWrapping="Wrap" FontSize="30" Margin="10"/>
+                    <TextBlock Text="upcoming events" TextWrapping="Wrap" FontSize="30" Margin="10" Foreground="{StaticResource TommyJams_Grey_Text}"/>
                     <ListBox x:Name="upcomingEventsListBox" ItemsSource="{Binding UpcomingEvents, Mode=TwoWay}"
                              ItemContainerStyle="{StaticResource ListBoxItemStyle1}"
                              ScrollViewer.VerticalScrollBarVisibility="Disabled"
@@ -202,7 +202,7 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-                    <TextBlock Text="invitations" TextWrapping="Wrap" FontSize="30" Margin="10"/>
+                    <TextBlock Text="invitations" TextWrapping="Wrap" FontSize="30" Margin="10" Foreground="{StaticResource TommyJams_Grey_Text}"/>
                     <ListBox x:Name="invitationListBox" ItemsSource="{Binding NotificationItems, Mode=TwoWay}"
                              ItemContainerStyle="{StaticResource ListBoxItemStyle1}"
                              ScrollViewer.VerticalScrollBarVisibility="Disabled"
