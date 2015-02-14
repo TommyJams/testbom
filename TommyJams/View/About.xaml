@@ -22,14 +22,18 @@
 
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="TommyJams" Style="{StaticResource PhoneTextNormalStyle}"/>
             <TextBlock Text="about" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
-        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-
-        </Grid>
+        <StackPanel x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+            <TextBlock Text="The TommyJams App intelligently filters the best quality live events in your city that are most relevant to you and allows you to book tickets for them. It also helps you to invite your friends to your favorite events and join them in the ones that they are attending. Download the application and never miss out again on your favorite artists performing at your favorite venues."
+                       Style="{StaticResource PhoneTextNormalStyle}"
+                       TextWrapping="Wrap"/>
+            <TextBlock Text="For more info, visit us at http://www.tommyjams.com"
+                       Style="{StaticResource PhoneTextNormalStyle}"
+                       TextWrapping="Wrap"/>
+        </StackPanel>
     </Grid>
 
 </phone:PhoneApplicationPage>

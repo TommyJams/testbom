@@ -31,7 +31,7 @@ namespace TommyJams
         /// Provides easy access to the root frame of the Phone Application.
         /// </summary>
         /// <returns>The root frame of the Phone Application.</returns>
-        internal const string FACEBOOK_DEFAULT_ID = "56784957689798";
+        internal const string FACEBOOK_DEFAULT_ID = "100004896491644";
         public static PhoneApplicationFrame RootFrame { get; private set; }
         public static MobileServiceUser user;
         public static FacebookSession fbSession;
