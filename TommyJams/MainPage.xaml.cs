@@ -146,8 +146,6 @@ namespace TommyJams.View
 
         private async void FacebookLogin_Click(object sender, RoutedEventArgs e)
         {
-            //NavigationService.Navigate(new Uri("/View/FacebookLoginPage.xaml", UriKind.Relative));
-            
             await AuthenticateAsync();
         }
 

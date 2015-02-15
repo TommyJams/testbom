@@ -27,6 +27,7 @@
         <Extension Category="windows.backgroundTasks" EntryPoint="AgHost.BackgroundTask">
           <BackgroundTasks>
             <Task Type="systemEvent" />
+            <Task Type="pushNotification" />
           </BackgroundTasks>
         </Extension>
         <Extension Category="windows.backgroundTasks" EntryPoint="ScheduledTask.ScheduledTaskClass">
@@ -36,6 +37,7 @@
         </Extension>
         <Extension Category="windows.backgroundTasks" EntryPoint="GeofenceTask.Task">
           <BackgroundTasks>
+            <Task Type="pushNotification" />
             <m2:Task Type="location" />
           </BackgroundTasks>
         </Extension>
@@ -52,6 +54,7 @@
   </Extensions>
   <Capabilities>
     <Capability Name="internetClientServer" />
+    <m3:Capability Name="appointments" />
     <DeviceCapability Name="location" />
   </Capabilities>
 </Package>

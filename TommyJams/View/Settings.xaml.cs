@@ -90,7 +90,7 @@ namespace TommyJams.View
             };
 
             fb.GetTaskAsync("me");*/
-            if (App.FacebookId != App.FACEBOOK_DEFAULT_ID)
+            if (App.MobileService.CurrentUser != null && App.FacebookId != null)
             {
                 BitmapImage bm = new BitmapImage(new Uri("http://graph.facebook.com/" + App.FacebookId + "/picture?type=square", UriKind.Absolute));
                 this.MyImage.Source = bm;
