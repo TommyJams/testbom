@@ -14,24 +14,24 @@ namespace GeofenceTask
         static string TaskName = "GeofenceTask";
         public void Run(IBackgroundTaskInstance taskInstance)
         {
-            // Get the information of the geofence(s) that have been hit
-            var reports = GeofenceMonitor.Current.ReadReports();
-            var report = reports.FirstOrDefault(r => (r.Geofence.Id == "sample") && (r.NewState == GeofenceState.Entered));
+            //// Get the information of the geofence(s) that have been hit
+            //var reports = GeofenceMonitor.Current.ReadReports();
+            //var report = reports.FirstOrDefault(r => (r.Geofence.Id == "sample") && (r.NewState == GeofenceState.Entered));
 
-            if (report == null) return;
+            //if (report == null) return;
 
-            // Create a toast notification to show a geofence has been hit
-            var toastXmlContent = ToastNotificationManager.GetTemplateContent(ToastTemplateType.ToastText02);
+            //// Create a toast notification to show a geofence has been hit
+            //var toastXmlContent = ToastNotificationManager.GetTemplateContent(ToastTemplateType.ToastText02);
 
-            var txtNodes = toastXmlContent.GetElementsByTagName("text");
-            txtNodes[0].AppendChild(toastXmlContent.CreateTextNode("Geofence triggered toast!"));
-            txtNodes[1].AppendChild(toastXmlContent.CreateTextNode(report.Geofence.Id));
+            //var txtNodes = toastXmlContent.GetElementsByTagName("text");
+            //txtNodes[0].AppendChild(toastXmlContent.CreateTextNode("Geofence triggered toast!"));
+            //txtNodes[1].AppendChild(toastXmlContent.CreateTextNode(report.Geofence.Id));
 
-            var toast = new ToastNotification(toastXmlContent);
+            //var toast = new ToastNotification(toastXmlContent);
 
-            var toastNotifier = ToastNotificationManager.CreateToastNotifier();
+            //var toastNotifier = ToastNotificationManager.CreateToastNotifier();
 
-            toastNotifier.Show(toast);
+            //toastNotifier.Show(toast);
         }
         public async static void Register()
         {
