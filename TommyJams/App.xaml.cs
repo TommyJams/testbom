@@ -32,6 +32,9 @@ namespace TommyJams
         /// </summary>
         /// <returns>The root frame of the Phone Application.</returns>
         internal const string FACEBOOK_DEFAULT_ID = "100004896491644";
+        internal const string MAP_APPLICATION_ID = "72f88dc6-44dd-40b4-9e13-24cef4fe5ea9";
+        internal const string MAP_AUTHENTICATION_TOKEN = "BOVJwqXv9dbCEX-Fo7uyYg";
+
         public static PhoneApplicationFrame RootFrame { get; private set; }
         public static MobileServiceUser user;
         public static FacebookSession fbSession;

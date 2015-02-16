@@ -237,8 +237,8 @@ namespace TommyJams.View
         //TODO: Get these authentication tokens when publishing app
         private void venueMap_Loaded(object sender, RoutedEventArgs e)
         {
-            Microsoft.Phone.Maps.MapsSettings.ApplicationContext.ApplicationId = "ApplicationID";
-            Microsoft.Phone.Maps.MapsSettings.ApplicationContext.AuthenticationToken = "AuthenticationToken";
+            Microsoft.Phone.Maps.MapsSettings.ApplicationContext.ApplicationId = App.MAP_APPLICATION_ID;
+            Microsoft.Phone.Maps.MapsSettings.ApplicationContext.AuthenticationToken = App.MAP_AUTHENTICATION_TOKEN;
         }
 
         private void venueMap_Tap(object sender, RoutedEventArgs e)
