@@ -20,7 +20,7 @@
 
     <!--LayoutRoot contains the root grid where all other page content is placed-->
     <Grid x:Name="LayoutRoot">
-        <phone:Panorama x:Name="Panorama" Title="eventName" TitleTemplate="{StaticResource SmallPanoramaTitle}" FontStretch="Condensed" Margin="-4,0,4,0" SelectionChanged="Panorama_SelectionChanged">
+        <phone:Panorama x:Name="Panorama" Title="eventName" TitleTemplate="{StaticResource PanoramaTextTitle}" FontStretch="Condensed" Margin="-4,0,4,0" SelectionChanged="Panorama_SelectionChanged">
 
             <!--Panorama item one-->
             <phone:PanoramaItem x:Name="mainHeader" Header="venueName" HeaderTemplate="{StaticResource SmallPanoramaPageTitle}">
