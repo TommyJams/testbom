@@ -4,7 +4,7 @@
   <mp:PhoneIdentity PhoneProductId="e4312153-3f4c-49dd-904d-5fbe8f1d6073" PhonePublisherId="3f72d71c-dd80-408e-affb-aa06372f396a" />
   <Properties>
     <DisplayName>TommyJams</DisplayName>
-    <PublisherDisplayName>TommyJams</PublisherDisplayName>
+    <PublisherDisplayName>Grayscale Soft Labs LLP</PublisherDisplayName>
     <Logo>Assets\ApplicationIcon.png</Logo>
   </Properties>
   <Prerequisites>
