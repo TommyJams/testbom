@@ -15,11 +15,9 @@ using TommyJams.ViewModel;
 using Windows.Devices.Geolocation;
 using Microsoft.Phone.Notification;
 using System.Text;
-using Microsoft.Phone.Notification;
 using Microsoft.WindowsAzure.Messaging;
 using System.Collections.Generic;
 using System.Windows.Media;
-using Windows.Networking.PushNotifications;
 using Windows.Data.Xml.Dom;
 using Windows.ApplicationModel.Background;
 
@@ -136,7 +134,7 @@ namespace TommyJams
             "LxqAhRVmuUESACkYahJxCgfjOomzEP99"
             );
 
-        public static PushNotificationChannel channel { get; private set; }
+        //public static PushNotificationChannel channel { get; private set; }
 
         /// <summary>
         /// Request a channel for push notification Between MPNS and the device

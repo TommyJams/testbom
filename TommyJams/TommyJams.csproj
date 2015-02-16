@@ -245,6 +245,7 @@
     <Content Include="Resources\Image\icon_events_time.png" />
     <Content Include="Resources\Image\icon_events_venue.png" />
     <Content Include="Resources\Image\icon_events_zo.png" />
+    <Content Include="Resources\Image\icon_main_why.png" />
     <Content Include="Resources\Image\icon_settings_fb.png" />
     <Content Include="Resources\Image\icon_tj_white.png" />
     <Content Include="Resources\Image\play.png" />

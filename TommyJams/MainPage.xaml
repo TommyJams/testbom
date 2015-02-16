@@ -269,26 +269,34 @@
                         <TextBlock Text="Facebook" Margin="0,0,0,0" FontSize="26" Foreground="#ff3b5998" FontFamily="Segoe WP Semibold"/>
                     </StackPanel>
                     <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Margin="20,0,0,0">                        
-                            <TextBlock Text="heres reasons why you should," FontFamily="Segoe WP Semibold" FontSize="22"/>                        
+                            <TextBlock Text="Why connect?" FontFamily="Segoe WP Semibold" FontSize="22"/>                        
                         <StackPanel Margin="0,10,0,5" Orientation="Horizontal">
-                            <Grid Background="{StaticResource TommyJams_Yellow}" Margin="0,0,10,0">
-                                <Image Source="/Resources/Image/testicon.jpg.jpeg" Width="80" Height="80"/>
+                            <Grid Margin="0,0,10,0">
+                                <Image Source="/Resources/Image/icon_main_why.png" Width="80" Height="80"/>
                             </Grid>
                             <StackPanel Width="310" VerticalAlignment="Center" HorizontalAlignment="Left">
                                 <TextBlock TextWrapping="Wrap" FontSize="18">
-                                    <Run Text="So that We Understand you like a friend to give "/>
-                                    <Run Text="personalized recomendations" FontFamily="Segoe WP Semibold" FontSize="20"/>
+                                    <Run Text="Personalized recomendations" FontFamily="Segoe WP Semibold" FontSize="20"/>
                                 </TextBlock>
                             </StackPanel>
                         </StackPanel>
                         <StackPanel Margin="0,5,0,5" Orientation="Horizontal">
-                            <Grid Background="{StaticResource TommyJams_Yellow}" Margin="0,0,10,0">
-                                <Image Source="/Resources/Image/testicon.jpg.jpeg" Width="80" Height="80"/>
+                            <Grid Margin="0,0,10,0">
+                                <Image Source="/Resources/Image/icon_main_why.png" Width="80" Height="80"/>
                             </Grid>
                             <StackPanel Width="330" VerticalAlignment="Center" HorizontalAlignment="Left">
                                 <TextBlock TextWrapping="Wrap" FontSize="18">
-                                    <Run Text="Send and receive Invitations.Basically "/>
-                                    <Run Text="Plan with your friend." FontFamily="Segoe WP Semibold" FontSize="20"/>
+                                    <Run Text="Invite your friends" FontFamily="Segoe WP Semibold" FontSize="20"/>
+                                </TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Margin="0,5,0,5" Orientation="Horizontal">
+                            <Grid Margin="0,0,10,0">
+                                <Image Source="/Resources/Image/icon_main_why.png" Width="80" Height="80"/>
+                            </Grid>
+                            <StackPanel Width="330" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                <TextBlock TextWrapping="Wrap" FontSize="18">
+                                    <Run Text="Join your friends" FontFamily="Segoe WP Semibold" FontSize="20"/>
                                 </TextBlock>
                             </StackPanel>
                         </StackPanel>
