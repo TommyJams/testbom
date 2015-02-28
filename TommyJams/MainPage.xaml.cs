@@ -36,7 +36,17 @@ namespace TommyJams.View
         {
             InitializeComponent();
             DataContext = App.ViewModel;
+
+            //Fires when no city is saved on app launch and the user is located in a supported city
+            //this condition can happen only once as the city will be saved fist time this event is fired
+            //will also be called if location is changed explicitly
+            App.cityChanged += App_cityChanged;
             AuthenticateAsync(true/*initial load*/);
+        }
+
+        void App_cityChanged()
+        {
+            LoadData();
         }
 
         private async Task AuthenticateAsync(bool fInitialLoad = false)
@@ -242,6 +252,11 @@ namespace TommyJams.View
         private void Settings_Click(object sender, EventArgs e)
         {
             NavigationService.Navigate(new Uri("/View/Settings.xaml", UriKind.Relative));
+        }
+
+        private void About_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/View/about.xaml", UriKind.Relative));
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

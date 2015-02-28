@@ -16,10 +16,10 @@
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait"  Orientation="Portrait"
-    shell:SystemTray.IsVisible="True">
+    shell:SystemTray.IsVisible="False">
 
     <!--LayoutRoot contains the root grid where all other page content is placed-->
-    <Grid x:Name="LayoutRoot">
+    <Grid x:Name="LayoutRoot" Background="{StaticResource TommyJams_Background}">
         <phone:Panorama x:Name="Panorama" Title="eventName" TitleTemplate="{StaticResource SmallPanoramaTitle}" FontStretch="Condensed" Margin="-4,0,4,0" SelectionChanged="Panorama_SelectionChanged">
 
             <!--Panorama item one-->
@@ -280,7 +280,7 @@
     </Grid>
 
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsMenuEnabled="True">
+        <shell:ApplicationBar IsMenuEnabled="True" ForegroundColor="#FFffcc00" BackgroundColor="{StaticResource TommyJams_AppBar_Background}">
             <shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem Text="Settings" Click="Settings_Click"/>
             </shell:ApplicationBar.MenuItems>

@@ -56,13 +56,10 @@
 	</phone:PhoneApplicationPage.Resources>
 
     <!--LayoutRoot contains the root grid where all other page content is placed-->
-    <Grid x:Name="LayoutRoot">
+    <Grid x:Name="LayoutRoot" Background="{StaticResource TommyJams_Background}">
 
         <MediaElement x:Name="AudioPlayer" Volume="1"/>
         <phone:Panorama x:Name="Panorama" TitleTemplate="{StaticResource SmallPanoramaTitle}" SelectionChanged="Panorama_SelectionChanged">
-            <phone:Panorama.Background>
-                <ImageBrush Stretch="Fill" ImageSource="/Resources/Image/Background.jpg"/>
-            </phone:Panorama.Background>
             <!--Panorama Screen One-->
             <phone:PanoramaItem x:Name="gigsHeader" Header="events" HeaderTemplate="{StaticResource SmallPanoramaPageTitle}">
 
@@ -304,10 +301,11 @@
     </Grid>
 
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsMenuEnabled="True" BackgroundColor="#ff1f1f1f">
+        <shell:ApplicationBar IsMenuEnabled="True" ForegroundColor="#FFffcc00" BackgroundColor="{StaticResource TommyJams_AppBar_Background}">
             <shell:ApplicationBarIconButton IconUri="\Resources\Image\refresh.png" Text="Refresh" Click="RefreshButton_Click"/>
             <shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem Text="Settings" Click="Settings_Click"/>
+                <shell:ApplicationBarMenuItem Text="About" Click="About_Click"/>
             </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>

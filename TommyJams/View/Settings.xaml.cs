@@ -16,6 +16,7 @@ using Microsoft.Phone.Maps.Services;
 using System.Windows.Threading;
 using System.Device.Location;
 using Microsoft.Phone.Notification;
+using System.Collections.ObjectModel;
 
 namespace TommyJams.View
 {
@@ -42,6 +43,7 @@ namespace TommyJams.View
                 {
                     city_name.FontStyle = System.Windows.FontStyles.Normal;
                     settings_extension.City_setting(c.City_Name);
+                    App.city = c.City_Name;
                 }
                 city_name.Text = c.City_Name;
                 city_list.Visibility = System.Windows.Visibility.Collapsed;
@@ -92,9 +94,11 @@ namespace TommyJams.View
             fb.GetTaskAsync("me");*/
             if (App.FacebookId != App.FACEBOOK_DEFAULT_ID)
             {
-                BitmapImage bm = new BitmapImage(new Uri("http://graph.facebook.com/" + App.FacebookId + "/picture?type=square", UriKind.Absolute));
+                BitmapImage bm = new BitmapImage(new Uri("http://graph.facebook.com/" + App.FacebookId + "/picture?height=200", UriKind.Absolute));
+                bm.CreateOptions = BitmapCreateOptions.BackgroundCreation;
                 this.MyImage.Source = bm;
                 user_profile_text.Visibility = Visibility.Visible;
+                get_fbname();
                 user_profile.Visibility = Visibility.Visible;
                 user_profile_logout.Visibility = Visibility.Visible;
             }
@@ -106,6 +110,18 @@ namespace TommyJams.View
             }
         }
 
+        private async void get_fbname()
+        {
+            var fb = new Facebook.FacebookClient(App.fbSession.AccessToken);
+            dynamic result = await fb.GetTaskAsync("me");
+            var currentUser = new Facebook.Client.GraphUser(result);
+            Dispatcher.BeginInvoke(() => 
+            { 
+                MyName.Text = currentUser.Name;
+                username.Text = currentUser.UserName;
+            });
+        }
+        
         private void RateApp_Click(object sender, RoutedEventArgs e)
         {
             MarketplaceReviewTask RateTask = new MarketplaceReviewTask();
@@ -158,6 +174,7 @@ namespace TommyJams.View
                             city_name.FontStyle = System.Windows.FontStyles.Normal;
                             matchFound = true;
                             settings_extension.City_setting(c.City_Name);
+                            App.city = c.City_Name;
                         }
                     }
                     if(!matchFound)
@@ -230,7 +247,7 @@ namespace TommyJams.View
     abstract class settings_extension
     {
         private static IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings ;
-        public static void Save_setting(string key, string value)
+        private static void Save_setting(string key, string value)
         {
             if (settings.Contains(key))
             {
@@ -242,7 +259,7 @@ namespace TommyJams.View
             }
             settings.Save();
         }
-        public static string get_value(string key)
+        private static string get_value(string key)
         {
             if (settings.Contains(key))
             {
@@ -335,5 +352,67 @@ namespace TommyJams.View
             settings["City"] = value;
             settings.Save();
         }
+        public async static void GetLocation()
+        {
+            ReverseGeocodeQuery MyReverseGeocodeQuery = null;
+            GeoCoordinate MyCoordinate = null;
+            
+            try
+            {
+                var geoLocator = new Geolocator();
+                Geoposition currentPosition = await geoLocator.GetGeopositionAsync();
+                MyCoordinate = new GeoCoordinate(currentPosition.Coordinate.Latitude, currentPosition.Coordinate.Longitude);
+
+                if (MyReverseGeocodeQuery == null || !MyReverseGeocodeQuery.IsBusy)
+                {
+                    MyReverseGeocodeQuery = new ReverseGeocodeQuery();
+                    MyReverseGeocodeQuery.GeoCoordinate = new GeoCoordinate(MyCoordinate.Latitude, MyCoordinate.Longitude);
+                    MyReverseGeocodeQuery.QueryCompleted += ReverseGeocodeQuery_QueryCompleted;
+                    MyReverseGeocodeQuery.QueryAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        private static void ReverseGeocodeQuery_QueryCompleted(object sender, QueryCompletedEventArgs<IList<MapLocation>> e)
+        {
+            ObservableCollection<Cities> cities = new ObservableCollection<Cities>();
+        
+            cities.Add(new Cities("Bengaluru"));
+            cities.Add(new Cities("Chennai"));
+            cities.Add(new Cities("Delhi"));
+            cities.Add(new Cities("Hyderabad"));
+            cities.Add(new Cities("Kolkata"));
+
+            if (e.Error == null)
+            {
+                if (e.Result.Count > 0)
+                {
+                    bool matchFound = false;
+                    foreach (Cities c in cities)
+                    {
+                        if (e.Result[0].Information.Address.City.ToLower() == c.City_Name.ToLower())
+                        {
+                            App.city = c.City_Name;
+                            City_setting(c.City_Name);
+                            matchFound = true;
+                        }
+                    }
+                    if (!matchFound)
+                    {
+                        //default
+                        App.city = "Bangalore";
+                    }
+                }
+            }
+            else
+            {
+                //default
+                App.city = "Bangalore";
+            }
+        }
+        
     }
 }
