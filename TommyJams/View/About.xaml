@@ -11,10 +11,10 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
-    shell:SystemTray.IsVisible="True">
+    shell:SystemTray.IsVisible="false">
 
     <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot" Background="Transparent">
+    <Grid x:Name="LayoutRoot" Background="{StaticResource TommyJams_Background}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -22,18 +22,62 @@
 
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="about" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+            <TextBlock Text="about" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}" Foreground="{StaticResource TommyJams_Yellow}"/>
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
-        <StackPanel x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-            <TextBlock Text="The TommyJams App intelligently filters the best quality live events in your city that are most relevant to you and allows you to book tickets for them. It also helps you to invite your friends to your favorite events and join them in the ones that they are attending. Download the application and never miss out again on your favorite artists performing at your favorite venues."
-                       Style="{StaticResource PhoneTextNormalStyle}"
-                       TextWrapping="Wrap"/>
-            <TextBlock Text="For more info, visit us at http://www.tommyjams.com"
-                       Style="{StaticResource PhoneTextNormalStyle}"
-                       TextWrapping="Wrap"/>
-        </StackPanel>
+        <ScrollViewer Grid.Row="1" Margin="12,0,12,0">
+        <Grid x:Name="ContentPanel" >
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+            
+                <StackPanel>
+                    <Image Width="200" Source="/Assets/TommyJams-Logo.png" HorizontalAlignment="Left" />
+                    <TextBlock Text="The TommyJams App intelligently filters the best quality live events in your city that are most relevant to you and allows you to book tickets for them. It also helps you to invite your friends to your favorite events and join them in the ones that they are attending. Download the application and never miss out again on your favorite artists performing at your favorite venues."
+                        Style="{StaticResource PhoneTextNormalStyle}"
+                        TextWrapping="Wrap" Foreground="White"/>
+                </StackPanel>
+                <StackPanel Grid.Row="1" Margin="0,20,0,0">
+                    <TextBlock  
+                           Style="{StaticResource PhoneTextNormalStyle}"
+                           TextWrapping="Wrap" Foreground="White" Tap="website_Tap">
+                        <Run Text="Visit our website : "/>
+                        <Run Text="www.tommyjams.com" Foreground="{StaticResource TommyJams_Yellow}"/>
+                    </TextBlock>
+
+                    <TextBlock  
+                            Margin="10,20,0,0"
+                           Style="{StaticResource PhoneTextNormalStyle}"
+                           TextWrapping="Wrap" Foreground="White" Tap="Tech_Support_tap">
+                        <Run Text="Technical support : "/>
+                        <Run Text="www.tommyjams.com/help" Foreground="{StaticResource TommyJams_Yellow}"/>
+                    </TextBlock>
+
+                </StackPanel>
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel VerticalAlignment="Bottom" Grid.Column="1">
+                        <HyperlinkButton Click="privacy_Click" Content="Privacy Policy" Foreground="{StaticResource TommyJams_Yellow}" HorizontalAlignment="Center" Margin="0,10"/>
+                         <TextBlock Grid.Column="1" TextWrapping="Wrap" VerticalAlignment="Bottom" HorizontalAlignment="Right" Text="Copyright 2014 - All Rights Reserved" Foreground="#DEFFFFFF" Margin="0,0,10,10"/>
+                    </StackPanel>
+                    
+                    <StackPanel VerticalAlignment="Bottom">
+                        <HyperlinkButton Click="review_Click" Content="Rate this app" Foreground="{StaticResource TommyJams_Yellow}" Margin="0,10,0,36" HorizontalAlignment="Left"/>
+
+                        <TextBlock Foreground="#DEFFFFFF" Margin="10,0,0,10">
+                        <Run Text="Version : "/>
+                        <Run x:Name="Version" Foreground="{StaticResource TommyJams_Yellow}"/>
+                    </TextBlock>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </ScrollViewer>
     </Grid>
 
 </phone:PhoneApplicationPage>

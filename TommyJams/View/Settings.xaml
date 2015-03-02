@@ -67,7 +67,7 @@
 	</phone:PhoneApplicationPage.Resources>
 
     <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot" Margin="0" Background="Transparent">
+    <Grid x:Name="LayoutRoot" Margin="0" Background="{StaticResource TommyJams_Background}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -75,7 +75,7 @@
 
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="settings" Style="{StaticResource PanoramaItemHeaderTextStyle}"/>
+            <TextBlock Text="settings" Style="{StaticResource PanoramaItemHeaderTextStyle}" Foreground="{StaticResource TommyJams_Yellow}"/>
         </StackPanel>
         
         <!--ContentPanel - place additional content here-->
@@ -94,26 +94,26 @@
                             </Image.Clip>
                         </Image>
                         <StackPanel Margin="10" Grid.Column="1">
-                            <TextBlock x:Name="MyName" Text="Lorem Ipsum" FontSize="24"/>
-                            <TextBlock Text="@Lorem_Ipsum" FontSize="18" Foreground="{StaticResource TommyJams_Grey_Text}"/>
+                            <TextBlock x:Name="MyName" Text="" FontSize="24" Foreground="White"/>
+                            <TextBlock x:Name="username" Text="" FontSize="18" Foreground="{StaticResource TommyJams_Grey_Text}"/>
                             <TextBlock Text="facebook" FontSize="18" Foreground="{StaticResource TommyJams_Grey_Text}"/>
                         </StackPanel>
                     </Grid>
                     <TextBlock Text="Location" Foreground="{StaticResource TommyJams_Grey_Text}"/>
-                    <Button x:Name="city_selection_button" Click="city_selection_button_Click" HorizontalContentAlignment="Stretch" Padding="10,5,0,6" Style="{StaticResource City_list}">
+                    <Button x:Name="city_selection_button" Click="city_selection_button_Click" HorizontalContentAlignment="Stretch" Padding="10,5,0,6" Style="{StaticResource City_list}" BorderBrush="White" Foreground="White">
                         <Grid>
-                            <TextBlock x:Name="city_name" Text="Select a location" FontSize="26" FontFamily="Segoe WP" />
-                            <ProgressBar x:Name="location_progress" Visibility="Collapsed" IsIndeterminate="True" VerticalAlignment="Bottom"/>
+                            <TextBlock x:Name="city_name" Text="Select a location" FontSize="26" FontFamily="Segoe WP" Foreground="White" />
+                            <ProgressBar x:Name="location_progress" Visibility="Collapsed" IsIndeterminate="True" VerticalAlignment="Bottom" Background="{x:Null}" Foreground="{StaticResource TommyJams_Yellow}"/>
                         </Grid>
                     </Button>
 
-                    <TextBlock Text="Updates" FontSize="29.333" Margin="0,10" />
+                    <TextBlock Text="Updates" FontSize="29.333" Margin="0,10" Foreground="White" />
 
-                    <toolkit:ToggleSwitch x:Name="PushNotification_toggle" Content="On" IsChecked="True" Header="PushNotifications" Checked="PushNotification_toggle_Checked" Unchecked="PushNotification_toggle_Unchecked" />
-                    <toolkit:ToggleSwitch x:Name="Calender_Toggle" Content="On" IsChecked="True" Header="Calender Entries" Checked="Calender_Toggle_Checked" Unchecked="Calender_Toggle_Unchecked" />
+                    <toolkit:ToggleSwitch x:Name="PushNotification_toggle" Content="On" IsChecked="True" Header="PushNotifications" Checked="PushNotification_toggle_Checked" Unchecked="PushNotification_toggle_Unchecked" Foreground="White" SwitchForeground="{StaticResource TommyJams_Yellow}" />
+                    <toolkit:ToggleSwitch x:Name="Calender_Toggle" Content="On" IsChecked="True" Header="Calender Entries" Checked="Calender_Toggle_Checked" Unchecked="Calender_Toggle_Unchecked" SwitchForeground="{StaticResource TommyJams_Yellow}" Foreground="White" />
 
-                    <Button x:Name="user_profile_logout" Content="Logout" Style="{StaticResource Clean_Buton}" HorizontalAlignment="Left" FontSize="30" Margin="0,0" Click="Logout_Click" Visibility="Visible"/>
-                    <Button x:Name="About" Content="About" Style="{StaticResource Clean_Buton}" HorizontalAlignment="Left" FontSize="30" Margin="0,10" Click="About_Click"/>
+                    <Button x:Name="user_profile_logout" Content="Logout" Style="{StaticResource Clean_Buton}" HorizontalAlignment="Left" FontSize="30" Margin="0,0" Click="Logout_Click" Visibility="Visible" Foreground="White"/>
+                    <Button x:Name="About" Content="About" Style="{StaticResource Clean_Buton}" HorizontalAlignment="Left" FontSize="30" Margin="0,10" Click="About_Click" Foreground="White"/>
 
                 </StackPanel>
             </ScrollViewer>

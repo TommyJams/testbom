@@ -28,6 +28,8 @@
         <converter:BooleanToVisibilityConverter x:Key="BoolToValueConverter"/>
         <SolidColorBrush Color="#FFffcc00" x:Key="TommyJams_Yellow"/>
         <SolidColorBrush Color="#FFAAAAAA" x:Key="TommyJams_Grey_Text"/>
+        <Color x:Key="TommyJams_AppBar_Background">#ff1f1f1f</Color>
+        <SolidColorBrush Color="#FF151515" x:Key="TommyJams_Background"/>
         <Style x:Key="Clean_Buton" TargetType="Button">
         	<Setter Property="Background" Value="Transparent"/>
         	<Setter Property="BorderBrush" Value="{StaticResource PhoneForegroundBrush}"/>
