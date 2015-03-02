@@ -205,8 +205,12 @@ namespace TommyJams
                 channel.ChannelUriUpdated += new EventHandler<NotificationChannelUriEventArgs>(async (o, args) =>
                 {
                     //Register to Mobile Service 
-                    await MobileService.GetPush()
-                    .RegisterNativeAsync(args.ChannelUri.ToString());
+                    try
+                    {
+                        await MobileService.GetPush()
+                        .RegisterNativeAsync(args.ChannelUri.ToString());
+                    }
+                    catch { }
                 });
             }
         }

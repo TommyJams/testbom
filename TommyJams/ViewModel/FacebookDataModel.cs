@@ -70,7 +70,7 @@ namespace TommyJams.ViewModel
             Friends = JsonConvert.DeserializeObject<ObservableCollection<OtherUser>>(fbDataStr) as ObservableCollection<OtherUser>;
             foreach(OtherUser friendItem in Friends)
             {
-                friendItem.pictureUri = "http://graph.facebook.com/" + friendItem.id + "/picture?type=square";
+                friendItem.pictureUri = "http://graph.facebook.com/" + friendItem.id + "/picture?width=100&height=100";
                 friendItem.friend = "Facebook";
             }
         }

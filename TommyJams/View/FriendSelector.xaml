@@ -96,7 +96,7 @@
         </Style>
     </phone:PhoneApplicationPage.Resources>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsVisible="True" ForegroundColor="#FFffcc00" BackgroundColor="{StaticResource TommyJams_AppBar_Background}" IsMenuEnabled="True">
+        <shell:ApplicationBar IsVisible="True" ForegroundColor="White" BackgroundColor="{StaticResource TommyJams_AppBar_Background}" IsMenuEnabled="True">
             <shell:ApplicationBarIconButton IconUri="/Resources/Image/bar_invite_done.png" Text="Done" Click="DoneIconButton_Click"/>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>

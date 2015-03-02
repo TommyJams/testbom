@@ -256,7 +256,7 @@
 
                         <StackPanel Orientation="Horizontal" Margin="10,20,0,0">
                             <TextBlock Text="Quantity:" FontSize="30" Foreground="#ffcc00" VerticalAlignment="Center"/>
-                            <toolkit1:ListPicker x:Name="TicketSelector" Width="100" Margin="10,0,0,0" Foreground="#ffcc00" SelectionChanged="Price_SelectionChanged">
+                            <toolkit1:ListPicker x:Name="TicketSelector" Width="100" Margin="10,0,0,0" Foreground="#ffcc00" SelectionChanged="Price_SelectionChanged" Background="{x:Null}">
                                 <toolkit1:ListPickerItem Content="1" x:Name="One" HorizontalAlignment="Center"/>
                                 <toolkit1:ListPickerItem Content="2" x:Name="Two" HorizontalAlignment="Center"/>
                                 <toolkit1:ListPickerItem Content="3" x:Name="Three"  HorizontalAlignment="Center"/>
@@ -280,7 +280,7 @@
     </Grid>
 
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsMenuEnabled="True" ForegroundColor="#FFffcc00" BackgroundColor="{StaticResource TommyJams_AppBar_Background}">
+        <shell:ApplicationBar IsMenuEnabled="True" ForegroundColor="White" BackgroundColor="{StaticResource TommyJams_AppBar_Background}">
             <shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem Text="Settings" Click="Settings_Click"/>
             </shell:ApplicationBar.MenuItems>
