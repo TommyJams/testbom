@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace TommyJams.Model
 {
-    class TicketInfo : INotifyPropertyChanged
+    public class TicketInfo : INotifyPropertyChanged
     {
         private string _ticketLink;
-        public string ticketLink
+        public string TicketLink
         {
             get
             {

@@ -89,8 +89,8 @@ namespace TommyJams.View
         public async void LoadData()
         {
             ProgressBar.Visibility = Visibility.Visible;
-            Boolean fPrimary = true;
-            Boolean fSecondary = true;
+            Boolean fPrimary = false;
+            Boolean fSecondary = false;
             try
             {
                 fPrimary = await App.ViewModel.LoadPrimaryEvents(cts.Token);

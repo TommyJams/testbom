@@ -173,6 +173,23 @@ namespace TommyJams.ViewModel
             }
         }
 
+        private TicketInfo _ticketInfo = new TicketInfo();
+        public TicketInfo TicketInfo
+        {
+            get
+            {
+                return _ticketInfo;
+            }
+            set
+            {
+                if (value != _ticketInfo)
+                {
+                    _ticketInfo = value;
+                    NotifyPropertyChanged("TicketInfo");
+                }
+            }
+        }
+
         private AppModel _appmodel = new AppModel();
         public AppModel AppModel
         {
@@ -429,6 +446,12 @@ namespace TommyJams.ViewModel
         {
             var socialinfo = await AppModel.GetSocialInfo();
             return socialinfo;
+        }
+
+        public async Task<TicketInfo> LoadTicketInfo()
+        {
+            var ticketinfo = await AppModel.GetTicketInfo();
+            return ticketinfo;
         }
 
         public async Task DoneSelectedFriends()
