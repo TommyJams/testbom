@@ -94,7 +94,7 @@ namespace TommyJams.View
             fb.GetTaskAsync("me");*/
             if (App.MobileService.CurrentUser != null && App.FacebookId != null)
             {
-                BitmapImage bm = new BitmapImage(new Uri("http://graph.facebook.com/" + App.FacebookId + "/picture?height=200", UriKind.Absolute));
+                BitmapImage bm = new BitmapImage(new Uri("http://graph.facebook.com/" + App.FacebookId + "/picture?height=100", UriKind.Absolute));
                 bm.CreateOptions = BitmapCreateOptions.BackgroundCreation;
                 this.MyImage.Source = bm;
                 user_profile_text.Visibility = Visibility.Visible;
