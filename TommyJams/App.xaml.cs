@@ -96,7 +96,7 @@ namespace TommyJams
                 return friends;
             }
         }
-
+        private bool resetApp = false;
         /// <summary>
         /// Constructor for the Application object.
         /// </summary>
@@ -372,11 +372,21 @@ namespace TommyJams
 
             // Handle reset requests for clearing the backstack
             RootFrame.Navigated += CheckForResetNavigation;
+            
+            // Used to cancel navigation on reset
+            RootFrame.Navigating += RootFrame_Navigating;
 
             // Ensure we don't initialize again
             phoneApplicationInitialized = true;
         }
-
+        private void RootFrame_Navigating(object sender, NavigatingCancelEventArgs e)
+      {
+          if (resetApp && e.IsCancelable && e.Uri.OriginalString == "/MainPage.xaml")
+          {
+              e.Cancel = true;
+              resetApp = false;
+          }
+    }
         // Do not add any additional code to this method
         private void CompleteInitializePhoneApplication(object sender, NavigationEventArgs e)
         {
@@ -390,10 +400,11 @@ namespace TommyJams
 
         private void CheckForResetNavigation(object sender, NavigationEventArgs e)
         {
+            resetApp = e.NavigationMode == NavigationMode.Reset;
             // If the app has received a 'reset' navigation, then we need to check
             // on the next navigation to see if the page stack should be reset
-            if (e.NavigationMode == NavigationMode.Reset)
-                RootFrame.Navigated += ClearBackStackAfterReset;
+            //if (e.NavigationMode == NavigationMode.Reset)
+            //    RootFrame.Navigated += ClearBackStackAfterReset;
         }
 
         private void ClearBackStackAfterReset(object sender, NavigationEventArgs e)
