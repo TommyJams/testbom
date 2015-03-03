@@ -180,6 +180,20 @@ namespace TommyJams.Model
             return people;
         }
 
+        public async Task<TicketInfo> GetTicketInfo()
+        {
+            String defaultUri = "https://testneo4j.azure-mobile.net/api/getTicketInfo?";
+            String completeUri = defaultUri + "eventID=" + App.EventID;
+
+            HttpClient client = new HttpClient();
+            Task<String> GetResult = client.GetStringAsync(completeUri);
+            string result = await GetResult;
+            TicketInfo ticketInfo = new TicketInfo();
+            ObservableCollection<TicketInfo> json = JsonConvert.DeserializeObject<ObservableCollection<TicketInfo>>(result) as ObservableCollection<TicketInfo>;
+            
+            return json[0];
+        }
+
         public async Task<VenueInfo_Foursquare> GetVenueInfo_Foursquare(string VenueID)
         {
             SharpSquare sharpSquare = new SharpSquare(Constants.Foursquare_ClientID, Constants.Foursquare_ClientSecret);

@@ -57,7 +57,7 @@
                            Style="{StaticResource PhoneTextNormalStyle}"
                            TextWrapping="Wrap" Foreground="White" Height="34" >
                         <Run Text="Technical support : "/>
-                        <Run Text="www.tommyjams.com/help" Foreground="{StaticResource TommyJams_Yellow}"/>
+                        <Run Text="contact@tommyjams.com" Foreground="{StaticResource TommyJams_Yellow}"/>
                     </TextBlock>
                     </Button>
                 </StackPanel>
@@ -67,16 +67,16 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <StackPanel VerticalAlignment="Bottom" Grid.Column="1">
-                        <HyperlinkButton Click="privacy_Click" Content="Privacy Policy" Foreground="{StaticResource TommyJams_Yellow}" HorizontalAlignment="Center" Margin="0,10" Height="34"/>
-                         <TextBlock Grid.Column="1" TextWrapping="Wrap" VerticalAlignment="Bottom" HorizontalAlignment="Right" Text="Copyright 2014 - All Rights Reserved" Foreground="#DEFFFFFF" Margin="0,0,10,20"/>
+                        <HyperlinkButton Click="privacy_Click" Content="Privacy and Terms" Foreground="{StaticResource TommyJams_Yellow}" HorizontalAlignment="Center" Margin="0,10" Height="34"/>
+                        <TextBlock Grid.Column="1" TextWrapping="Wrap" VerticalAlignment="Bottom" HorizontalAlignment="Right" Text="Copyright 2014 - All Rights Reserved" Foreground="#DEFFFFFF" Margin="0,0,10,20"/>
                     </StackPanel>
                     
                     <StackPanel VerticalAlignment="Bottom">
                         <HyperlinkButton Click="review_Click" Content="Rate this app" Foreground="{StaticResource TommyJams_Yellow}" Margin="0,10,0,36" HorizontalAlignment="Left" Height="34"/>
 
                         <TextBlock Foreground="#DEFFFFFF" Margin="10,0,0,20">
-                        <Run Text="Version : "/>
-                        <Run x:Name="Version" Foreground="{StaticResource TommyJams_Yellow}"/>
+                        <Run Text="Version: "/>
+                        <Run x:Name="Version" Text="1.0.0.0" Foreground="{StaticResource TommyJams_Yellow}"/>
                     </TextBlock>
                     </StackPanel>
                 </Grid>

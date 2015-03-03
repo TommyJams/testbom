@@ -32,14 +32,17 @@ namespace TommyJams.View
 
         private void privacy_Click(object sender, RoutedEventArgs e)
         {
-
+            WebBrowserTask wbt = new WebBrowserTask()
+            {
+                URL = "http://tommyjams.com/mobile-privacy-policy-tommyjams.pdf"
+            };
+            wbt.Show();
         }
 
         private void review_Click(object sender, RoutedEventArgs e)
         {
-               MarketplaceReviewTask oRateTask = new MarketplaceReviewTask();
-               oRateTask.Show();
-           
+            MarketplaceReviewTask oRateTask = new MarketplaceReviewTask();
+            oRateTask.Show();
         }
 
 
@@ -54,11 +57,12 @@ namespace TommyJams.View
 
         private void Tech_Support_tap(object sender, RoutedEventArgs e)
         {
-            WebBrowserTask wbt = new WebBrowserTask()
-            {
-                URL = "http://www.tommyjams.com/help"
-            };
-            wbt.Show();
+            EmailComposeTask emailComposeTask = new EmailComposeTask();
+
+            emailComposeTask.Subject = "TommyJams Mobile App: Help!";
+            emailComposeTask.To = "contact@tommyjams.com";
+
+            emailComposeTask.Show();
         }
     }
 }

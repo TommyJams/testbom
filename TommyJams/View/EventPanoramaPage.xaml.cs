@@ -111,6 +111,7 @@ namespace TommyJams.View
             App.ViewModel.ArtistInfo = await App.ViewModel.LoadArtistInfo();
             App.ViewModel.VenueInfo = await App.ViewModel.LoadVenueInfo();
             App.ViewModel.SocialInfo = await App.ViewModel.LoadSocialInfo();
+            App.ViewModel.TicketInfo = await App.ViewModel.LoadTicketInfo();
 
             ArtistListBox.ItemsSource = App.ViewModel.ArtistInfo;
             VenueGrid.DataContext = App.ViewModel.VenueInfo;
@@ -206,6 +207,14 @@ namespace TommyJams.View
         private void Invite_Friends(object sender, EventArgs e)
         {
             NavigationService.Navigate(new Uri("/../../View/FriendSelector.xaml", UriKind.RelativeOrAbsolute));
+        }
+
+        private void Buy_Tickets(object sender, EventArgs e)
+        {
+            WebBrowserTask wbt = new WebBrowserTask();
+            int numTickets = TicketSelector.SelectedIndex + 1;
+            wbt.Uri = new Uri("http://" + App.ViewModel.TicketInfo.TicketLink + "?tickets=" + numTickets, UriKind.Absolute);
+            wbt.Show();
         }
 
         public void Demo_Refresh(object sender, EventArgs e)
@@ -336,6 +345,7 @@ namespace TommyJams.View
                 ApplicationBarIconButton proceed = new ApplicationBarIconButton();
                 proceed.Text = "Proceed";
                 proceed.IconUri = new Uri("/Resources/Image/bar_events_proceed.png", UriKind.Relative);
+                proceed.Click += Buy_Tickets;
                 ApplicationBar.Buttons.Add(proceed);
             }
         }
@@ -365,7 +375,7 @@ namespace TommyJams.View
             var realSender = (Image)sender;
             WebBrowserTask wbt = new WebBrowserTask();
             wbt.Uri = new Uri("https://" + realSender.Tag.ToString(), UriKind.Absolute);
-            wbt.Show(); 
+            wbt.Show();
         }
 
         private void Settings_Click(object sender, EventArgs e)
