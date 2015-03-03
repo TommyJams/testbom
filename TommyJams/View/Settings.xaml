@@ -13,6 +13,7 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
+    toolkit:TiltEffect.IsTiltEnabled="True"
     shell:SystemTray.IsVisible="False">
 	<phone:PhoneApplicationPage.Resources>
 		<Style x:Key="City_list" TargetType="Button">
@@ -74,7 +75,7 @@
         </Grid.RowDefinitions>
 
         <!--TitlePanel contains the name of the application and page title-->
-        <StackPanel Grid.Row="0" Margin="12,17,0,28">
+        <StackPanel Grid.Row="0" Margin="20,17,0,28">
             <TextBlock Text="settings" Style="{StaticResource PanoramaItemHeaderTextStyle}" Foreground="{StaticResource TommyJams_Yellow}"/>
         </StackPanel>
         
@@ -88,7 +89,7 @@
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Image x:Name="MyImage" Stretch="UniformToFill" Width="100" Height="100" Source="/TommyJams;component/Resources/Image/icon_settings_fb.png">
+                        <Image x:Name="MyImage" Stretch="UniformToFill" Width="100" Height="100" Source="/Resources/Image/facebook-icon.jpg">
                             <Image.Clip>
                                 <EllipseGeometry Center="50,50" RadiusX="50" RadiusY="50" />
                             </Image.Clip>
@@ -98,6 +99,7 @@
                             <TextBlock x:Name="username" Text="" FontSize="18" Foreground="{StaticResource TommyJams_Grey_Text}"/>
                             <TextBlock Text="facebook" FontSize="18" Foreground="{StaticResource TommyJams_Grey_Text}"/>
                         </StackPanel>
+                        <ProgressBar x:Name="fb_data_progressbar" Grid.Column="1" IsIndeterminate="True" Foreground="{StaticResource TommyJams_Yellow}"/>
                     </Grid>
                     <TextBlock Text="Location" Foreground="{StaticResource TommyJams_Grey_Text}"/>
                     <Button x:Name="city_selection_button" Click="city_selection_button_Click" HorizontalContentAlignment="Stretch" Padding="10,5,0,6" Style="{StaticResource City_list}" BorderBrush="White" Foreground="White">
@@ -110,6 +112,7 @@
                     <TextBlock Text="Updates" FontSize="29.333" Margin="0,10" Foreground="White" />
 
                     <toolkit:ToggleSwitch x:Name="PushNotification_toggle" Content="On" IsChecked="True" Header="PushNotifications" Checked="PushNotification_toggle_Checked" Unchecked="PushNotification_toggle_Unchecked" Foreground="White" SwitchForeground="{StaticResource TommyJams_Yellow}" />
+                    <toolkit:ToggleSwitch x:Name="Location_Toggle" Content="On" IsChecked="True" Header="Location" Checked="Location_Toggle_Checked" Unchecked="Location_Toggle_Unchecked" SwitchForeground="{StaticResource TommyJams_Yellow}" Foreground="White" />
                     <toolkit:ToggleSwitch x:Name="Calender_Toggle" Content="On" IsChecked="True" Header="Calender Entries" Checked="Calender_Toggle_Checked" Unchecked="Calender_Toggle_Unchecked" SwitchForeground="{StaticResource TommyJams_Yellow}" Foreground="White" />
 
                     <Button x:Name="user_profile_logout" Content="Logout" Style="{StaticResource Clean_Buton}" HorizontalAlignment="Left" FontSize="30" Margin="0,0" Click="Logout_Click" Visibility="Visible" Foreground="White"/>

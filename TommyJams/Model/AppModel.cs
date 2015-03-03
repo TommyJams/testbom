@@ -10,6 +10,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using TommyJams;
 using TommyJams.Model;
@@ -58,23 +59,27 @@ namespace TommyJams.Model
             return eventInfo[0];
         }
 
-        public async Task<ObservableCollection<EventItem>> GetSecondaryEvents()
+        public async Task<ObservableCollection<EventItem>> GetSecondaryEvents(CancellationToken ct)
         {
             String defaultUri = "https://testneo4j.azure-mobile.net/api/getSecondaryEvents?";
             String completeUri = defaultUri + "fbid=" + App.FacebookId + "&city=" + App.city + "&country=" + App.country;
-            HttpClient client = new HttpClient();
-            Task<String> GetResult = client.GetStringAsync(completeUri);
-            string result = await GetResult;
+            HttpClient client = new HttpClient( new HttpClientHandler
+                {
+                    AutomaticDecompression = DecompressionMethods.GZip
+                                             | DecompressionMethods.Deflate
+                });
+            HttpResponseMessage GetResult = await client.GetAsync(completeUri, HttpCompletionOption.ResponseContentRead, ct);
+            
+            string result = await GetResult.Content.ReadAsStringAsync();
 
             ObservableCollection<EventItem> secondaryEvents = JsonConvert.DeserializeObject<ObservableCollection<EventItem>>(result) as ObservableCollection<EventItem>;
 
             StringBuilder genreString = new StringBuilder();
             foreach (EventItem aProduct in secondaryEvents)
             {
-                genreString.Append("genre:");
                 foreach (String genre in aProduct.EventTags)
                 {
-                    genreString.AppendFormat("{0} ", genre);
+                    genreString.AppendFormat("#{0} ", genre);
                 }
                 aProduct.EventGenre = genreString.ToString();
                 genreString.Clear();
@@ -113,7 +118,7 @@ namespace TommyJams.Model
 
                 aProduct.EventDistance = ((int)(x / 1000)).ToString() + " Kms";
                 aProduct.EventPrice = "₹ " + aProduct.EventPrice;
-                aProduct.EventHotness = "Hotness Level :" + aProduct.EventHotness;
+                aProduct.EventHotness =  aProduct.EventHotness;
             }
 
             return secondaryEvents;
@@ -169,7 +174,7 @@ namespace TommyJams.Model
             
             foreach (OtherUser person in people)
             {
-                person.pictureUri = "http://graph.facebook.com/" + person.id + "/picture?type=square";
+                person.pictureUri = "http://graph.facebook.com/" + person.id + "/picture?width=100&height=100";
             }
 
             return people;
@@ -269,21 +274,22 @@ namespace TommyJams.Model
                 if (aProduct.InviteeFBID.Length > 0)
                 {
                     aProduct.InviteExists = true;
-                    aProduct.InviteeImage = "http://graph.facebook.com/" + aProduct.InviteeFBID + "/picture?type=square";
+                    aProduct.InviteeImage = "http://graph.facebook.com/" + aProduct.InviteeFBID + "/picture?width=100&height=100";
                 }
             }
 
             return notificationsList;
         }
 
-        public async Task<ObservableCollection<EventItem>> GetPrimaryEvents()
+        public async Task<ObservableCollection<EventItem>> GetPrimaryEvents(CancellationToken ct)
         {
             String defaultUri = "https://testneo4j.azure-mobile.net/api/getPrimaryEvents?";
             String completeUri = defaultUri + "fbid=" + App.FacebookId + "&city=" + App.city + "&country=" + App.country;
             
             HttpClient client = new HttpClient();
-            Task<String> GetResult = client.GetStringAsync(completeUri);
-            string result = await GetResult;
+            HttpResponseMessage GetResult = await client.GetAsync(completeUri, ct);
+
+            string result = GetResult.Content.ReadAsStringAsync().Result;
             ObservableCollection<EventItem> primaryEvents = JsonConvert.DeserializeObject<ObservableCollection<EventItem>>(result) as ObservableCollection<EventItem>;
 
             StringBuilder genreString = new StringBuilder();

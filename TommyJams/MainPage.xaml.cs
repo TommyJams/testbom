@@ -32,6 +32,7 @@ namespace TommyJams.View
     public partial class MainPage : PhoneApplicationPage
     {
         Uri facebookpic = new Uri("../Resources/Image/facebook-icon.jpg", UriKind.Relative);
+        CancellationTokenSource cts;
         public MainPage()
         {
             InitializeComponent();
@@ -41,11 +42,14 @@ namespace TommyJams.View
             //this condition can happen only once as the city will be saved fist time this event is fired
             //will also be called if location is changed explicitly
             App.cityChanged += App_cityChanged;
+            cts  = new CancellationTokenSource();
             AuthenticateAsync(true/*initial load*/);
         }
 
         void App_cityChanged()
         {
+            cts.Cancel();
+            cts = new CancellationTokenSource();
             LoadData();
         }
 
@@ -76,17 +80,19 @@ namespace TommyJams.View
                         MessageBox.Show("Sorry, could not connect to the internet!");
                 }
             }
-
+            cts.Cancel();
+            cts = new CancellationTokenSource();
             LoadData();
         }
 
+        
         public async void LoadData()
         {
             ProgressBar.Visibility = Visibility.Visible;
             try
             {
-                await App.ViewModel.LoadPrimaryEvents();
-                await App.ViewModel.LoadSecondaryEvents();
+                await App.ViewModel.LoadPrimaryEvents(cts.Token);
+                await App.ViewModel.LoadSecondaryEvents(cts.Token);
                 if(App.MobileService.CurrentUser != null)
                 {
                     await App.ViewModel.LoadNotifications();
@@ -101,6 +107,8 @@ namespace TommyJams.View
             {
                 MessageBox.Show("Sorry, could not connect to the internet!");
             }
+            catch(TaskCanceledException)
+            { }
             fbUserImage.Source = new BitmapImage(facebookpic);
             //ProgressBar.IsIndeterminate = false;
             ProgressBar.Visibility = Visibility.Collapsed;
@@ -161,6 +169,8 @@ namespace TommyJams.View
 
         private async void RefreshButton_Click(object sender, EventArgs e)
         {
+            cts.Cancel();
+            cts = new CancellationTokenSource();
             LoadData();
         }
         private void MainListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -269,7 +279,7 @@ namespace TommyJams.View
             }
             ToggleConnect();
             ToggleNotifications();
-            resetDefaultTile();
+            //resetDefaultTile();
         }
 
         private void resetDefaultTile()

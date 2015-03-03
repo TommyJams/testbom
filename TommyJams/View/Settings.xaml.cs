@@ -17,6 +17,7 @@ using System.Windows.Threading;
 using System.Device.Location;
 using Microsoft.Phone.Notification;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 namespace TommyJams.View
 {
@@ -37,7 +38,10 @@ namespace TommyJams.View
                 if (c.City_Name == "Current Location")
                 {
                     city_name.FontStyle = System.Windows.FontStyles.Italic;
-                    GetLocation();
+                    if (settings_extension.Location_setting_status())
+                        GetLocation();
+                    else
+                        MessageBox.Show("TommyJams doesn't have the permission to access your location. Please enable 'Location' in app's 'settings' to perform this action.");
                 }
                 else
                 {
@@ -53,6 +57,7 @@ namespace TommyJams.View
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             PushNotification_toggle.IsChecked = settings_extension.PushNotification_setting_status();
+            Location_Toggle.IsChecked = settings_extension.Location_setting_status();
             Calender_Toggle.IsChecked = settings_extension.CalenderEntries_setting_status();
             if (settings_extension.City_setting_status() != "")
                 city_name.Text = settings_extension.City_setting_status();
@@ -68,7 +73,7 @@ namespace TommyJams.View
             }
         }
 
-        private void LoadUserInfo()
+        private async void LoadUserInfo()
         {
             /*var fb = new FacebookClient(App.AccessToken);
 
@@ -94,23 +99,43 @@ namespace TommyJams.View
             fb.GetTaskAsync("me");*/
             if (App.MobileService.CurrentUser != null && App.FacebookId != null)
             {
-                BitmapImage bm = new BitmapImage(new Uri("http://graph.facebook.com/" + App.FacebookId + "/picture?height=100", UriKind.Absolute));
+                BitmapImage bm = new BitmapImage();
                 bm.CreateOptions = BitmapCreateOptions.BackgroundCreation;
-                this.MyImage.Source = bm;
-                user_profile_text.Visibility = Visibility.Visible;
-                get_fbname();
-                user_profile.Visibility = Visibility.Visible;
-                user_profile_logout.Visibility = Visibility.Visible;
+                bm.UriSource = new Uri("http://graph.facebook.com/" + App.FacebookId + "/picture?width=100&height=100", UriKind.Absolute);
+                bm.DownloadProgress+=bm_DownloadProgress;
+                Dispatcher.BeginInvoke(() =>
+                 { 
+                     user_profile_text.Visibility = Visibility.Visible;
+                     user_profile.Visibility = Visibility.Visible;
+                     user_profile_logout.Visibility = Visibility.Visible;
+                     fb_data_progressbar.Visibility = System.Windows.Visibility.Visible;
+                 });
+                await get_fbname();                
             }
             else 
             {
-                user_profile_text.Visibility = Visibility.Collapsed;
-                user_profile.Visibility = Visibility.Collapsed;
-                user_profile_logout.Visibility = Visibility.Collapsed;
+                Dispatcher.BeginInvoke(() =>
+                 {
+                     user_profile_text.Visibility = Visibility.Collapsed;
+                     user_profile.Visibility = Visibility.Collapsed;
+                     user_profile_logout.Visibility = Visibility.Collapsed;
+                     fb_data_progressbar.Visibility = System.Windows.Visibility.Collapsed;
+                 });
             }
         }
 
-        private async void get_fbname()
+        private void bm_DownloadProgress(object sender, DownloadProgressEventArgs e)
+        {
+            if (e.Progress == 100)
+            {
+                Dispatcher.BeginInvoke(() =>
+                 {
+                     this.MyImage.Source = sender as BitmapImage;
+                 });
+            }
+        }
+
+        private async Task get_fbname()
         {
             var fb = new Facebook.FacebookClient(App.fbSession.AccessToken);
             dynamic result = await fb.GetTaskAsync("me");
@@ -119,6 +144,7 @@ namespace TommyJams.View
             { 
                 MyName.Text = currentUser.Name;
                 username.Text = currentUser.UserName;
+                fb_data_progressbar.Visibility = System.Windows.Visibility.Collapsed;
             });
         }
         
@@ -165,10 +191,13 @@ namespace TommyJams.View
             {
                 if (e.Result.Count > 0)
                 {
+                    string Result_city = e.Result[0].Information.Address.City.ToLower();
                     bool matchFound = false;
+                    if (Result_city == "bengaluru")
+                        Result_city = "bangalore";
                     foreach (Cities c in city_list.cities)
                     {
-                        if (e.Result[0].Information.Address.City.ToLower() == c.City_Name.ToLower())
+                        if (Result_city == c.City_Name.ToLower())
                         {
                             city_name.Text = c.City_Name;
                             city_name.FontStyle = System.Windows.FontStyles.Normal;
@@ -233,11 +262,26 @@ namespace TommyJams.View
         {
             App.ViewModel.LogoutFromFacebook();
             LoadUserInfo();
+            var channel = HttpNotificationChannel.Find(App.PushChannel);
+            if (channel != null)
+            {
+                channel.Close();
+            }
         }
 
         private void About_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new Uri("/View/About.xaml",UriKind.Relative));
+        }
+
+        private void Location_Toggle_Checked(object sender, RoutedEventArgs e)
+        {
+            settings_extension.Location_setting(true);
+        }
+
+        private void Location_Toggle_Unchecked(object sender, RoutedEventArgs e)
+        {
+            settings_extension.Location_setting(false);
         }
     }
 
@@ -296,6 +340,36 @@ namespace TommyJams.View
                 settings.Add("PushNotification", "false");
             }
             settings["PushNotification"] = value.ToString();
+            settings.Save();
+        }
+        public static bool Location_setting_status()
+        {
+            if (settings.Contains("LocationSetting"))
+            {
+                if (settings["LocationSetting"].ToString().ToLower() == "true")
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            //Default Value
+            else
+            {
+                settings.Add("LocationSetting", "true");
+                settings.Save();
+                return true;
+            }
+        }
+        public static void Location_setting(bool value)
+        {
+            if (!settings.Contains("LocationSetting"))
+            {
+                settings.Add("LocationSetting", "false");
+            }
+            settings["LocationSetting"] = value.ToString();
             settings.Save();
         }
 
@@ -379,21 +453,23 @@ namespace TommyJams.View
         private static void ReverseGeocodeQuery_QueryCompleted(object sender, QueryCompletedEventArgs<IList<MapLocation>> e)
         {
             ObservableCollection<Cities> cities = new ObservableCollection<Cities>();
-        
-            cities.Add(new Cities("Bengaluru"));
+
+            cities.Add(new Cities("Bangalore"));
             cities.Add(new Cities("Chennai"));
             cities.Add(new Cities("Delhi"));
             cities.Add(new Cities("Hyderabad"));
             cities.Add(new Cities("Kolkata"));
-
             if (e.Error == null)
             {
                 if (e.Result.Count > 0)
                 {
+                    string Result_city = e.Result[0].Information.Address.City.ToLower();
                     bool matchFound = false;
+                    if (Result_city == "bengaluru")
+                        Result_city = "bangalore";
                     foreach (Cities c in cities)
                     {
-                        if (e.Result[0].Information.Address.City.ToLower() == c.City_Name.ToLower())
+                        if (Result_city == c.City_Name.ToLower())
                         {
                             App.city = c.City_Name;
                             City_setting(c.City_Name);

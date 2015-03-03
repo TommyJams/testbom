@@ -36,6 +36,7 @@ namespace TommyJams.View
     public partial class EventPanoramaPage : PhoneApplicationPage
     {
         public string appbarTileId = "EventSecondaryTile";
+        bool fromTile = false;
         public EventPanoramaPage()
         {
             InitializeComponent();
@@ -78,7 +79,28 @@ namespace TommyJams.View
         public async void LoadData()
         {
             App.ViewModel.NotificationItem = await App.ViewModel.LoadEventInfo();
-            //LoadBasicView();
+            if (fromTile)
+            {
+                if (App.ViewModel.NotificationItem.InviteExists)
+                {
+                    panel4InviteeName.Text = Textblock_inviteeName.Text = App.ViewModel.NotificationItem.InviteeName;
+
+                    BitmapImage bitmapImage = new BitmapImage(new Uri(App.ViewModel.NotificationItem.InviteeImage, UriKind.Absolute));
+                    ImageBrush imageBrush = new ImageBrush();
+                    panel4InviteeImage.Source = Textblock_inviteeImage.Source = bitmapImage;
+
+                    panel4Invite.Visibility = panel1Invite.Visibility = Visibility.Visible;
+                }
+
+                if (App.ViewModel.NotificationItem.EventImage != null)
+                {
+                    BitmapImage bitmapImage = new BitmapImage(new Uri(App.ViewModel.NotificationItem.EventImage, UriKind.Absolute));
+                    ImageBrush imageBrush = new ImageBrush();
+                    imageBrush.ImageSource = bitmapImage;
+                    imageBrush.Opacity = 0.5;
+                    Panorama.Background = imageBrush;
+                }
+            }
 
             App.ViewModel.ArtistInfo = await App.ViewModel.LoadArtistInfo();
             App.ViewModel.VenueInfo = await App.ViewModel.LoadVenueInfo();
@@ -133,6 +155,38 @@ namespace TommyJams.View
                 }
             }
             LoadData();
+            string eventdate, eventprice, eventtime, eventvenue, eventaddress,distance, eventname;
+            if (NavigationContext.QueryString.TryGetValue("eventdate", out eventdate))
+            {
+                panel5_date.Text = Textblock_date.Text = eventdate;
+                fromTile = true;
+            }
+            if (NavigationContext.QueryString.TryGetValue("eventprice", out eventprice))
+            {
+                panel5_total.Text = panel5_price.Text = Textblock_price.Text = eventprice;
+            }
+            if (NavigationContext.QueryString.TryGetValue("eventtime", out eventtime))
+            {
+                panel5_time.Text = Textblock_time.Text = eventtime;
+            }
+            if (NavigationContext.QueryString.TryGetValue("eventvenue", out eventvenue))
+            {
+                panel3_venue.Text = panel5_venue.Text = Textblock_venue.Text = eventvenue;
+                mainHeader.Header = "@" + eventvenue;
+            }
+            if (NavigationContext.QueryString.TryGetValue("eventaddress", out eventaddress))
+            {
+                panel3_address.Text = panel5_address.Text = eventaddress;
+            }
+            if (NavigationContext.QueryString.TryGetValue("distance", out distance))
+            {
+                Textblock_distance.Text = distance;
+            }
+            if (NavigationContext.QueryString.TryGetValue("eventname", out eventname))
+            {
+                Panorama.Title = eventname;
+            }
+            
         }
 
         private void Event_Accept(object sender, EventArgs e)
@@ -264,7 +318,7 @@ namespace TommyJams.View
 
         private void Price_SelectionChanged(object sender, EventArgs e)
         {
-            if (panel5_total != null)
+            if (panel5_total != null && App.ViewModel.NotificationItem.EventPrice!=null)
             {
                 var picker = sender as ListPicker;
                 int totalPrice = (picker.SelectedIndex + 1) * Convert.ToInt32(App.ViewModel.NotificationItem.EventPrice.Substring(1, App.ViewModel.NotificationItem.EventPrice.Length - 1));
@@ -286,8 +340,10 @@ namespace TommyJams.View
 
             try
             {
+                string uri = string.Format("/View/EventPanoramaPage.xaml?eventid={0}&eventdate={1}&eventprice={2}&eventtime={3}&eventvenue={4}&eventaddress={5}&distance={6}&eventname={7}",
+                    App.ViewModel.NotificationItem.EventID, Textblock_date.Text, panel5_price.Text, Textblock_time.Text, panel3_venue.Text, panel3_address.Text, Textblock_distance.Text, Panorama.Title);
                 // Create the Tile and pin it to Start. This will cause a navigation to Start and a deactivation of our app.
-                ShellTile.Create(new Uri("/View/EventPanoramaPage.xaml?eventid=" + App.ViewModel.NotificationItem.EventID, UriKind.Relative), NewTileData);
+                ShellTile.Create(new Uri(uri, UriKind.Relative), NewTileData);
             }
             catch(Exception)
             {

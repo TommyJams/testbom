@@ -18,7 +18,7 @@ namespace TommyJams.View
         {
             InitializeComponent();
             cities.Add(new Cities("Current Location"));
-            cities.Add(new Cities("Bengaluru"));
+            cities.Add(new Cities("Bangalore"));
             cities.Add(new Cities("Chennai"));
             cities.Add(new Cities("Delhi"));
             cities.Add(new Cities("Hyderabad"));

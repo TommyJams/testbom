@@ -13,6 +13,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.ServiceModel.Channels;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using TommyJams.Model;
 using TommyJams.Resources;
@@ -363,14 +364,14 @@ namespace TommyJams.ViewModel
             return await AppModel.PushJoinEvent();
         }
 
-        public async Task LoadPrimaryEvents()
+        public async Task LoadPrimaryEvents(CancellationToken ct)
         {
-            Priority1Items = await AppModel.GetPrimaryEvents();
+            Priority1Items = await AppModel.GetPrimaryEvents(ct);
         }
 
-        public async Task LoadSecondaryEvents()
+        public async Task LoadSecondaryEvents(CancellationToken ct)
         {
-            Priority2Items = await AppModel.GetSecondaryEvents();
+            Priority2Items = await AppModel.GetSecondaryEvents(ct);
         }
 
         public async Task LoadNotifications()

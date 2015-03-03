@@ -63,11 +63,10 @@
             <!--Panorama Screen One-->
             <phone:PanoramaItem x:Name="gigsHeader" Header="events" HeaderTemplate="{StaticResource SmallPanoramaPageTitle}">
 
-                <Grid x:Name="ContentPanel" Grid.Row="1" Margin="0,-20,0,0">
+                <Grid x:Name="ContentPanel" Grid.Row="1" Margin="10,-20,0,0">
                     <Grid.Resources>
                         <src:EventViewModel  x:Key="Priority1Items"/>
                     </Grid.Resources>
-                    <ProgressBar x:Name="ProgressBar" IsIndeterminate="True" Visibility="Visible" Height="300" Width="420" Foreground="{StaticResource TommyJams_Yellow}"/>
                     <ListBox x:Name="MainListBox" ItemsSource="{Binding Priority1Items, Mode=TwoWay}"
                              SelectionChanged="MainListBox_SelectionChanged" ItemContainerStyle="{StaticResource ListBoxItemStyle1}">
                         <ListBox.ItemTemplate>
@@ -89,14 +88,14 @@
                                     </Grid>
                                     
 
-                                    <Grid Margin="0,5,0,0">
+                                    <Grid Margin="5,0,0,0">
                                         <TextBlock x:Name="genre" Text="{Binding EventGenre}" FontSize="15" FontFamily="Segoe WP"/>
                                         <TextBlock x:Name="price" HorizontalAlignment="Right" Text="{Binding EventPrice}" TextWrapping="Wrap" FontSize="15" FontFamily="Segoe WP"/>
                                     </Grid>
 
-                                    <TextBlock Text="{Binding EventName}" TextWrapping="Wrap" FontSize="25" Foreground="{StaticResource TommyJams_Yellow}" FontFamily="Segoe WP Semibold"/>
-                                    <TextBlock Text="{Binding VenueName}" TextWrapping="Wrap" FontSize="15" FontFamily="Segoe WP"/>
-                                    <StackPanel Orientation="Horizontal">
+                                    <TextBlock Margin="5,0,0,0" Text="{Binding EventName}" TextWrapping="Wrap" FontSize="25" Foreground="{StaticResource TommyJams_Yellow}" FontFamily="Segoe WP Semibold"/>
+                                    <TextBlock Margin="5,0,0,0" Text="{Binding VenueName}" TextWrapping="Wrap" FontSize="15" FontFamily="Segoe WP"/>
+                                    <StackPanel Margin="5,0,0,0" Orientation="Horizontal">
                                         <TextBlock x:Name="StartsIn" Text="{Binding EventStartingTime}" TextWrapping="Wrap" FontSize="15"/>
                                         <TextBlock x:Name="Distance" TextWrapping="Wrap" FontSize="15">
                                             <Run Text=" • "/>
@@ -104,6 +103,7 @@
                                         </TextBlock>
                                         <TextBlock x:Name="Hotness" TextWrapping="Wrap" FontSize="15" Foreground="#ff992a33">
                                             <Run Text=" • " Foreground="White"/>
+                                            <Run Text="Rating : "/>
                                             <Run Text="{Binding EventHotness}"/>
                                         </TextBlock>
                                     </StackPanel>
@@ -118,7 +118,7 @@
 
             <!--Panorama Screen Two-->
             <phone:PanoramaItem Header=" "  HeaderTemplate="{StaticResource SmallPanoramaPageTitle}">
-                <Grid x:Name="ContentPanel1" Grid.Row="1" Margin="0,-20,0,0">
+                <Grid x:Name="ContentPanel1" Grid.Row="1" Margin="10,-20,0,0">
                     <ListBox x:Name="MainListBox2" ItemsSource="{Binding Priority2Items}"
                              ItemContainerStyle="{StaticResource ListBoxItemStyle1}"
                              SelectionChanged="MainListBox_SelectionChanged">
@@ -154,6 +154,7 @@
                                             </TextBlock>
                                             <TextBlock x:Name="Hotness" TextWrapping="Wrap" FontSize="15" Foreground="#ff992a33">
                                             <Run Text=" • " Foreground="White"/>
+                                                <Run Text="Rating : "/>
                                             <Run Text="{Binding EventHotness}"/>
                                             </TextBlock>
                                         </StackPanel>
@@ -305,11 +306,12 @@
 
         </phone:Panorama>
         <phone:WebBrowser Name="Browser" Grid.Row="1"  Background="Aqua" Width="450" Height="600" Visibility="Collapsed"/>
+        <ProgressBar Margin="0,200,0,0" x:Name="ProgressBar" IsIndeterminate="True" Visibility="Visible" Height="300" Width="420" Foreground="{StaticResource TommyJams_Yellow}"/>
 
     </Grid>
 
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsMenuEnabled="True" ForegroundColor="#FFffcc00" BackgroundColor="{StaticResource TommyJams_AppBar_Background}">
+        <shell:ApplicationBar IsMenuEnabled="True" ForegroundColor="White" BackgroundColor="{StaticResource TommyJams_AppBar_Background}">
             <shell:ApplicationBarIconButton IconUri="\Resources\Image\refresh.png" Text="Refresh" Click="RefreshButton_Click"/>
             <shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem Text="Settings" Click="Settings_Click"/>

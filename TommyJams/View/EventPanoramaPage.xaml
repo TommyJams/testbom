@@ -17,6 +17,83 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait"  Orientation="Portrait"
     shell:SystemTray.IsVisible="False">
+	<phone:PhoneApplicationPage.Resources>
+		<ControlTemplate x:Key="ListPickerControlTemplate1" TargetType="toolkit1:ListPicker">
+			<StackPanel>
+				<VisualStateManager.VisualStateGroups>
+					<VisualStateGroup x:Name="PickerStates">
+						<VisualState x:Name="Normal"/>
+						<VisualState x:Name="Highlighted">
+							<Storyboard>
+								<ObjectAnimationUsingKeyFrames
+									Storyboard.TargetName="Border"
+									Storyboard.TargetProperty="Background"
+									Duration="0">
+									<DiscreteObjectKeyFrame
+										Value="{StaticResource PhoneTextBoxEditBackgroundColor}"
+										KeyTime="0"/>
+								</ObjectAnimationUsingKeyFrames>
+								<ObjectAnimationUsingKeyFrames
+									Storyboard.TargetName="Border"
+									Storyboard.TargetProperty="BorderBrush"
+									Duration="0">
+									<DiscreteObjectKeyFrame
+										Value="{StaticResource PhoneTextBoxEditBorderBrush}"
+										KeyTime="0"/>
+								</ObjectAnimationUsingKeyFrames>
+							</Storyboard>
+						</VisualState>
+						<VisualState x:Name="Disabled">
+							<Storyboard>
+								<ObjectAnimationUsingKeyFrames
+									Storyboard.TargetName="Border"
+									Storyboard.TargetProperty="Background"
+									Duration="0">
+									<DiscreteObjectKeyFrame
+										Value="{StaticResource TransparentBrush}"
+										KeyTime="0"/>
+								</ObjectAnimationUsingKeyFrames>
+								<ObjectAnimationUsingKeyFrames
+									Storyboard.TargetName="Border"
+									Storyboard.TargetProperty="BorderBrush"
+									Duration="0">
+									<DiscreteObjectKeyFrame
+										Value="{StaticResource PhoneDisabledBrush}"
+										KeyTime="0"/>
+								</ObjectAnimationUsingKeyFrames>
+							</Storyboard>
+						</VisualState>
+					</VisualStateGroup>
+				</VisualStateManager.VisualStateGroups>
+				<ContentControl
+					Content="{TemplateBinding Header}"
+					ContentTemplate="{TemplateBinding HeaderTemplate}"
+					Foreground="{StaticResource PhoneSubtleBrush}"
+					FontSize="{StaticResource PhoneFontSizeNormal}"
+					HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+					Margin="0 0 0 8"/>
+				<Grid>
+					<Border x:Name="Border"
+						Background="{TemplateBinding Background}"
+						BorderBrush="{TemplateBinding BorderBrush}"
+						BorderThickness="{TemplateBinding BorderThickness}">
+						<UserControl x:Name="UserControl" Foreground="White">
+							<StackPanel>
+								<TextBlock x:Name="MultipleSelectionModeSummary" Margin="8 8 0 8" />
+								<Canvas x:Name="ItemsPresenterHost" MinHeight="46">
+									<ItemsPresenter x:Name="ItemsPresenter">
+										<ItemsPresenter.RenderTransform>
+											<TranslateTransform x:Name="ItemsPresenterTranslateTransform"/>
+										</ItemsPresenter.RenderTransform>
+									</ItemsPresenter>
+								</Canvas>
+							</StackPanel>
+						</UserControl>
+					</Border>
+				</Grid>
+			</StackPanel>
+		</ControlTemplate>
+	</phone:PhoneApplicationPage.Resources>
 
     <!--LayoutRoot contains the root grid where all other page content is placed-->
     <Grid x:Name="LayoutRoot" Background="{StaticResource TommyJams_Background}">
@@ -66,7 +143,7 @@
                             </StackPanel>
                         </StackPanel>
 
-                        <StackPanel x:Name="panel1Attending" Orientation="Horizontal" Margin="10,0,0,0" Visibility="Collapsed">
+                        <StackPanel x:Name="panel1Attending" Orientation="Horizontal" Margin="15,0,0,0" Visibility="Collapsed">
                             <Image x:Name="panel1SocialImage0" Source="../Resources/Image/icon_tj_white.png" Height="80" Width="80" Margin="0,10,0,10" Visibility="Collapsed">
                                 <Image.Clip>
                                     <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
@@ -91,21 +168,21 @@
 
             <!--Panorama item two-->
             <phone:PanoramaItem x:Name="artistHeader" Header="artist" HeaderTemplate="{StaticResource SmallPanoramaPageTitle}">
-                <Grid>
+                <Grid Margin="10,0,0,0">
                     <ListBox x:Name="ArtistListBox">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Vertical" Margin="0,0,0,20">
                                     <Image Height="160" Width="400" Source="{Binding ArtistImage}" Opacity="0.8" HorizontalAlignment="Center"/>
-                                    <TextBlock x:Name ="artistName" Width="400" FontSize="30" TextWrapping="Wrap" Text="{Binding ArtistName}"/>
-                                    <TextBlock x:Name ="artistDescription" Width="400" Margin="10,0,0,0" TextWrapping="Wrap" Text="{Binding ArtistDescription}"/>
+                                    <TextBlock x:Name ="artistName" Width="400" FontSize="30" TextWrapping="Wrap" Text="{Binding ArtistName}" Foreground="White"/>
+                                    <TextBlock x:Name ="artistDescription" Width="400" TextWrapping="Wrap" Text="{Binding ArtistDescription}" Foreground="White"/>
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="../Resources/Image/icon_events_fb.png" Height="80" Width="80" Margin="10,10,0,10" Tag="{Binding ArtistFacebook}" Tap="icon_tap">
+                                        <Image Source="../Resources/Image/icon_events_fb.png" Height="80" Width="80" Margin="0,10,0,10" Tag="{Binding ArtistFacebook}" Tap="icon_tap">
                                             <Image.Clip>
                                                 <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
                                             </Image.Clip>
                                         </Image>
-                                        <Image Source="../Resources/Image/icon_events_sc.png" Height="80" Width="80" Margin="10,10,0,10" Tag="{Binding ArtistSocial}" Tap="icon_tap">
+                                        <Image Source="../Resources/Image/icon_events_sc.png" Height="80" Width="80" Margin="0,10,0,10" Tag="{Binding ArtistSocial}" Tap="icon_tap">
                                             <Image.Clip>
                                                 <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
                                             </Image.Clip>
@@ -122,7 +199,7 @@
             <phone:PanoramaItem x:Name="venueHeader" Header="venue" HeaderTemplate="{StaticResource SmallPanoramaPageTitle}">
 
                 <ScrollViewer>
-                    <StackPanel x:Name="VenueGrid" Orientation="Vertical" DataContext="{Binding VenueInfo,Mode=TwoWay}">
+                    <StackPanel x:Name="VenueGrid" Orientation="Vertical" DataContext="{Binding VenueInfo,Mode=TwoWay}" Margin="0,0,0,20">
                     
                         <StackPanel Orientation="Horizontal">
                             <StackPanel Orientation="Vertical" Background="#ffcc00" Margin="10,0,0,0">
@@ -191,14 +268,14 @@
 
             <!--Panorma Item four-->
             <phone:PanoramaItem x:Name="socialHeader" Header="social" HeaderTemplate="{StaticResource SmallPanoramaPageTitle}">
-                <Grid>
+                <Grid Margin="15,0,0,0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <StackPanel x:Name="panel4Invite" Orientation="Horizontal" Grid.Row="0" Visibility="Collapsed">
-                        <Image x:Name="panel4InviteeImage" Height="80" Width="80" VerticalAlignment="Center" Margin="10,0,0,0">
+                        <Image x:Name="panel4InviteeImage" Height="80" Width="80" VerticalAlignment="Center" Margin="0,0,0,0">
                             <Image.Clip>
                                 <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
                             </Image.Clip>
@@ -208,17 +285,17 @@
                             <TextBlock Text="Invited you" Foreground="#aaaaaa"/>
                         </StackPanel>
                     </StackPanel>
-                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="attending" FontSize="30" Grid.Row="1" Margin="10"/>
+                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="attending" FontSize="30" Grid.Row="1" Margin="0,10"/>
                     <ListBox x:Name="SocialListBox" Grid.Row="2">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Image Height="80" Width="80" Source="{Binding pictureUri}"  VerticalAlignment="Center" Margin="10,0,0,10">
+                                    <Image Height="80" Width="80" Source="{Binding pictureUri}"  VerticalAlignment="Center" Margin="0,0,0,10">
                                         <Image.Clip>
                                             <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
                                         </Image.Clip>
                                     </Image>
-                                    <TextBlock Text="{Binding name}" FontSize="30" VerticalAlignment="Center" Margin="10"/>
+                                    <TextBlock Text="{Binding name}" FontSize="30" VerticalAlignment="Center" Margin="10" Foreground="White"/>
                                 </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
@@ -256,7 +333,7 @@
 
                         <StackPanel Orientation="Horizontal" Margin="10,20,0,0">
                             <TextBlock Text="Quantity:" FontSize="30" Foreground="#ffcc00" VerticalAlignment="Center"/>
-                            <toolkit1:ListPicker x:Name="TicketSelector" Width="100" Margin="10,0,0,0" Foreground="#ffcc00" SelectionChanged="Price_SelectionChanged">
+                            <toolkit1:ListPicker x:Name="TicketSelector" Width="100" Margin="10,0,0,0" Foreground="#ffcc00" SelectionChanged="Price_SelectionChanged" Background="{x:Null}" Template="{StaticResource ListPickerControlTemplate1}">
                                 <toolkit1:ListPickerItem Content="1" x:Name="One" HorizontalAlignment="Center"/>
                                 <toolkit1:ListPickerItem Content="2" x:Name="Two" HorizontalAlignment="Center"/>
                                 <toolkit1:ListPickerItem Content="3" x:Name="Three"  HorizontalAlignment="Center"/>
@@ -280,7 +357,7 @@
     </Grid>
 
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsMenuEnabled="True" ForegroundColor="#FFffcc00" BackgroundColor="{StaticResource TommyJams_AppBar_Background}">
+        <shell:ApplicationBar IsMenuEnabled="True" ForegroundColor="White" BackgroundColor="{StaticResource TommyJams_AppBar_Background}">
             <shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem Text="Settings" Click="Settings_Click"/>
             </shell:ApplicationBar.MenuItems>

@@ -6,11 +6,13 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
+    toolkit:TiltEffect.IsTiltEnabled="True"
     shell:SystemTray.IsVisible="false">
 
     <!--LayoutRoot is the root grid where all page content is placed-->
@@ -21,12 +23,12 @@
         </Grid.RowDefinitions>
 
         <!--TitlePanel contains the name of the application and page title-->
-        <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="about" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}" Foreground="{StaticResource TommyJams_Yellow}"/>
+        <StackPanel Grid.Row="0" Margin="20,17,0,28">
+            <TextBlock Text="about" Margin="0,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}" Foreground="{StaticResource TommyJams_Yellow}"/>
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
-        <ScrollViewer Grid.Row="1" Margin="12,0,12,0">
+        <ScrollViewer Grid.Row="1" Margin="20,0,12,0">
         <Grid x:Name="ContentPanel" >
                 <Grid.RowDefinitions>
                     <RowDefinition/>
@@ -41,21 +43,23 @@
                         TextWrapping="Wrap" Foreground="White"/>
                 </StackPanel>
                 <StackPanel Grid.Row="1" Margin="0,20,0,0">
+                    <Button HorizontalContentAlignment="Left" Style="{StaticResource Clean_Buton}" Click="website_Tap" Height="34">
                     <TextBlock  
                            Style="{StaticResource PhoneTextNormalStyle}"
-                           TextWrapping="Wrap" Foreground="White" Tap="website_Tap">
+                           TextWrapping="Wrap" Foreground="White">
                         <Run Text="Visit our website : "/>
                         <Run Text="www.tommyjams.com" Foreground="{StaticResource TommyJams_Yellow}"/>
                     </TextBlock>
-
+                    </Button>
+                    <Button HorizontalContentAlignment="Left" Style="{StaticResource Clean_Buton}" Click="Tech_Support_tap">
                     <TextBlock  
                             Margin="10,20,0,0"
                            Style="{StaticResource PhoneTextNormalStyle}"
-                           TextWrapping="Wrap" Foreground="White" Tap="Tech_Support_tap">
+                           TextWrapping="Wrap" Foreground="White" Height="34" >
                         <Run Text="Technical support : "/>
                         <Run Text="contact@tommyjams.com" Foreground="{StaticResource TommyJams_Yellow}"/>
                     </TextBlock>
-
+                    </Button>
                 </StackPanel>
                 <Grid Grid.Row="2">
                     <Grid.ColumnDefinitions>
@@ -63,14 +67,14 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <StackPanel VerticalAlignment="Bottom" Grid.Column="1">
-                        <HyperlinkButton Click="privacy_Click" Content="Privacy and Terms" Foreground="{StaticResource TommyJams_Yellow}" HorizontalAlignment="Left" Margin="-10,10"/>
-                        <TextBlock Grid.Column="1" TextWrapping="Wrap" VerticalAlignment="Bottom" Text="Copyright 2014 - All Rights Reserved" Foreground="#DEFFFFFF" Margin="0,0,10,10"/>
+                        <HyperlinkButton Click="privacy_Click" Content="Privacy and Terms" Foreground="{StaticResource TommyJams_Yellow}" HorizontalAlignment="Center" Margin="0,10" Height="34"/>
+                        <TextBlock Grid.Column="1" TextWrapping="Wrap" VerticalAlignment="Bottom" HorizontalAlignment="Right" Text="Copyright 2014 - All Rights Reserved" Foreground="#DEFFFFFF" Margin="0,0,10,20"/>
                     </StackPanel>
                     
                     <StackPanel VerticalAlignment="Bottom">
-                        <HyperlinkButton Click="review_Click" Content="Rate this app" Foreground="{StaticResource TommyJams_Yellow}" Margin="0,10,0,36" HorizontalAlignment="Left"/>
+                        <HyperlinkButton Click="review_Click" Content="Rate this app" Foreground="{StaticResource TommyJams_Yellow}" Margin="0,10,0,36" HorizontalAlignment="Left" Height="34"/>
 
-                        <TextBlock Foreground="#DEFFFFFF" Margin="10,0,0,10">
+                        <TextBlock Foreground="#DEFFFFFF" Margin="10,0,0,20">
                         <Run Text="Version: "/>
                         <Run x:Name="Version" Text="1.0.0.0" Foreground="{StaticResource TommyJams_Yellow}"/>
                     </TextBlock>
