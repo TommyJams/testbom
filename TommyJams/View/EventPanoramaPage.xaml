@@ -143,7 +143,7 @@
                             </StackPanel>
                         </StackPanel>
 
-                        <StackPanel x:Name="panel1Attending" Orientation="Horizontal" Margin="10,0,0,0" Visibility="Collapsed">
+                        <StackPanel x:Name="panel1Attending" Orientation="Horizontal" Margin="15,0,0,0" Visibility="Collapsed">
                             <Image x:Name="panel1SocialImage0" Source="../Resources/Image/icon_tj_white.png" Height="80" Width="80" Margin="0,10,0,10" Visibility="Collapsed">
                                 <Image.Clip>
                                     <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
@@ -168,21 +168,21 @@
 
             <!--Panorama item two-->
             <phone:PanoramaItem x:Name="artistHeader" Header="artist" HeaderTemplate="{StaticResource SmallPanoramaPageTitle}">
-                <Grid>
+                <Grid Margin="10,0,0,0">
                     <ListBox x:Name="ArtistListBox">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Vertical" Margin="0,0,0,20">
                                     <Image Height="160" Width="400" Source="{Binding ArtistImage}" Opacity="0.8" HorizontalAlignment="Center"/>
                                     <TextBlock x:Name ="artistName" Width="400" FontSize="30" TextWrapping="Wrap" Text="{Binding ArtistName}" Foreground="White"/>
-                                    <TextBlock x:Name ="artistDescription" Width="400" Margin="10,0,0,0" TextWrapping="Wrap" Text="{Binding ArtistDescription}" Foreground="White"/>
+                                    <TextBlock x:Name ="artistDescription" Width="400" TextWrapping="Wrap" Text="{Binding ArtistDescription}" Foreground="White"/>
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="../Resources/Image/icon_events_fb.png" Height="80" Width="80" Margin="10,10,0,10" Tag="{Binding ArtistFacebook}" Tap="icon_tap">
+                                        <Image Source="../Resources/Image/icon_events_fb.png" Height="80" Width="80" Margin="0,10,0,10" Tag="{Binding ArtistFacebook}" Tap="icon_tap">
                                             <Image.Clip>
                                                 <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
                                             </Image.Clip>
                                         </Image>
-                                        <Image Source="../Resources/Image/icon_events_sc.png" Height="80" Width="80" Margin="10,10,0,10" Tag="{Binding ArtistSocial}" Tap="icon_tap">
+                                        <Image Source="../Resources/Image/icon_events_sc.png" Height="80" Width="80" Margin="0,10,0,10" Tag="{Binding ArtistSocial}" Tap="icon_tap">
                                             <Image.Clip>
                                                 <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
                                             </Image.Clip>
@@ -199,7 +199,7 @@
             <phone:PanoramaItem x:Name="venueHeader" Header="venue" HeaderTemplate="{StaticResource SmallPanoramaPageTitle}">
 
                 <ScrollViewer>
-                    <StackPanel x:Name="VenueGrid" Orientation="Vertical" DataContext="{Binding VenueInfo,Mode=TwoWay}">
+                    <StackPanel x:Name="VenueGrid" Orientation="Vertical" DataContext="{Binding VenueInfo,Mode=TwoWay}" Margin="0,0,0,20">
                     
                         <StackPanel Orientation="Horizontal">
                             <StackPanel Orientation="Vertical" Background="#ffcc00" Margin="10,0,0,0">
@@ -268,14 +268,14 @@
 
             <!--Panorma Item four-->
             <phone:PanoramaItem x:Name="socialHeader" Header="social" HeaderTemplate="{StaticResource SmallPanoramaPageTitle}">
-                <Grid>
+                <Grid Margin="15,0,0,0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <StackPanel x:Name="panel4Invite" Orientation="Horizontal" Grid.Row="0" Visibility="Collapsed">
-                        <Image x:Name="panel4InviteeImage" Height="80" Width="80" VerticalAlignment="Center" Margin="10,0,0,0">
+                        <Image x:Name="panel4InviteeImage" Height="80" Width="80" VerticalAlignment="Center" Margin="0,0,0,0">
                             <Image.Clip>
                                 <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
                             </Image.Clip>
@@ -285,12 +285,12 @@
                             <TextBlock Text="Invited you" Foreground="#aaaaaa"/>
                         </StackPanel>
                     </StackPanel>
-                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="attending" FontSize="30" Grid.Row="1" Margin="10"/>
+                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="attending" FontSize="30" Grid.Row="1" Margin="0,10"/>
                     <ListBox x:Name="SocialListBox" Grid.Row="2">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Image Height="80" Width="80" Source="{Binding pictureUri}"  VerticalAlignment="Center" Margin="10,0,0,10">
+                                    <Image Height="80" Width="80" Source="{Binding pictureUri}"  VerticalAlignment="Center" Margin="0,0,0,10">
                                         <Image.Clip>
                                             <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
                                         </Image.Clip>
