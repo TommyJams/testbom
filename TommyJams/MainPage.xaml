@@ -118,7 +118,7 @@
 
             <!--Panorama Screen Two-->
             <phone:PanoramaItem Header=" "  HeaderTemplate="{StaticResource SmallPanoramaPageTitle}">
-                <Grid x:Name="ContentPanel1" Grid.Row="1" Margin="0,-20,0,0">
+                <Grid x:Name="ContentPanel1" Grid.Row="1" Margin="10,-20,0,0">
                     <ListBox x:Name="MainListBox2" ItemsSource="{Binding Priority2Items}"
                              ItemContainerStyle="{StaticResource ListBoxItemStyle1}"
                              SelectionChanged="MainListBox_SelectionChanged">

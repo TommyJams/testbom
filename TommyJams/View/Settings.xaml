@@ -75,7 +75,7 @@
         </Grid.RowDefinitions>
 
         <!--TitlePanel contains the name of the application and page title-->
-        <StackPanel Grid.Row="0" Margin="12,17,0,28">
+        <StackPanel Grid.Row="0" Margin="20,17,0,28">
             <TextBlock Text="settings" Style="{StaticResource PanoramaItemHeaderTextStyle}" Foreground="{StaticResource TommyJams_Yellow}"/>
         </StackPanel>
         

@@ -42,7 +42,8 @@ namespace TommyJams.View
            
         }
 
-        private void website_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+
+        private void website_Tap(object sender, RoutedEventArgs e)
         {
             WebBrowserTask wbt = new WebBrowserTask()
             {
@@ -51,8 +52,9 @@ namespace TommyJams.View
             wbt.Show();
         }
 
-        private void Tech_Support_tap(object sender, System.Windows.Input.GestureEventArgs e)
-        {WebBrowserTask wbt = new WebBrowserTask()
+        private void Tech_Support_tap(object sender, RoutedEventArgs e)
+        {
+            WebBrowserTask wbt = new WebBrowserTask()
             {
                 URL = "http://www.tommyjams.com/help"
             };
