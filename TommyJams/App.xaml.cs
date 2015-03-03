@@ -55,10 +55,13 @@ namespace TommyJams
         {
             get { return _city;}
             set 
-            { 
-                _city = value;
-                if (cityChanged!=null)
-                    cityChanged();
+            {
+                if (value != _city)
+                {
+                    _city = value;
+                    if (cityChanged != null)
+                        cityChanged();
+                }
             }
         }
         internal static string country = "India";
