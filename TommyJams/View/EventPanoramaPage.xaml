@@ -30,7 +30,7 @@
 									Storyboard.TargetProperty="Background"
 									Duration="0">
 									<DiscreteObjectKeyFrame
-										Value="{StaticResource PhoneTextBoxEditBackgroundColor}"
+										Value="{StaticResource TommyJams_Background}"
 										KeyTime="0"/>
 								</ObjectAnimationUsingKeyFrames>
 								<ObjectAnimationUsingKeyFrames
@@ -38,7 +38,7 @@
 									Storyboard.TargetProperty="BorderBrush"
 									Duration="0">
 									<DiscreteObjectKeyFrame
-										Value="{StaticResource PhoneTextBoxEditBorderBrush}"
+										Value="{StaticResource TommyJams_Yellow}"
 										KeyTime="0"/>
 								</ObjectAnimationUsingKeyFrames>
 							</Storyboard>

@@ -210,8 +210,13 @@ namespace TommyJams
                     //Register to Mobile Service 
                     try
                     {
-                        await MobileService.GetPush()
-                        .RegisterNativeAsync(args.ChannelUri.ToString());
+                        //List<string> tags = new List<string>();
+                        if (MobileService.CurrentUser != null)
+                        {
+                            //tags.Add(MobileService.CurrentUser.UserId);
+                            await MobileService.GetPush()
+                            .RegisterNativeAsync(args.ChannelUri.ToString());
+                        }
                     }
                     catch { }
                 });
@@ -256,7 +261,7 @@ namespace TommyJams
         // This code will not execute when the application is reactivated
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
-            InitNotifications();
+            //InitNotifications();
             //Register_ScheduledTask();
 
             //check for saved city setting

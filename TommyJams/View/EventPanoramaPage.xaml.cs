@@ -24,6 +24,7 @@ using TommyJams;
 using TommyJams.Model;
 using TommyJams.Resources;
 using TommyJams.ViewModel;
+using Microsoft.Phone.Scheduler;
 
 namespace TommyJams.View
 {
@@ -78,7 +79,12 @@ namespace TommyJams.View
 
         public async void LoadData()
         {
-            App.ViewModel.NotificationItem = await App.ViewModel.LoadEventInfo();
+            try
+            {
+                App.ViewModel.NotificationItem = await App.ViewModel.LoadEventInfo();
+            }
+            catch(System.Net.Http.HttpRequestException)
+            {            }
             if (fromTile)
             {
                 if (App.ViewModel.NotificationItem.InviteExists)
@@ -154,39 +160,41 @@ namespace TommyJams.View
                 {
                 }
             }
-            LoadData();
-            string eventdate, eventprice, eventtime, eventvenue, eventaddress,distance, eventname;
-            if (NavigationContext.QueryString.TryGetValue("eventdate", out eventdate))
+            if (e.NavigationMode == NavigationMode.New)
             {
-                panel5_date.Text = Textblock_date.Text = eventdate;
-                fromTile = true;
+                LoadData();
+                string eventdate, eventprice, eventtime, eventvenue, eventaddress, distance, eventname;
+                if (NavigationContext.QueryString.TryGetValue("eventdate", out eventdate))
+                {
+                    panel5_date.Text = Textblock_date.Text = eventdate;
+                    fromTile = true;
+                }
+                if (NavigationContext.QueryString.TryGetValue("eventprice", out eventprice))
+                {
+                    panel5_total.Text = panel5_price.Text = Textblock_price.Text = eventprice;
+                }
+                if (NavigationContext.QueryString.TryGetValue("eventtime", out eventtime))
+                {
+                    panel5_time.Text = Textblock_time.Text = eventtime;
+                }
+                if (NavigationContext.QueryString.TryGetValue("eventvenue", out eventvenue))
+                {
+                    panel3_venue.Text = panel5_venue.Text = Textblock_venue.Text = eventvenue;
+                    mainHeader.Header = "@" + eventvenue;
+                }
+                if (NavigationContext.QueryString.TryGetValue("eventaddress", out eventaddress))
+                {
+                    panel3_address.Text = panel5_address.Text = eventaddress;
+                }
+                if (NavigationContext.QueryString.TryGetValue("distance", out distance))
+                {
+                    Textblock_distance.Text = distance;
+                }
+                if (NavigationContext.QueryString.TryGetValue("eventname", out eventname))
+                {
+                    Panorama.Title = eventname;
+                }
             }
-            if (NavigationContext.QueryString.TryGetValue("eventprice", out eventprice))
-            {
-                panel5_total.Text = panel5_price.Text = Textblock_price.Text = eventprice;
-            }
-            if (NavigationContext.QueryString.TryGetValue("eventtime", out eventtime))
-            {
-                panel5_time.Text = Textblock_time.Text = eventtime;
-            }
-            if (NavigationContext.QueryString.TryGetValue("eventvenue", out eventvenue))
-            {
-                panel3_venue.Text = panel5_venue.Text = Textblock_venue.Text = eventvenue;
-                mainHeader.Header = "@" + eventvenue;
-            }
-            if (NavigationContext.QueryString.TryGetValue("eventaddress", out eventaddress))
-            {
-                panel3_address.Text = panel5_address.Text = eventaddress;
-            }
-            if (NavigationContext.QueryString.TryGetValue("distance", out distance))
-            {
-                Textblock_distance.Text = distance;
-            }
-            if (NavigationContext.QueryString.TryGetValue("eventname", out eventname))
-            {
-                Panorama.Title = eventname;
-            }
-            
         }
 
         private void Event_Accept(object sender, EventArgs e)
@@ -234,10 +242,59 @@ namespace TommyJams.View
             {
                 string responseJoinEvent = await App.ViewModel.JoinEvent();
             }
-            catch(Exception)
+            catch(Exception e)
             {
                 MessageBox.Show("Sorry, could not join event!");
+                return;
             }
+            try
+            {
+                if(settings_extension.CalenderEntries_setting_status())
+                    createReminder();
+            }
+            catch(Exception e)
+            {
+            }
+        }
+
+        private void createReminder()
+        {
+            string name = App.ViewModel.NotificationItem.EventID;
+            DateTime beginTime = DateTime.ParseExact(App.ViewModel.NotificationItem.EventDate, "yyyyMMdd", CultureInfo.InvariantCulture)
+                + DateTime.ParseExact(App.ViewModel.NotificationItem.EventTime,"HHmm",CultureInfo.InvariantCulture).TimeOfDay ;
+            if (beginTime < DateTime.Now)
+            {
+                return;
+            }
+            DateTime expirationTime = beginTime + TimeSpan.FromHours(1);
+
+            // Determine which recurrence radio button is checked.
+            RecurrenceInterval recurrence = RecurrenceInterval.None;
+            string uri = string.Format("/View/EventPanoramaPage.xaml?eventid={0}&eventdate={1}&eventtime={3}",
+                    App.ViewModel.NotificationItem.EventID, Textblock_date.Text, panel5_price.Text, Textblock_time.Text, panel3_venue.Text, panel3_address.Text, Textblock_distance.Text, Panorama.Title);
+            Microsoft.Phone.Scheduler.Reminder reminder = new Microsoft.Phone.Scheduler.Reminder(name);
+            reminder.Title = App.ViewModel.NotificationItem.VenueName;
+            reminder.Content = App.ViewModel.NotificationItem.VenueAddress;
+            reminder.BeginTime = beginTime;
+            reminder.ExpirationTime = expirationTime;
+            reminder.RecurrenceType = recurrence;
+            //uri = HttpUtility.HtmlEncode(uri);
+            reminder.NavigationUri = new Uri(uri, UriKind.Relative);
+
+            // Register the reminder with the system.
+            try
+            {
+                ScheduledActionService.Remove(reminder.Name);
+            }
+            catch { }
+            ScheduledActionService.Add(reminder);
+            bool exist = false;
+            foreach(Reminder r in settings_extension.Reminders)
+            {
+                if(r.Name == name) {exist = true;}
+            }
+            if(!exist) settings_extension.Reminders.Add(new Reminder(name));
+            settings_extension.saveReminders();
         }
 
         private void AddButtons()

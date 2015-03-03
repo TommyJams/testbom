@@ -43,8 +43,11 @@ namespace TommyJams.View
             //will also be called if location is changed explicitly
             App.cityChanged += App_cityChanged;
             cts  = new CancellationTokenSource();
-            AuthenticateAsync(true/*initial load*/);
+            AuthenticateAsync(true/*initial load*/); 
         }
+
+
+
 
         void App_cityChanged()
         {
@@ -83,6 +86,7 @@ namespace TommyJams.View
             cts.Cancel();
             cts = new CancellationTokenSource();
             LoadData();
+            App.InitNotifications();
         }
 
         

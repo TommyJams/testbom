@@ -18,6 +18,9 @@ using System.Device.Location;
 using Microsoft.Phone.Notification;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.IO;
+using System.Xml.Serialization;
+using Microsoft.Phone.Scheduler;
 
 namespace TommyJams.View
 {
@@ -57,8 +60,12 @@ namespace TommyJams.View
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             PushNotification_toggle.IsChecked = settings_extension.PushNotification_setting_status();
+            PushNotification_toggle.Content = settings_extension.PushNotification_setting_status() ? "On" : "Off";
             Location_Toggle.IsChecked = settings_extension.Location_setting_status();
+            Location_Toggle.Content = settings_extension.Location_setting_status() ? "On" : "Off";
             Calender_Toggle.IsChecked = settings_extension.CalenderEntries_setting_status();
+            Calender_Toggle.Content = settings_extension.CalenderEntries_setting_status() ? "On" : "Off";
+
             if (settings_extension.City_setting_status() != "")
                 city_name.Text = settings_extension.City_setting_status();
             else
@@ -110,7 +117,11 @@ namespace TommyJams.View
                      user_profile_logout.Visibility = Visibility.Visible;
                      fb_data_progressbar.Visibility = System.Windows.Visibility.Visible;
                  });
-                await get_fbname();                
+                try
+                {
+                    await get_fbname();
+                }
+                catch(WebExceptionWrapper) { }
             }
             else 
             {
@@ -211,10 +222,15 @@ namespace TommyJams.View
                         MessageBox.Show("Your location is not supported yet!");                        
                     }
                 }
+                else
+                {
+                    MessageBox.Show("Your location is not supported yet!");
+                }
             }
             else
             {
-                MessageBox.Show(e.Error.Message);
+                MessageBox.Show("Your location is not supported yet!");
+                //MessageBox.Show(e.Error.Message);
             }
         }
         private void city_selection_button_Click(object sender, RoutedEventArgs e)
@@ -230,6 +246,7 @@ namespace TommyJams.View
         private void PushNotification_toggle_Checked(object sender, RoutedEventArgs e)
         {
             settings_extension.PushNotification_setting(true);
+            PushNotification_toggle.Content = "On";
             App.InitNotifications();
         }
 
@@ -241,6 +258,7 @@ namespace TommyJams.View
         private void PushNotification_toggle_Unchecked(object sender, RoutedEventArgs e)
         {
             settings_extension.PushNotification_setting(false);
+            PushNotification_toggle.Content = "Off";
             var channel = HttpNotificationChannel.Find(App.PushChannel);
             if (channel != null)
             {
@@ -251,11 +269,13 @@ namespace TommyJams.View
         private void Calender_Toggle_Checked(object sender, RoutedEventArgs e)
         {
             settings_extension.CalenderEntries_setting(true);
+            Calender_Toggle.Content = "On";
         }
 
         private void Calender_Toggle_Unchecked(object sender, RoutedEventArgs e)
         {
             settings_extension.CalenderEntries_setting(false);
+            Calender_Toggle.Content= "Off";
         }
 
         private void Logout_Click(object sender, RoutedEventArgs e)
@@ -277,11 +297,13 @@ namespace TommyJams.View
         private void Location_Toggle_Checked(object sender, RoutedEventArgs e)
         {
             settings_extension.Location_setting(true);
+            Location_Toggle.Content = "On";
         }
 
         private void Location_Toggle_Unchecked(object sender, RoutedEventArgs e)
         {
             settings_extension.Location_setting(false);
+            Location_Toggle.Content = "Off";
         }
     }
 
@@ -290,7 +312,7 @@ namespace TommyJams.View
     /// </summary>
     abstract class settings_extension
     {
-        private static IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings ;
+        private static IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
         private static void Save_setting(string key, string value)
         {
             if (settings.Contains(key))
@@ -401,6 +423,8 @@ namespace TommyJams.View
                 settings.Add("CalenderEntries", "false");
             }
             settings["CalenderEntries"] = value.ToString();
+            if (string.Compare(value.ToString() ,"false", StringComparison.InvariantCultureIgnoreCase)==0)
+                disableAllReminders();
             settings.Save();
         }
         public static string City_setting_status()
@@ -489,6 +513,74 @@ namespace TommyJams.View
                 App.city = "Bangalore";
             }
         }
-        
+
+        public static List<Reminder> _Reminders;
+        public static List<Reminder> Reminders
+        {
+            get
+            {
+                if (_Reminders == null)                 
+                    _Reminders =  GetReminder();
+                return _Reminders;
+            }
+            set
+            {
+                _Reminders = value;
+            }
+        }
+        private static string saveToPath = "Reminders.xml";
+        private static List<Reminder> GetReminder()
+        {
+            List<Reminder> reminders = new List<Reminder>();
+            using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                if (myIsolatedStorage.FileExists(saveToPath))
+                {
+                    using (IsolatedStorageFileStream fileStream = myIsolatedStorage.OpenFile(saveToPath, FileMode.Open, FileAccess.Read))
+                    {
+                        
+                        XmlSerializer serializer = new XmlSerializer(typeof(List<Reminder>));
+                        reminders = (List<Reminder>) serializer.Deserialize(fileStream);
+                    }
+                }
+                else
+                {
+                    _Reminders = reminders;
+                    saveReminders();
+                }
+            }
+
+            return reminders;
+        }
+        public static void saveReminders()
+        {
+            using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                using (IsolatedStorageFileStream fileStream = myIsolatedStorage.OpenFile(saveToPath, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite))
+                {
+                    XmlSerializer serializer = new XmlSerializer(typeof(List<Reminder>));
+                    serializer.Serialize(fileStream, _Reminders);
+                }
+            }
+        }
+        public static void disableAllReminders()
+        {
+            foreach(Reminder r in Reminders)
+            {
+                try
+                {
+                    ScheduledActionService.Remove(r.Name);
+                }
+                catch { }
+            }
+            Reminders = new List<Reminder>();
+            saveReminders();
+        }
+    }
+    public class Reminder
+    {
+        public string Name;
+        public Reminder() { Name = ""; }
+        public Reminder(string ID) { Name = ID; }
     }
 }
