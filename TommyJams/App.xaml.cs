@@ -257,7 +257,7 @@ namespace TommyJams
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
             InitNotifications();
-            Register_ScheduledTask();
+            //Register_ScheduledTask();
 
             //check for saved city setting
             string c = settings_extension.City_setting_status();
@@ -265,7 +265,8 @@ namespace TommyJams
             if(c=="")
             {
                 //if no city saved then get the current location and save if found in supported city
-               settings_extension.GetLocation();
+                if(settings_extension.Location_setting_status())
+                    settings_extension.GetLocation();
             }
             else
             {

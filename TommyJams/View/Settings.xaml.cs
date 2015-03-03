@@ -38,7 +38,10 @@ namespace TommyJams.View
                 if (c.City_Name == "Current Location")
                 {
                     city_name.FontStyle = System.Windows.FontStyles.Italic;
-                    GetLocation();
+                    if (settings_extension.Location_setting_status())
+                        GetLocation();
+                    else
+                        MessageBox.Show("TommyJams doesn't have the permission to access your location. Please enable 'Location' in app's 'settings' to perform this action.");
                 }
                 else
                 {
@@ -54,6 +57,7 @@ namespace TommyJams.View
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             PushNotification_toggle.IsChecked = settings_extension.PushNotification_setting_status();
+            Location_Toggle.IsChecked = settings_extension.Location_setting_status();
             Calender_Toggle.IsChecked = settings_extension.CalenderEntries_setting_status();
             if (settings_extension.City_setting_status() != "")
                 city_name.Text = settings_extension.City_setting_status();
@@ -264,6 +268,16 @@ namespace TommyJams.View
         {
             NavigationService.Navigate(new Uri("/View/About.xaml",UriKind.Relative));
         }
+
+        private void Location_Toggle_Checked(object sender, RoutedEventArgs e)
+        {
+            settings_extension.Location_setting(true);
+        }
+
+        private void Location_Toggle_Unchecked(object sender, RoutedEventArgs e)
+        {
+            settings_extension.Location_setting(false);
+        }
     }
 
     /// <summary>
@@ -321,6 +335,36 @@ namespace TommyJams.View
                 settings.Add("PushNotification", "false");
             }
             settings["PushNotification"] = value.ToString();
+            settings.Save();
+        }
+        public static bool Location_setting_status()
+        {
+            if (settings.Contains("LocationSetting"))
+            {
+                if (settings["LocationSetting"].ToString().ToLower() == "true")
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            //Default Value
+            else
+            {
+                settings.Add("LocationSetting", "true");
+                settings.Save();
+                return true;
+            }
+        }
+        public static void Location_setting(bool value)
+        {
+            if (!settings.Contains("LocationSetting"))
+            {
+                settings.Add("LocationSetting", "false");
+            }
+            settings["LocationSetting"] = value.ToString();
             settings.Save();
         }
 
