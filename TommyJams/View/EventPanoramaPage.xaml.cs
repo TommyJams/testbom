@@ -258,53 +258,85 @@ namespace TommyJams.View
             }
             try
             {
-                if(settings_extension.CalenderEntries_setting_status())
-                    createReminder();
+                if (settings_extension.CalenderEntries_setting_status())
+                    //createReminder();
+                    createAppointment();
             }
             catch(Exception e)
             {
             }
         }
 
-        private void createReminder()
+        private void createAppointment()
         {
-            string name = App.ViewModel.NotificationItem.EventID;
             DateTime beginTime = DateTime.ParseExact(App.ViewModel.NotificationItem.EventDate, "yyyyMMdd", CultureInfo.InvariantCulture)
-                + DateTime.ParseExact(App.ViewModel.NotificationItem.EventTime,"HHmm",CultureInfo.InvariantCulture).TimeOfDay ;
+                + DateTime.ParseExact(App.ViewModel.NotificationItem.EventTime, "HHmm", CultureInfo.InvariantCulture).TimeOfDay;
             if (beginTime < DateTime.Now)
             {
                 return;
             }
-            DateTime expirationTime = beginTime + TimeSpan.FromHours(1);
+            DateTime expirationTime = beginTime + TimeSpan.FromHours(4);
 
-            // Determine which recurrence radio button is checked.
-            RecurrenceInterval recurrence = RecurrenceInterval.None;
-            string uri = string.Format("/View/EventPanoramaPage.xaml?eventid={0}&eventdate={1}&eventtime={3}",
-                    App.ViewModel.NotificationItem.EventID, Textblock_date.Text, panel5_price.Text, Textblock_time.Text, panel3_venue.Text, panel3_address.Text, Textblock_distance.Text, Panorama.Title);
-            Microsoft.Phone.Scheduler.Reminder reminder = new Microsoft.Phone.Scheduler.Reminder(name);
-            reminder.Title = App.ViewModel.NotificationItem.VenueName;
-            reminder.Content = App.ViewModel.NotificationItem.VenueAddress;
-            reminder.BeginTime = beginTime;
-            reminder.ExpirationTime = expirationTime;
-            reminder.RecurrenceType = recurrence;
-            //uri = HttpUtility.HtmlEncode(uri);
-            reminder.NavigationUri = new Uri(uri, UriKind.Relative);
+            Microsoft.Phone.Tasks.SaveAppointmentTask sat = new SaveAppointmentTask();
+            sat.AppointmentStatus = Microsoft.Phone.UserData.AppointmentStatus.Busy;
 
-            // Register the reminder with the system.
-            try
-            {
-                ScheduledActionService.Remove(reminder.Name);
-            }
-            catch { }
-            ScheduledActionService.Add(reminder);
-            bool exist = false;
-            foreach(Reminder r in settings_extension.Reminders)
-            {
-                if(r.Name == name) {exist = true;}
-            }
-            if(!exist) settings_extension.Reminders.Add(new Reminder(name));
-            settings_extension.saveReminders();
+            sat.Details = "TommyJams event";
+
+            sat.EndTime = expirationTime;
+
+            sat.IsAllDayEvent = false;
+
+            sat.Location = App.ViewModel.NotificationItem.VenueAddress;
+
+            sat.Reminder = Microsoft.Phone.Tasks.Reminder.OneDay;
+
+            sat.StartTime = beginTime;
+
+            sat.Subject = App.ViewModel.NotificationItem.VenueName;
+            sat.Show();
         }
+
+        #region  obsoleteCode
+        //private void createReminder()
+        //{
+        //    string name = App.ViewModel.NotificationItem.EventID;
+        //    DateTime beginTime = DateTime.ParseExact(App.ViewModel.NotificationItem.EventDate, "yyyyMMdd", CultureInfo.InvariantCulture)
+        //        + DateTime.ParseExact(App.ViewModel.NotificationItem.EventTime,"HHmm",CultureInfo.InvariantCulture).TimeOfDay ;
+        //    if (beginTime < DateTime.Now)
+        //    {
+        //        return;
+        //    }
+        //    DateTime expirationTime = beginTime + TimeSpan.FromHours(1);
+
+        //    // Determine which recurrence radio button is checked.
+        //    RecurrenceInterval recurrence = RecurrenceInterval.None;
+        //    string uri = string.Format("/View/EventPanoramaPage.xaml?eventid={0}&eventdate={1}&eventtime={3}",
+        //            App.ViewModel.NotificationItem.EventID, Textblock_date.Text, panel5_price.Text, Textblock_time.Text, panel3_venue.Text, panel3_address.Text, Textblock_distance.Text, Panorama.Title);
+        //    Microsoft.Phone.Scheduler.Reminder reminder = new Microsoft.Phone.Scheduler.Reminder(name);
+        //    reminder.Title = App.ViewModel.NotificationItem.VenueName;
+        //    reminder.Content = App.ViewModel.NotificationItem.VenueAddress;
+        //    reminder.BeginTime = beginTime;
+        //    reminder.ExpirationTime = expirationTime;
+        //    reminder.RecurrenceType = recurrence;
+        //    //uri = HttpUtility.HtmlEncode(uri);
+        //    reminder.NavigationUri = new Uri(uri, UriKind.Relative);
+
+        //    // Register the reminder with the system.
+        //    try
+        //    {
+        //        ScheduledActionService.Remove(reminder.Name);
+        //    }
+        //    catch { }
+        //    ScheduledActionService.Add(reminder);
+        //    bool exist = false;
+        //    foreach(Reminder r in settings_extension.Reminders)
+        //    {
+        //        if(r.Name == name) {exist = true;}
+        //    }
+        //    if(!exist) settings_extension.Reminders.Add(new Reminder(name));
+        //    settings_extension.saveReminders();
+        //}
+#endregion
 
         private void AddButtons()
         {

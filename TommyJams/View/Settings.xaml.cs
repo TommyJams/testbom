@@ -423,8 +423,8 @@ namespace TommyJams.View
                 settings.Add("CalenderEntries", "false");
             }
             settings["CalenderEntries"] = value.ToString();
-            if (string.Compare(value.ToString() ,"false", StringComparison.InvariantCultureIgnoreCase)==0)
-                disableAllReminders();
+            //if (string.Compare(value.ToString() ,"false", StringComparison.InvariantCultureIgnoreCase)==0)
+            //    disableAllReminders();
             settings.Save();
         }
         public static string City_setting_status()
@@ -513,69 +513,70 @@ namespace TommyJams.View
                 App.city = "Bangalore";
             }
         }
-
-        public static List<Reminder> _Reminders;
-        public static List<Reminder> Reminders
-        {
-            get
-            {
-                if (_Reminders == null)                 
-                    _Reminders =  GetReminder();
-                return _Reminders;
-            }
-            set
-            {
-                _Reminders = value;
-            }
-        }
-        private static string saveToPath = "Reminders.xml";
-        private static List<Reminder> GetReminder()
-        {
-            List<Reminder> reminders = new List<Reminder>();
-            using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
-            {
-                if (myIsolatedStorage.FileExists(saveToPath))
-                {
-                    using (IsolatedStorageFileStream fileStream = myIsolatedStorage.OpenFile(saveToPath, FileMode.Open, FileAccess.Read))
-                    {
+        #region obsolete Code
+        //public static List<Reminder> _Reminders;
+        //public static List<Reminder> Reminders
+        //{
+        //    get
+        //    {
+        //        if (_Reminders == null)                 
+        //            _Reminders =  GetReminder();
+        //        return _Reminders;
+        //    }
+        //    set
+        //    {
+        //        _Reminders = value;
+        //    }
+        //}
+        //private static string saveToPath = "Reminders.xml";
+        //private static List<Reminder> GetReminder()
+        //{
+        //    List<Reminder> reminders = new List<Reminder>();
+        //    using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
+        //    {
+        //        if (myIsolatedStorage.FileExists(saveToPath))
+        //        {
+        //            using (IsolatedStorageFileStream fileStream = myIsolatedStorage.OpenFile(saveToPath, FileMode.Open, FileAccess.Read))
+        //            {
                         
-                        XmlSerializer serializer = new XmlSerializer(typeof(List<Reminder>));
-                        reminders = (List<Reminder>) serializer.Deserialize(fileStream);
-                    }
-                }
-                else
-                {
-                    _Reminders = reminders;
-                    saveReminders();
-                }
-            }
+        //                XmlSerializer serializer = new XmlSerializer(typeof(List<Reminder>));
+        //                reminders = (List<Reminder>) serializer.Deserialize(fileStream);
+        //            }
+        //        }
+        //        else
+        //        {
+        //            _Reminders = reminders;
+        //            saveReminders();
+        //        }
+        //    }
 
-            return reminders;
-        }
-        public static void saveReminders()
-        {
-            using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
-            {
-                using (IsolatedStorageFileStream fileStream = myIsolatedStorage.OpenFile(saveToPath, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite))
-                {
-                    XmlSerializer serializer = new XmlSerializer(typeof(List<Reminder>));
-                    serializer.Serialize(fileStream, _Reminders);
-                }
-            }
-        }
-        public static void disableAllReminders()
-        {
-            foreach(Reminder r in Reminders)
-            {
-                try
-                {
-                    ScheduledActionService.Remove(r.Name);
-                }
-                catch { }
-            }
-            Reminders = new List<Reminder>();
-            saveReminders();
-        }
+        //    return reminders;
+        //}
+        //public static void saveReminders()
+        //{
+        //    using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
+        //    {
+        //        using (IsolatedStorageFileStream fileStream = myIsolatedStorage.OpenFile(saveToPath, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite))
+        //        {
+        //            XmlSerializer serializer = new XmlSerializer(typeof(List<Reminder>));
+        //            serializer.Serialize(fileStream, _Reminders);
+        //        }
+        //    }
+        //}
+        //public static void disableAllReminders()
+        //{
+        //    foreach(Reminder r in Reminders)
+        //    {
+        //        try
+        //        {
+        //            ScheduledActionService.Remove(r.Name);
+        //        }
+        //        catch { }
+        //    }
+        //    Reminders = new List<Reminder>();
+        //    saveReminders();
+        //}
+        #endregion
     }
     public class Reminder
     {
