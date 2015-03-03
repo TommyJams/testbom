@@ -262,6 +262,11 @@ namespace TommyJams.View
         {
             App.ViewModel.LogoutFromFacebook();
             LoadUserInfo();
+            var channel = HttpNotificationChannel.Find(App.PushChannel);
+            if (channel != null)
+            {
+                channel.Close();
+            }
         }
 
         private void About_Click(object sender, RoutedEventArgs e)
