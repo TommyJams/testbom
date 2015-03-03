@@ -89,10 +89,14 @@ namespace TommyJams.View
         public async void LoadData()
         {
             ProgressBar.Visibility = Visibility.Visible;
+            Boolean fPrimary = true;
+            Boolean fSecondary = true;
             try
             {
-                await App.ViewModel.LoadPrimaryEvents(cts.Token);
-                await App.ViewModel.LoadSecondaryEvents(cts.Token);
+                fPrimary = await App.ViewModel.LoadPrimaryEvents(cts.Token);
+                primaryNA.Visibility = fPrimary ? Visibility.Collapsed : Visibility.Visible;
+                fSecondary = await App.ViewModel.LoadSecondaryEvents(cts.Token);
+                secondaryNA.Visibility = fSecondary ? Visibility.Collapsed : Visibility.Visible;
                 if(App.MobileService.CurrentUser != null)
                 {
                     await App.ViewModel.LoadNotifications();
@@ -112,6 +116,8 @@ namespace TommyJams.View
             fbUserImage.Source = new BitmapImage(facebookpic);
             //ProgressBar.IsIndeterminate = false;
             ProgressBar.Visibility = Visibility.Collapsed;
+            primaryNA.Visibility = fPrimary ? Visibility.Collapsed : Visibility.Visible;
+            secondaryNA.Visibility = fSecondary ? Visibility.Collapsed : Visibility.Visible;
         }
 
         public void ToggleConnect()

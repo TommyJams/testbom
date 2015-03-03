@@ -364,14 +364,16 @@ namespace TommyJams.ViewModel
             return await AppModel.PushJoinEvent();
         }
 
-        public async Task LoadPrimaryEvents(CancellationToken ct)
+        public async Task<Boolean> LoadPrimaryEvents(CancellationToken ct)
         {
             Priority1Items = await AppModel.GetPrimaryEvents(ct);
+            return (Priority1Items.Count != 0) ? true : false;
         }
 
-        public async Task LoadSecondaryEvents(CancellationToken ct)
+        public async Task<Boolean> LoadSecondaryEvents(CancellationToken ct)
         {
             Priority2Items = await AppModel.GetSecondaryEvents(ct);
+            return (Priority2Items.Count != 0) ? true : false;
         }
 
         public async Task LoadNotifications()
