@@ -16,44 +16,44 @@
     SupportedOrientations="Portrait"  Orientation="Portrait"
     toolkit:TiltEffect.IsTiltEnabled="True"
     shell:SystemTray.IsVisible="False">
-	<phone:PhoneApplicationPage.Resources>
-		<Style x:Key="ListBoxItemStyle1" TargetType="ListBoxItem">
-			<Setter Property="Background" Value="Transparent"/>
-			<Setter Property="BorderThickness" Value="0"/>
-			<Setter Property="BorderBrush" Value="Transparent"/>
-			<Setter Property="Padding" Value="0"/>
-			<Setter Property="HorizontalContentAlignment" Value="Left"/>
-			<Setter Property="VerticalContentAlignment" Value="Top"/>
-			<Setter Property="Template">
-				<Setter.Value>
-					<ControlTemplate TargetType="ListBoxItem">
-						<Border x:Name="LayoutRoot" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}">
-							<VisualStateManager.VisualStateGroups>
-								<VisualStateGroup x:Name="CommonStates">
-									<VisualState x:Name="Normal"/>
-									<VisualState x:Name="MouseOver"/>
-									<VisualState x:Name="Disabled">
-										<Storyboard>
-											<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="LayoutRoot">
-												<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource TransparentBrush}"/>
-											</ObjectAnimationUsingKeyFrames>
-											<DoubleAnimation Duration="0" To=".5" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="ContentContainer"/>
-										</Storyboard>
-									</VisualState>
-								</VisualStateGroup>
-								<VisualStateGroup x:Name="SelectionStates">
-									<VisualState x:Name="Unselected"/>
-									<VisualState x:Name="Selected">										
-									</VisualState>
-								</VisualStateGroup>
-							</VisualStateManager.VisualStateGroups>
-							<ContentControl x:Name="ContentContainer" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
-						</Border>
-					</ControlTemplate>
-				</Setter.Value>
-			</Setter>
-		</Style>
-	</phone:PhoneApplicationPage.Resources>
+    <phone:PhoneApplicationPage.Resources>
+        <Style x:Key="ListBoxItemStyle1" TargetType="ListBoxItem">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="VerticalContentAlignment" Value="Top"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border x:Name="LayoutRoot" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="MouseOver"/>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="LayoutRoot">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource TransparentBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <DoubleAnimation Duration="0" To=".5" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="ContentContainer"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="SelectionStates">
+                                    <VisualState x:Name="Unselected"/>
+                                    <VisualState x:Name="Selected">
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <ContentControl x:Name="ContentContainer" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </phone:PhoneApplicationPage.Resources>
 
     <!--LayoutRoot contains the root grid where all other page content is placed-->
     <Grid x:Name="LayoutRoot" Background="{StaticResource TommyJams_Background}">
@@ -86,7 +86,7 @@
                                             </Button.Content>
                                         </Button>
                                     </Grid>
-                                    
+
 
                                     <Grid Margin="5,0,0,0">
                                         <TextBlock x:Name="genre" Text="{Binding EventGenre}" FontSize="15" FontFamily="Segoe WP"/>
@@ -101,7 +101,7 @@
                                             <Run Text=" • "/>
                                             <Run Text="{Binding EventDistance}"/>
                                         </TextBlock>
-                                        <TextBlock x:Name="Hotness" TextWrapping="Wrap" FontSize="15" Foreground="#ff992a33">
+                                        <TextBlock x:Name="Hotness" TextWrapping="Wrap" FontSize="15" Foreground="#FFF04755">
                                             <Run Text=" • " Foreground="White"/>
                                             <Run Text="Rating : "/>
                                             <Run Text="{Binding EventHotness}"/>
@@ -153,7 +153,7 @@
                                             <Run Text=" • "/>
                                             <Run Text="{Binding EventDistance}"/>
                                             </TextBlock>
-                                            <TextBlock x:Name="Hotness" TextWrapping="Wrap" FontSize="15" Foreground="#ff992a33">
+                                            <TextBlock x:Name="Hotness" TextWrapping="Wrap" FontSize="15" Foreground="#FFF04755">
                                             <Run Text=" • " Foreground="White"/>
                                                 <Run Text="Rating : "/>
                                             <Run Text="{Binding EventHotness}"/>
@@ -176,24 +176,24 @@
                         <src:EventViewModel  x:Key="NotificationItems"/>
                     </Grid.Resources>
                     <ScrollViewer>
-                    <StackPanel Orientation="Vertical">
-                    <TextBlock Text="upcoming events" TextWrapping="Wrap" FontSize="30" Margin="10" Foreground="{StaticResource TommyJams_Grey_Text}"/>
-                    <ListBox x:Name="upcomingEventsListBox" ItemsSource="{Binding UpcomingEvents, Mode=TwoWay}"
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="upcoming events" TextWrapping="Wrap" FontSize="30" Margin="10" Foreground="{StaticResource TommyJams_Grey_Text}"/>
+                            <ListBox x:Name="upcomingEventsListBox" ItemsSource="{Binding UpcomingEvents, Mode=TwoWay}"
                              ItemContainerStyle="{StaticResource ListBoxItemStyle1}"
                              ScrollViewer.VerticalScrollBarVisibility="Disabled"
                              SelectionChanged="MainListBox_SelectionChanged">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                    <StackPanel Orientation="Horizontal" Margin="20,20,0,0">
-                                        <Rectangle Fill="#ffcc00" Width="5"/>
-                                        <StackPanel Orientation="Vertical" Margin="10,0,0,0">
-                                            <TextBlock Text="{Binding EventGenre}" TextWrapping="Wrap" FontSize="15"/>
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" Margin="20,20,0,0">
+                                            <Rectangle Fill="#ffcc00" Width="5"/>
+                                            <StackPanel Orientation="Vertical" Margin="10,0,0,0">
+                                                <TextBlock Text="{Binding EventGenre}" TextWrapping="Wrap" FontSize="15"/>
 
-                                            <TextBlock Text="{Binding EventName}" TextWrapping="Wrap" FontSize="25" Foreground="#ffcc00"/>
-                                            <TextBlock Text="{Binding VenueName}" TextWrapping="Wrap" FontSize="15"/>
+                                                <TextBlock Text="{Binding EventName}" TextWrapping="Wrap" FontSize="25" Foreground="#ffcc00"/>
+                                                <TextBlock Text="{Binding VenueName}" TextWrapping="Wrap" FontSize="15"/>
 
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="{Binding EventTime}" TextWrapping="Wrap" FontSize="15"/>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="{Binding EventTime}" TextWrapping="Wrap" FontSize="15"/>
                                                     <TextBlock TextWrapping="Wrap" FontSize="15">                                                        
                                                         <Run Text=" • "/>
                                                         <Run Text="{Binding EventDate}"/>
@@ -202,49 +202,49 @@
                                                         <Run Text=" • "/>
                                                         <Run Text="{Binding EventPrice}"/>
                                                     </TextBlock>
-                                            </StackPanel>
-                                        </StackPanel>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                    <TextBlock Text="invitations" TextWrapping="Wrap" FontSize="30" Margin="10" Foreground="{StaticResource TommyJams_Grey_Text}"/>
-                    <ListBox x:Name="invitationListBox" ItemsSource="{Binding NotificationItems, Mode=TwoWay}"
-                             ItemContainerStyle="{StaticResource ListBoxItemStyle1}"
-                             ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                             SelectionChanged="MainListBox_SelectionChanged">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                    <StackPanel Orientation="Horizontal" Margin="20,20,0,0">
-                                    <Rectangle Fill="#ffcc00" Width="5"/>
-                                        <StackPanel Orientation="Vertical" Margin="10,0,0,0">
-                                            <TextBlock Text="{Binding EventGenre}" TextWrapping="Wrap" FontSize="15"/>
-
-                                            <TextBlock Text="{Binding EventName}" TextWrapping="Wrap" FontSize="25" Foreground="#ffcc00"/>
-                                            <TextBlock Text="{Binding VenueName}" TextWrapping="Wrap" FontSize="15"/>
-
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="{Binding EventTime}" TextWrapping="Wrap" FontSize="15"/>
-                                                <TextBlock Text="{Binding EventDate}" TextWrapping="Wrap" FontSize="15"/>
-                                                <TextBlock Text="{Binding EventPrice}" TextWrapping="Wrap" FontSize="15"/>
-                                            </StackPanel>
-
-                                            <StackPanel Orientation="Horizontal">
-                                                <Image Height="80" Width="80" Source="{Binding InviteeImage}" VerticalAlignment="Center" Margin="0,10,0,0">
-                                                    <Image.Clip>
-                                                        <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
-                                                    </Image.Clip>
-                                                </Image>
-                                                <StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="10,0,0,0">
-                                                    <TextBlock Text="{Binding InviteeName}" TextWrapping="Wrap" FontSize="25" Foreground="#ffcc00"/>
-                                                    <TextBlock Text="invited you" TextWrapping="Wrap" FontSize="15"/>
                                                 </StackPanel>
                                             </StackPanel>
                                         </StackPanel>
-                                    </StackPanel>
-                                </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                            <TextBlock Text="invitations" TextWrapping="Wrap" FontSize="30" Margin="10" Foreground="{StaticResource TommyJams_Grey_Text}"/>
+                            <ListBox x:Name="invitationListBox" ItemsSource="{Binding NotificationItems, Mode=TwoWay}"
+                             ItemContainerStyle="{StaticResource ListBoxItemStyle1}"
+                             ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                             SelectionChanged="MainListBox_SelectionChanged">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" Margin="20,20,0,0">
+                                            <Rectangle Fill="#ffcc00" Width="5"/>
+                                            <StackPanel Orientation="Vertical" Margin="10,0,0,0">
+                                                <TextBlock Text="{Binding EventGenre}" TextWrapping="Wrap" FontSize="15"/>
+
+                                                <TextBlock Text="{Binding EventName}" TextWrapping="Wrap" FontSize="25" Foreground="#ffcc00"/>
+                                                <TextBlock Text="{Binding VenueName}" TextWrapping="Wrap" FontSize="15"/>
+
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="{Binding EventTime}" TextWrapping="Wrap" FontSize="15"/>
+                                                    <TextBlock Text="{Binding EventDate}" TextWrapping="Wrap" FontSize="15"/>
+                                                    <TextBlock Text="{Binding EventPrice}" TextWrapping="Wrap" FontSize="15"/>
+                                                </StackPanel>
+
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Image Height="80" Width="80" Source="{Binding InviteeImage}" VerticalAlignment="Center" Margin="0,10,0,0">
+                                                        <Image.Clip>
+                                                            <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
+                                                        </Image.Clip>
+                                                    </Image>
+                                                    <StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="10,0,0,0">
+                                                        <TextBlock Text="{Binding InviteeName}" TextWrapping="Wrap" FontSize="25" Foreground="#ffcc00"/>
+                                                        <TextBlock Text="invited you" TextWrapping="Wrap" FontSize="15"/>
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
                         </StackPanel>
                     </ScrollViewer>
                 </Grid>
@@ -268,8 +268,8 @@
                         <TextBlock Text="connect via" Margin="0,0,0,0" Foreground="{StaticResource TommyJams_Yellow}" FontSize="26" FontFamily="Segoe WP Semibold"/>
                         <TextBlock Text="Facebook" Margin="0,0,0,0" FontSize="26" Foreground="#ff3b5998" FontFamily="Segoe WP Semibold"/>
                     </StackPanel>
-                    <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Margin="20,0,0,0">                        
-                            <TextBlock Text="Why connect?" FontFamily="Segoe WP Semibold" FontSize="22"/>                        
+                    <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Margin="20,0,0,0">
+                        <TextBlock Text="Why connect?" FontFamily="Segoe WP Semibold" FontSize="22"/>
                         <StackPanel Margin="0,10,0,5" Orientation="Horizontal">
                             <Grid Margin="0,0,10,0">
                                 <Image Source="/Resources/Image/icon_main_why.png" Width="80" Height="80"/>
@@ -300,7 +300,7 @@
                                 </TextBlock>
                             </StackPanel>
                         </StackPanel>
-                        
+
                     </StackPanel>
 
                 </Grid>

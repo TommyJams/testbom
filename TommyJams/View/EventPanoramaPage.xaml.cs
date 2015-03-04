@@ -110,7 +110,11 @@ namespace TommyJams.View
 
             App.ViewModel.ArtistInfo = await App.ViewModel.LoadArtistInfo();
             App.ViewModel.VenueInfo = await App.ViewModel.LoadVenueInfo();
-            App.ViewModel.SocialInfo = await App.ViewModel.LoadSocialInfo();
+            try
+            {
+                App.ViewModel.SocialInfo = await App.ViewModel.LoadSocialInfo();
+            }
+            catch (System.Net.Http.HttpRequestException e) { }
             App.ViewModel.TicketInfo = await App.ViewModel.LoadTicketInfo();
 
             ArtistListBox.ItemsSource = App.ViewModel.ArtistInfo;

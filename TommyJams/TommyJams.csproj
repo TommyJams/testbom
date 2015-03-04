@@ -251,6 +251,7 @@
     <Content Include="Resources\Image\play.png" />
     <Content Include="Resources\Image\refresh.png" />
     <Content Include="Resources\Image\shuffel.png" />
+    <Content Include="Resources\Image\Toast_tj_icon.png" />
     <Content Include="Resources\Songs\Babel.mp3" />
     <Content Include="Resources\Songs\I Will Wait.mp3" />
     <Content Include="SplashScreenImage.jpg" />
@@ -267,6 +268,12 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Coding4Fun.Toolkit">
+      <HintPath>..\packages\Coding4Fun.Toolkit.Controls.2.0.9\lib\windowsphone8\Coding4Fun.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="Coding4Fun.Toolkit.Controls">
+      <HintPath>..\packages\Coding4Fun.Toolkit.Controls.2.0.9\lib\windowsphone8\Coding4Fun.Toolkit.Controls.dll</HintPath>
+    </Reference>
     <Reference Include="Facebook, Version=6.0.10.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Facebook.6.8.0\lib\wp8\Facebook.dll</HintPath>

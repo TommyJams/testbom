@@ -430,6 +430,7 @@ namespace TommyJams.Model
                 foreach(OtherUser friendItem in App.FBViewModel.SelectedFriends)
                 {
                     postData += "{\"fbid\":\"" + friendItem.id + "\"},";
+                    //postData += "{\"fbid\":\"" + "1572155721" + "\"},";
                     inviteeExists = true;
                 }
 
