@@ -104,7 +104,14 @@ namespace TommyJams.View
                 if(App.MobileService.CurrentUser != null)
                 {
                     await App.ViewModel.LoadNotifications();
-                    await App.FBViewModel.LoadFacebookFriends();
+                    try
+                    {
+                        await App.FBViewModel.LoadFacebookFriends();
+                    }
+                    catch(Facebook.WebExceptionWrapper)
+                    {
+                        
+                    }
                 }
             }
             catch (NullReferenceException)

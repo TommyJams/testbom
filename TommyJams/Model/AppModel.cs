@@ -12,6 +12,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using TommyJams;
 using TommyJams.Model;
 using Windows.Devices.Geolocation;
@@ -447,6 +448,9 @@ namespace TommyJams.Model
                 }
                 catch (HttpRequestException ex)
                 {
+                    Deployment.Current.Dispatcher.BeginInvoke(()=>
+                        MessageBox.Show("Sorry, could not connect to the internet!")
+                    );
                     return null;
                 }
 
