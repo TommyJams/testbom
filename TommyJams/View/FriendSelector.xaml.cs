@@ -31,13 +31,13 @@ namespace TommyJams.View
             try
             {
                 await App.ViewModel.DoneSelectedFriends();
+                MessageBox.Show("Successfully sent notification to your friend!");
             }
             catch(Exception)
             {
-                MessageBox.Show("Hmmmm. Seems that your friend is not on our awesome application yet. We'll send them a link to your invite. Enjoy the show!");
+                MessageBox.Show("Sorry, unable to send notification! Invite your friend to our app?");
             }
             
-
             NavigationService.GoBack();
         }
 
