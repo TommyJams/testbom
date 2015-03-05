@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using TommyJams;
 using TommyJams.Model;
+using TommyJams.View;
 using Windows.Devices.Geolocation;
 
 namespace TommyJams.Model
@@ -109,15 +110,28 @@ namespace TommyJams.Model
 
                 Double latitude = Convert.ToDouble(location[0]);
                 Double longitude = Convert.ToDouble(location[1]);
-                var eventGeo = new GeoCoordinate(latitude, longitude);
+                if (settings_extension.Location_setting_status())
+                {
+                    double x = 0;
+                    try
+                    {
+                        var eventGeo = new GeoCoordinate(latitude, longitude);
 
-                Geolocator myGeolocator = new Geolocator();
-                Geoposition myGeoposition = await myGeolocator.GetGeopositionAsync();
-                Geocoordinate myGeocoordinate = myGeoposition.Coordinate;
-                var myGeo = new GeoCoordinate(myGeocoordinate.Latitude, myGeocoordinate.Longitude);
-                double x = eventGeo.GetDistanceTo(myGeo);
-
-                aProduct.EventDistance = ((int)(x / 1000)).ToString() + " Kms";
+                        Geolocator myGeolocator = new Geolocator();
+                        Geoposition myGeoposition = await myGeolocator.GetGeopositionAsync();
+                        Geocoordinate myGeocoordinate = myGeoposition.Coordinate;
+                        var myGeo = new GeoCoordinate(myGeocoordinate.Latitude, myGeocoordinate.Longitude);
+                        x = eventGeo.GetDistanceTo(myGeo);
+                        aProduct.EventDistance = ((int)(x / 1000)).ToString() + " Kms";
+                    }
+                    catch(Exception ex)
+                    { aProduct.EventDistance = "Unknown" + " Km"; }
+                    
+                }
+                else
+                {
+                    aProduct.EventDistance = "Unknown" + " Kms";
+                }
                 aProduct.EventPrice = "₹ " + aProduct.EventPrice;
                 aProduct.EventHotness =  aProduct.EventHotness;
             }
@@ -341,15 +355,30 @@ namespace TommyJams.Model
 
                 Double latitude = Convert.ToDouble(location[0]);
                 Double longitude = Convert.ToDouble(location[1]);
-                var eventGeo = new GeoCoordinate(latitude, longitude);
-                
-                Geolocator myGeolocator = new Geolocator();
-                Geoposition myGeoposition = await myGeolocator.GetGeopositionAsync();
-                Geocoordinate myGeocoordinate = myGeoposition.Coordinate;
-                var myGeo = new GeoCoordinate(myGeocoordinate.Latitude, myGeocoordinate.Longitude);
-                double x = eventGeo.GetDistanceTo(myGeo);
-                
-                aProduct.EventDistance = ((int)(x / 1000)).ToString() + " Km";
+                if (settings_extension.Location_setting_status())
+                {
+                    double x=0;
+                    try
+                    {
+                        var eventGeo = new GeoCoordinate(latitude, longitude);
+
+                        Geolocator myGeolocator = new Geolocator();
+                        Geoposition myGeoposition = await myGeolocator.GetGeopositionAsync();
+                        Geocoordinate myGeocoordinate = myGeoposition.Coordinate;
+                        var myGeo = new GeoCoordinate(myGeocoordinate.Latitude, myGeocoordinate.Longitude);
+                        x = eventGeo.GetDistanceTo(myGeo);
+
+                        aProduct.EventDistance = ((int)(x / 1000)).ToString() + " Km";
+                    }
+                    catch(Exception ex)
+                    {
+                        aProduct.EventDistance = "Unknown" + " Km";
+                    }
+                }
+                else
+                {
+                    aProduct.EventDistance = "Unknown" + " Km";
+                }
                 aProduct.EventPrice = "₹ " + aProduct.EventPrice;
                 aProduct.EventHotness =  aProduct.EventHotness;
             }
