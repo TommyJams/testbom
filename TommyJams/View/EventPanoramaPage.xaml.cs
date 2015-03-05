@@ -275,12 +275,12 @@ namespace TommyJams.View
             {
                 return;
             }
-            DateTime expirationTime = beginTime + TimeSpan.FromHours(4);
+            DateTime expirationTime = beginTime + TimeSpan.FromHours(3);
 
             Microsoft.Phone.Tasks.SaveAppointmentTask sat = new SaveAppointmentTask();
             sat.AppointmentStatus = Microsoft.Phone.UserData.AppointmentStatus.Busy;
 
-            sat.Details = "TommyJams event";
+            sat.Details = App.ViewModel.NotificationItem.EventName;
 
             sat.EndTime = expirationTime;
 
