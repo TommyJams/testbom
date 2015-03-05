@@ -98,13 +98,20 @@ namespace TommyJams.View
             try
             {
                 fPrimary = await App.ViewModel.LoadPrimaryEvents(cts.Token);
-                primaryNA.Visibility = fPrimary ? Visibility.Collapsed : Visibility.Visible;
+                primaryNA.Visibility = fPrimary || App.ViewModel.Priority1Items.Count>0 ? Visibility.Collapsed : Visibility.Visible;
                 fSecondary = await App.ViewModel.LoadSecondaryEvents(cts.Token);
-                secondaryNA.Visibility = fSecondary ? Visibility.Collapsed : Visibility.Visible;
+                secondaryNA.Visibility = fSecondary || App.ViewModel.Priority2Items.Count>0 ? Visibility.Collapsed : Visibility.Visible;
                 if(App.MobileService.CurrentUser != null)
                 {
                     await App.ViewModel.LoadNotifications();
-                    await App.FBViewModel.LoadFacebookFriends();
+                    try
+                    {
+                        await App.FBViewModel.LoadFacebookFriends();
+                    }
+                    catch(Facebook.WebExceptionWrapper)
+                    {
+                        
+                    }
                 }
             }
             catch (NullReferenceException)
@@ -120,8 +127,8 @@ namespace TommyJams.View
             fbUserImage.Source = new BitmapImage(facebookpic);
             //ProgressBar.IsIndeterminate = false;
             ProgressBar.Visibility = Visibility.Collapsed;
-            primaryNA.Visibility = fPrimary ? Visibility.Collapsed : Visibility.Visible;
-            secondaryNA.Visibility = fSecondary ? Visibility.Collapsed : Visibility.Visible;
+            primaryNA.Visibility = fPrimary || App.ViewModel.Priority1Items.Count > 0 ? Visibility.Collapsed : Visibility.Visible;
+            secondaryNA.Visibility = fSecondary || App.ViewModel.Priority2Items.Count > 0 ? Visibility.Collapsed : Visibility.Visible;
         }
 
         public void ToggleConnect()

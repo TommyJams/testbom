@@ -174,8 +174,15 @@ namespace TommyJams
 
         private async void UpdateLocation()
         {
-            myPosition = await geoLocator.GetGeopositionAsync();
-            myGeocoordinate = myPosition.Coordinate;
+            if (settings_extension.Location_setting_status())
+            {
+                try
+                {
+                    myPosition = await geoLocator.GetGeopositionAsync();
+                    myGeocoordinate = myPosition.Coordinate;
+                }
+                catch (Exception ex) { }
+            }
             
         }
 

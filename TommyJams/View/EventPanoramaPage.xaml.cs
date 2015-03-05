@@ -84,7 +84,10 @@ namespace TommyJams.View
                 App.ViewModel.NotificationItem = await App.ViewModel.LoadEventInfo();
             }
             catch(System.Net.Http.HttpRequestException)
-            {            }
+            {
+                MessageBox.Show("Sorry, could not connect to the internet!");
+                return;
+            }
             if (fromTile)
             {
                 if (App.ViewModel.NotificationItem.InviteExists)
@@ -108,18 +111,34 @@ namespace TommyJams.View
                 }
             }
 
-            App.ViewModel.ArtistInfo = await App.ViewModel.LoadArtistInfo();
-            App.ViewModel.VenueInfo = await App.ViewModel.LoadVenueInfo();
+            try
+            {
+                App.ViewModel.ArtistInfo = await App.ViewModel.LoadArtistInfo();
+            }
+            catch (System.Net.Http.HttpRequestException)
+            {
+
+            }
+            try
+            {
+                App.ViewModel.VenueInfo = await App.ViewModel.LoadVenueInfo();
+            }
+            catch (System.Net.Http.HttpRequestException) { }
             try
             {
                 App.ViewModel.SocialInfo = await App.ViewModel.LoadSocialInfo();
             }
             catch (System.Net.Http.HttpRequestException e) { }
-            App.ViewModel.TicketInfo = await App.ViewModel.LoadTicketInfo();
+            try
+            {
+                App.ViewModel.TicketInfo = await App.ViewModel.LoadTicketInfo();
+            }
+            catch (System.Net.Http.HttpRequestException) { }
 
             ArtistListBox.ItemsSource = App.ViewModel.ArtistInfo;
             VenueGrid.DataContext = App.ViewModel.VenueInfo;
-            venueMap.Center = App.ViewModel.VenueInfo.VenueGeoCoordinate;
+            if (App.ViewModel.VenueInfo.VenueGeoCoordinate!=null)
+                venueMap.Center = App.ViewModel.VenueInfo.VenueGeoCoordinate;
 
             int countAttendees = App.ViewModel.SocialInfo.Count();
             SocialListBox.ItemsSource = App.ViewModel.SocialInfo;
