@@ -20,6 +20,8 @@ using System.Collections.Generic;
 using System.Windows.Media;
 using Windows.Data.Xml.Dom;
 using Windows.ApplicationModel.Background;
+using Coding4Fun.Toolkit.Controls;
+using System.Windows.Media.Imaging;
 
 namespace TommyJams
 {
@@ -223,6 +225,7 @@ namespace TommyJams
             }
         }
 
+        static string relativeUri = string.Empty; 
         /// <summary>
         /// Handles the Toast Push Notification when app is in Foreground
         /// </summary>
@@ -230,31 +233,40 @@ namespace TommyJams
         /// <param name="e"></param>
         public static void CurrentChannel_ShellToastNotificationReceived(object sender, NotificationEventArgs e)
         {
-            StringBuilder message = new StringBuilder();
-            string relativeUri = string.Empty;
-
-            message.AppendFormat("Received Toast {0}:\n", DateTime.Now.ToShortTimeString());
-
-            // Parse out the information that was part of the message.
-            foreach (string key in e.Collection.Keys)
-            {
-                message.AppendFormat("{0}: {1}\n", key, e.Collection[key]);
-
-                if (string.Compare(
-                    key,
-                    "wp:Param",
-                    System.Globalization.CultureInfo.InvariantCulture,
-                    System.Globalization.CompareOptions.IgnoreCase) == 0)
-                {
-                    relativeUri = e.Collection[key];
-                }
-            }
             
             Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
-                // Display a dialog of all the fields in the toast.
-                MessageBox.Show(message.ToString());                
+                ToastPrompt toast = new ToastPrompt();
+                toast.ImageSource = new BitmapImage(new Uri("/Resources/Image/Toast_tj_icon.png", UriKind.RelativeOrAbsolute));
+                if(e.Collection.Keys.Contains("wp:Text1"))
+                {
+                    toast.Title = e.Collection["wp:Text1"] ;
+                }
+                if(e.Collection.Keys.Contains("wp:Text2"))
+                {
+                    toast.Message = e.Collection["wp:Text2"];
+                }
+                 if(e.Collection.Keys.Contains("wp:Param"))
+                    relativeUri = e.Collection["wp:Param"];
+
+                 toast.Tap += toast_Tap;
+                // Display a dialog of all the fields in the toast.                
+                toast.Show();               
             });
+        }
+
+        static void toast_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            if(!string.IsNullOrEmpty(relativeUri))
+            {
+                try{
+                    Uri uri = new Uri(relativeUri, UriKind.Relative);
+                    (Application.Current.RootVisual as PhoneApplicationFrame).Navigate(uri);
+                }
+                catch{
+                    return;
+                }
+            }
         }
         
         // Code to execute when the application is launching (eg, from Start)
