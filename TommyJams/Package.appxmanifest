@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest" xmlns:m3="http://schemas.microsoft.com/appx/2014/manifest" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest">
-  <Identity Name="GrayscaleSoftLabsLLP.TommyJams" Publisher="CN=8B6D2CDB-A4C6-46F1-8ED3-F1D047FB232E" Version="1.0.0.0" />
+  <Identity Name="GrayscaleSoftLabsLLP.TommyJams" Publisher="CN=8B6D2CDB-A4C6-46F1-8ED3-F1D047FB232E" Version="1.0.0.1" />
   <mp:PhoneIdentity PhoneProductId="e4312153-3f4c-49dd-904d-5fbe8f1d6073" PhonePublisherId="3f72d71c-dd80-408e-affb-aa06372f396a" />
   <Properties>
     <DisplayName>TommyJams</DisplayName>
