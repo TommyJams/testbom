@@ -112,7 +112,7 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-                    <TextBlock x:Name="primaryNA" Text="Sorry, could not fetch any data" Visibility="Collapsed" Margin="5"/>
+                    <TextBlock x:Name="primaryNA" Text="There are no events available in this location." Visibility="Collapsed" Margin="5"/>
 
                 </Grid>
             </phone:PanoramaItem>
@@ -165,7 +165,7 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-                    <TextBlock x:Name="secondaryNA" Text="Sorry, could not fetch any data" Visibility="Collapsed" Margin="5"/>
+                    <TextBlock x:Name="secondaryNA" Text="There are no events available in this location." Visibility="Collapsed" Margin="5"/>
                 </Grid>
             </phone:PanoramaItem>
 

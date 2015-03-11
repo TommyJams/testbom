@@ -93,12 +93,14 @@ namespace TommyJams.View
         public async void LoadData()
         {
             ProgressBar.Visibility = Visibility.Visible;
+            //If false then primary event count was 0
             Boolean fPrimary = false;
+            //If false then secondary event count was 0
             Boolean fSecondary = false;
             try
             {
                 fPrimary = await App.ViewModel.LoadPrimaryEvents(cts.Token);
-                primaryNA.Visibility = fPrimary || App.ViewModel.Priority1Items.Count>0 ? Visibility.Collapsed : Visibility.Visible;
+                primaryNA.Visibility = fPrimary || App.ViewModel.Priority1Items.Count > 0 ? Visibility.Collapsed : Visibility.Visible;
                 fSecondary = await App.ViewModel.LoadSecondaryEvents(cts.Token);
                 secondaryNA.Visibility = fSecondary || App.ViewModel.Priority2Items.Count>0 ? Visibility.Collapsed : Visibility.Visible;
                 if(App.MobileService.CurrentUser != null)
