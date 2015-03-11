@@ -177,12 +177,12 @@
                                     <TextBlock x:Name ="artistName" Width="400" FontSize="30" TextWrapping="Wrap" Text="{Binding ArtistName}" Foreground="White"/>
                                     <TextBlock x:Name ="artistDescription" Width="400" TextWrapping="Wrap" Text="{Binding ArtistDescription}" Foreground="White"/>
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="../Resources/Image/icon_events_fb.png" Height="80" Width="80" Margin="0,10,0,10" Tag="{Binding ArtistFacebook}" Tap="icon_tap">
+                                        <Image Source="../Resources/Image/icon_events_fb.png" Height="80" Width="80" Margin="0,10,0,10" Tag="{Binding ArtistFacebook}" Tap="icon_tap" Visibility="{Binding Path=ArtistFacebook, TargetNullValue=Collapsed }">
                                             <Image.Clip>
                                                 <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
                                             </Image.Clip>
                                         </Image>
-                                        <Image Source="../Resources/Image/icon_events_sc.png" Height="80" Width="80" Margin="0,10,0,10" Tag="{Binding ArtistSocial}" Tap="icon_tap">
+                                        <Image Source="../Resources/Image/icon_events_sc.png" Height="80" Width="80" Margin="0,10,0,10" Tag="{Binding ArtistSocial}" Tap="icon_tap" Visibility="{Binding Path=ArtistSocial, TargetNullValue=Collapsed }">
                                             <Image.Clip>
                                                 <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
                                             </Image.Clip>
@@ -242,17 +242,17 @@
                     
                         <TextBlock x:Name ="venueDescription" Margin="10,0,0,0" TextWrapping="Wrap" Text="{Binding venueInfo_Foursquare.VenueZDesc}"/>
                         <StackPanel Orientation="Horizontal" Margin="10,20,0,0">
-                            <Image Source="../Resources/Image/icon_events_fb.png" Height="80" Width="80" Tag="{Binding VenueFacebook}" Tap="icon_tap">
+                            <Image Source="../Resources/Image/icon_events_fb.png" Height="80" Width="80" Tag="{Binding VenueFacebook}" Tap="icon_tap" Visibility="{Binding Path=VenueFacebook, TargetNullValue=Collapsed }">
                                 <Image.Clip>
                                     <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
                                 </Image.Clip>
                             </Image>
-                            <Image Source="../Resources/Image/icon_events_fs.png" Margin="10,0,0,0" Height="80" Width="80" Tag="{Binding venueInfo_Foursquare.VenueZLink}" Tap="icon_tap">
+                            <Image Source="../Resources/Image/icon_events_fs.png" Margin="10,0,0,0" Height="80" Width="80" Tag="{Binding venueInfo_Foursquare.VenueZLink}" Visibility="{Binding Path=venueInfo_Foursquare.VenueZLink, TargetNullValue=Collapsed }" Tap="icon_tap">
                                 <Image.Clip>
                                     <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
                                 </Image.Clip>
                             </Image>
-                            <Image Source="../Resources/Image/icon_events_zo.png" Margin="10,0,0,0" Height="80" Width="80" Tag="{Binding VenueZomato}" Tap="icon_tap">
+                            <Image Source="../Resources/Image/icon_events_zo.png" Margin="10,0,0,0" Height="80" Width="80" Tag="{Binding VenueZomato}" Visibility="{Binding Path=VenueZomato, TargetNullValue=Collapsed }" Tap="icon_tap">
                                 <Image.Clip>
                                     <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
                                 </Image.Clip>
