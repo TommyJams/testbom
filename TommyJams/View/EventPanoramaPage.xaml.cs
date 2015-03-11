@@ -373,6 +373,13 @@ namespace TommyJams.View
                 pinevent.Text = "Pin Event";
                 pinevent.IconUri = new Uri("/Resources/Image/bar_events_pin.png", UriKind.Relative);
                 pinevent.Click += Pin_Click;
+                ShellTile TileToFind = ShellTile.ActiveTiles.FirstOrDefault(x => x.NavigationUri.ToString().Contains("/View/EventPanoramaPage.xaml?eventid=" + App.ViewModel.NotificationItem.EventID));
+                if (TileToFind != null)
+                {
+                    pinevent.IsEnabled = false;
+                }
+                else
+                    pinevent.IsEnabled = true;
                 ApplicationBar.Buttons.Add(pinevent);
             }
 
@@ -471,6 +478,7 @@ namespace TommyJams.View
             {
                 MessageBox.Show("Sorry, could not create a repeat tile!");
             }
+            AddButtons();
         }
     }
 }
