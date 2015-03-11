@@ -9,6 +9,7 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using System.Reflection;
 using Microsoft.Phone.Tasks;
+using System.Xml.Linq;
 
 namespace TommyJams.View
 {
@@ -21,11 +22,10 @@ namespace TommyJams.View
         }
         public static string GetVersion()
         {
-            var versionAttribute = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyFileVersionAttribute), true).FirstOrDefault() as AssemblyFileVersionAttribute;
-
-            if (versionAttribute != null)
+            string Version = XDocument.Load("WMAppManifest.xml").Root.Element("App").Attribute("Version").Value;
+            if (Version != null)
             {
-                return versionAttribute.Version;
+                return Version;
             }
             return "";
         }
