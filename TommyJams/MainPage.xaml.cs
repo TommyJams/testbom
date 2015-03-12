@@ -294,7 +294,9 @@ namespace TommyJams.View
                 MainListBox.SelectedIndex = -1;
                 upcomingEventsListBox.SelectedIndex = -1;
                 invitationListBox.SelectedIndex = -1;
-                //LoadData();
+                cts.Cancel();
+                cts = new CancellationTokenSource();
+                LoadData();
             }
             ToggleConnect();
             ToggleNotifications();

@@ -263,9 +263,12 @@ namespace TommyJams.Model
                 genreString.Clear();
 
                 DateTime eventTime = DateTime.ParseExact(aProduct.EventTime, "HHmm", CultureInfo.InvariantCulture);
+                aProduct.TheTime = new DateTime(aProduct.TheTime.Year, aProduct.TheTime.Month, aProduct.TheTime.Day,eventTime.Hour , eventTime.Minute, eventTime.Second); 
                 aProduct.EventTime = eventTime.ToShortTimeString();
 
                 DateTime eventDate = DateTime.ParseExact(aProduct.EventDate, "yyyyMMdd", CultureInfo.InvariantCulture);
+                aProduct.TheTime = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, aProduct.TheTime.Hour, aProduct.TheTime.Minute, aProduct.TheTime.Second); 
+                
                 aProduct.EventDate =  eventDate.ToShortDateString();
                 aProduct.EventPrice = "₹ " + aProduct.EventPrice;
             }

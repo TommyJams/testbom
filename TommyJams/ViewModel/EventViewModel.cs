@@ -1,4 +1,5 @@
 ﻿using Facebook;
+using Microsoft.Phone.Shell;
 using Microsoft.WindowsAzure.MobileServices;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -396,9 +397,88 @@ namespace TommyJams.ViewModel
         public async Task LoadNotifications()
         {
             UpcomingEvents = await AppModel.GetUpcomingEvents();
+            if(UpcomingEvents.Count==0)
+            {
+                resetDefaultTile();
+            }
+            else
+            {
+                EventItem selected = UpcomingEvents[0];
+                foreach(EventItem i in UpcomingEvents)
+                {
+                    if(i.TheTime<selected.TheTime)
+                    {
+                        selected = i;
+                    }                    
+                }
+                UpdateTile(selected);
+            }
             NotificationItems = await AppModel.GetInvitations();
         }
+        private void resetDefaultTile()
+        {
+            ShellTile myTile = ShellTile.ActiveTiles.First();
+            if (myTile != null)
+            {
+                // Create a new data to update my tile with
+                FlipTileData myTileData = new FlipTileData
+                {
+                    Title = "TommyJams",
+                    BackgroundImage = new Uri("Assets/Tiles/FlipCycleTileMedium.png", UriKind.Relative),
+                    BackTitle = "TommyJams",
+                    Count = 0,
 
+                    SmallBackgroundImage = new Uri("Assets/Tiles/FlipCycleTileSmall.png", UriKind.Relative),
+                    WideBackgroundImage = new Uri("Assets/Tiles/FlipCycleTileLarge.png", UriKind.Relative),
+                    WideBackBackgroundImage = new Uri("", UriKind.Relative),
+                    WideBackContent = "book events, campaign for cross-city tours",
+                    BackBackgroundImage = new Uri("", UriKind.Relative),
+                    BackContent = "book events, campaign for cross-city tours"
+                };                
+                myTile.Update(myTileData);
+
+                //clear backside to disable flip
+                var clearTileBackXml = new StringBuilder();
+
+                clearTileBackXml.Append("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
+                clearTileBackXml.Append("<wp:notification xmlns:wp=\"WPNotification\" version=\"2.0\">");
+                clearTileBackXml.Append("<wp:tile template=\"FlipTile\">");
+                clearTileBackXml.Append("<wp:WideBackBackgroundImage action=\"Clear\"></wp:WideBackBackgroundImage>");
+                clearTileBackXml.Append("<wp:WideBackContent action=\"Clear\"></wp:WideBackContent>");
+                clearTileBackXml.Append("<wp:BackBackgroundImage action=\"Clear\"></wp:BackBackgroundImage>");
+                clearTileBackXml.Append("<wp:BackContent action=\"Clear\"></wp:BackContent>");
+                clearTileBackXml.Append("<wp:BackTitle action=\"Clear\"></wp:BackTitle>");
+                clearTileBackXml.Append("</wp:tile>");
+                clearTileBackXml.Append("</wp:notification>");
+
+                var ftd = new FlipTileData(clearTileBackXml.ToString());
+
+                myTile.Update(ftd);
+            }
+        }
+        private void UpdateTile(EventItem Event)
+        {
+            ShellTile myTile = ShellTile.ActiveTiles.First();
+            if (myTile != null)
+            {
+                // Create a new data to update my tile with
+                FlipTileData myTileData = new FlipTileData
+                {
+                    Title = "TommyJams",
+                    BackgroundImage = new Uri("Assets/Tiles/FlipCycleTileMedium.png", UriKind.Relative),
+                    BackTitle = "TommyJams",
+                    Count = 0,
+
+                    SmallBackgroundImage = new Uri("Assets/Tiles/FlipCycleTileSmall.png", UriKind.Relative),
+                    WideBackgroundImage = new Uri("Assets/Tiles/FlipCycleTileLarge.png", UriKind.Relative),
+                    WideBackBackgroundImage = new Uri("", UriKind.Relative),
+                    WideBackContent = Event.EventName + "\n"+ Event.VenueName + "\n" + Event.EventDate + " " + Event.EventTime,
+                    BackBackgroundImage = new Uri("", UriKind.Relative),
+                    BackContent = Event.EventName + "\n" + Event.VenueName + "\n" + Event.EventDate + " " + Event.EventTime
+                };
+                myTile.Update(myTileData);
+            }
+        }
         public async Task<NotificationItem> LoadEventInfo()
         {
             NotificationItem nItem = new NotificationItem();
