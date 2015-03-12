@@ -223,6 +223,8 @@ namespace TommyJams.View
 
         private void Event_Accept(object sender, EventArgs e)
         {
+            ApplicationBarIconButton button = sender as ApplicationBarIconButton;
+            button.IsEnabled = false;
             this.JoinEvent();
             LoadData();
         }

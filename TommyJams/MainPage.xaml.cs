@@ -298,7 +298,7 @@ namespace TommyJams.View
             }
             ToggleConnect();
             ToggleNotifications();
-            resetDefaultTile();
+            //resetDefaultTile();
         }
 
         private void resetDefaultTile()
