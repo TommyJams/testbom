@@ -298,7 +298,7 @@ namespace TommyJams.View
             }
             ToggleConnect();
             ToggleNotifications();
-            //resetDefaultTile();
+            resetDefaultTile();
         }
 
         private void resetDefaultTile()
@@ -316,8 +316,10 @@ namespace TommyJams.View
 
                     SmallBackgroundImage = new Uri("Assets/Tiles/FlipCycleTileSmall.png", UriKind.Relative),
                     WideBackgroundImage = new Uri("Assets/Tiles/FlipCycleTileLarge.png", UriKind.Relative),
+                    WideBackBackgroundImage = new Uri("", UriKind.Relative),
+                    WideBackContent = "book events, campaign for cross-city tours",
                     BackBackgroundImage = new Uri("", UriKind.Relative),
-                    BackContent = "Description"
+                    BackContent = "book events, campaign for cross-city tours"
                 };
                 myTile.Update(myTileData);
             }
