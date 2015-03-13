@@ -466,15 +466,15 @@ namespace TommyJams.ViewModel
                 {
                     Title = "TommyJams",
                     BackgroundImage = new Uri("Assets/Tiles/FlipCycleTileMedium.png", UriKind.Relative),
-                    BackTitle = "TommyJams",
+                    BackTitle = Event.EventDate,
                     Count = 0,
 
                     SmallBackgroundImage = new Uri("Assets/Tiles/FlipCycleTileSmall.png", UriKind.Relative),
                     WideBackgroundImage = new Uri("Assets/Tiles/FlipCycleTileLarge.png", UriKind.Relative),
                     WideBackBackgroundImage = new Uri("", UriKind.Relative),
-                    WideBackContent = Event.EventName + "\n"+ Event.VenueName + "\n" + Event.EventDate + " " + Event.EventTime,
+                    WideBackContent = Event.EventName + "\n\n@"+ Event.VenueName + ", " + Event.EventTime,
                     BackBackgroundImage = new Uri("", UriKind.Relative),
-                    BackContent = Event.EventName + "\n" + Event.VenueName + "\n" + Event.EventDate + " " + Event.EventTime
+                    BackContent = Event.EventName + "\n\n@" + Event.VenueName
                 };
                 myTile.Update(myTileData);
             }

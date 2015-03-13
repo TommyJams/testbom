@@ -465,7 +465,7 @@ namespace TommyJams.View
                 Count = 0,
                 BackgroundImage = new Uri("/Assets/Tiles/FlipCycleTileMedium.png", UriKind.Relative),
                 BackTitle = DateTime.ParseExact(App.ViewModel.NotificationItem.EventDate, "yyyyMMdd",CultureInfo.InvariantCulture).ToShortDateString(),
-                BackContent = App.ViewModel.NotificationItem.VenueName + ", " + App.ViewModel.NotificationItem.VenueAddress,
+                BackContent = App.ViewModel.NotificationItem.VenueName + ", " + App.ViewModel.NotificationItem.VenueCity,
                 BackBackgroundImage = new Uri(App.ViewModel.NotificationItem.EventImage, UriKind.Absolute)
             };
 

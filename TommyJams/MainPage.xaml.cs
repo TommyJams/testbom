@@ -319,9 +319,9 @@ namespace TommyJams.View
                     SmallBackgroundImage = new Uri("Assets/Tiles/FlipCycleTileSmall.png", UriKind.Relative),
                     WideBackgroundImage = new Uri("Assets/Tiles/FlipCycleTileLarge.png", UriKind.Relative),
                     WideBackBackgroundImage = new Uri("", UriKind.Relative),
-                    WideBackContent = "book events, campaign for cross-city tours",
+                    WideBackContent = "Find events",
                     BackBackgroundImage = new Uri("", UriKind.Relative),
-                    BackContent = "book events, campaign for cross-city tours"
+                    BackContent = "Find events"
                 };
                 myTile.Update(myTileData);
             }
