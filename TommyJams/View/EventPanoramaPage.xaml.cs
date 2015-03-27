@@ -238,7 +238,9 @@ namespace TommyJams.View
         {
             WebBrowserTask wbt = new WebBrowserTask();
             int numTickets = TicketSelector.SelectedIndex + 1;
-            wbt.Uri = new Uri("http://" + App.ViewModel.TicketInfo.TicketLink + "?tickets=" + numTickets, UriKind.Absolute);
+            if (!App.ViewModel.TicketInfo.TicketLink.StartsWith("http", StringComparison.CurrentCultureIgnoreCase))
+                App.ViewModel.TicketInfo.TicketLink = "http://" + App.ViewModel.TicketInfo.TicketLink;
+            wbt.Uri = new Uri( App.ViewModel.TicketInfo.TicketLink + "?tickets=" + numTickets, UriKind.Absolute);
             wbt.Show();
         }
 
@@ -438,7 +440,9 @@ namespace TommyJams.View
         {
             var realSender = (Image)sender;
             WebBrowserTask wbt = new WebBrowserTask();
-            wbt.Uri = new Uri("https://" + realSender.Tag.ToString(), UriKind.Absolute);
+            if (!realSender.Tag.ToString().StartsWith("http", StringComparison.CurrentCultureIgnoreCase))
+                realSender.Tag = "http://" + realSender.Tag.ToString();
+            wbt.Uri = new Uri(realSender.Tag.ToString(), UriKind.Absolute);
             wbt.Show();
         }
 

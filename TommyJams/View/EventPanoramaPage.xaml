@@ -247,7 +247,7 @@
                                     <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
                                 </Image.Clip>
                             </Image>
-                            <Image Source="../Resources/Image/icon_events_fs.png" Margin="10,0,0,0" Height="80" Width="80" Tag="{Binding venueInfo_Foursquare.VenueZLink}" Visibility="{Binding Path=venueInfo_Foursquare.VenueZLink, TargetNullValue=Collapsed }" Tap="icon_tap">
+                            <Image Source="../Resources/Image/icon_events_fs.png" Margin="10,0,0,0" Height="80" Width="80" Tag="{Binding venueInfo_Foursquare.VenueZLink}" Visibility="{Binding Path=venueInfo_Foursquare, TargetNullValue=Collapsed }" Tap="icon_tap">
                                 <Image.Clip>
                                     <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
                                 </Image.Clip>
